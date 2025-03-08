@@ -512,14 +512,16 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.h
  mdp:C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h
  mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/moc_predefs.h
  mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.h
+ mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/match.h
  mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/randomUtilities.h
+ mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.h
  mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/wrestler.h
-C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/roster.h
 C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/cyclicalgraph.cpp
-C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/main.cpp
+C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/roster.h
 C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.cpp
  uic:./ui_mainwindow.h
-C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/roster.cpp
+C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/match.cpp
+C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/main.cpp
 C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/cyclicalgraph.h
  mmc:Q_OBJECT
  mdp:C:/Qt/6.10.0/mingw_64/include/QtCore/QVector
@@ -899,6 +901,10 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/cyclicalgraph.h
  mdp:C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
  mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/moc_predefs.h
  mdp:C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/cyclicalgraph.h
+C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/roster.cpp
 C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/randomUtilities.h
 C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/wrestler.h
 C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/wrestler.cpp
+C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/match.h
+C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.h
+C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.cpp

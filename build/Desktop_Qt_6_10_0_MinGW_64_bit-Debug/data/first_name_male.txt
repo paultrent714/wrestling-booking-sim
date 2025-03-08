@@ -19,6 +19,7 @@ Big
 Bill
 Bo
 Bobby
+Brad
 Brandon
 Braun
 Bray
@@ -239,4 +240,5 @@ Xavier
 Zach
 Zachary
 Zane
+Zay
 Zeke

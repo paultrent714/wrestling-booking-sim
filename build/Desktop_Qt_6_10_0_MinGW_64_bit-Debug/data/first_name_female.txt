@@ -26,6 +26,7 @@ Bonnie
 Brandy
 Briana
 Brie
+Britt
 Brooke
 Candace
 Carol
@@ -60,12 +61,16 @@ Jaida
 Jakara
 Jasmine
 Jayden
+Jen
+Jennifer
+Jenny
 Jodi
 Jordynne
 Julia
 Julie
 Kairi
 Karen
+Karmen
 Kayleigh
 Kayla
 Kelly
@@ -76,6 +81,7 @@ Kylie
 Lacey
 Lana
 Laney
+Lilian
 Lily
 Lita
 Liv
@@ -115,6 +121,7 @@ Quinn
 Rachel
 Raquel
 Renee
+Rhea
 Ronda
 Rosa
 Roxanne
@@ -125,6 +132,8 @@ Sam
 Samantha
 Sarah
 Sasha
+Savannah
+Scarlett
 Selena
 Serena
 Shayna

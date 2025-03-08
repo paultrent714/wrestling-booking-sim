@@ -48,7 +48,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>11</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -630,8 +630,8 @@ font: 20pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>388</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -652,125 +652,270 @@ font: 20pt &quot;Segoe UI&quot;;</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="ChampionshipPage">
+       <widget class="QWidget" name="formLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>40</y>
+          <width>641</width>
+          <height>371</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="3" column="0">
+          <widget class="QLabel" name="womenChampLabel">
+           <property name="styleSheet">
+            <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);</string>
+           </property>
+           <property name="text">
+            <string>Women's Championship</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="womenChampComboBox"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="worldChampLabel">
+           <property name="styleSheet">
+            <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);</string>
+           </property>
+           <property name="text">
+            <string>World Champion: </string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="tagChampLabel">
+           <property name="styleSheet">
+            <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);</string>
+           </property>
+           <property name="text">
+            <string>Tag Team Championship</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="tagChampComboBox1"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="worldChampComboBox"/>
+         </item>
+         <item row="1" column="2">
+          <widget class="QComboBox" name="tagChampComboBox2"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
       <widget class="QWidget" name="wrestlerStats">
-       <layout class="QVBoxLayout" name="verticalLayout_8">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="4" column="1">
-             <widget class="QLabel" name="technicainLabel">
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="nameLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 24pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Policy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>80</width>
+              <height>24</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item alignment="Qt::AlignmentFlag::AlignHCenter">
+             <widget class="QLabel" name="genderLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+font: 16pt &quot;Segoe UI&quot;;</string>
               </property>
               <property name="text">
-               <string>Technician</string>
+               <string>Division:</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="charismaLabel">
+            <item alignment="Qt::AlignmentFlag::AlignHCenter">
+             <widget class="QLabel" name="ageLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
               </property>
               <property name="text">
-               <string>Charisma:</string>
+               <string>Age: </string>
               </property>
              </widget>
             </item>
-            <item row="5" column="1">
-             <widget class="QLabel" name="mmaLabel">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>MMA:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLabel" name="powerhouseLabel">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Powerhouse:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
+            <item alignment="Qt::AlignmentFlag::AlignHCenter">
              <widget class="QLabel" name="roleLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 18pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);</string>
+              </property>
               <property name="text">
                <string>Role:</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item alignment="Qt::AlignmentFlag::AlignHCenter">
-               <widget class="QLabel" name="nameLabel">
-                <property name="styleSheet">
-                 <string notr="true">font: 24pt &quot;Segoe UI&quot;;
-color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="text">
-                 <string>TextLabel</string>
-                </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignmentFlag::AlignHCenter">
-               <widget class="QLabel" name="ageLabel">
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(0, 0, 0);</string>
-                </property>
-                <property name="text">
-                 <string>Age: </string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="staminaLabel">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Stamina:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="populatiryLabel">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Popularity:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLabel" name="highFlyerLabel">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>High Flyer:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="brawlerLabel">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Brawler:</string>
-              </property>
-             </widget>
-            </item>
            </layout>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Edit Name</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="5" column="0" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+           <widget class="QLabel" name="staminaLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Stamina:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="brawlerLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Brawler:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="powerhouseLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Powerhouse:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="mmaLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>MMA:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="technicianLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Technician</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="charismaLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Charisma:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="highFlyerLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>High Flyer:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="populatiryLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Popularity:</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -879,35 +1024,248 @@ font: 22pt &quot;Segoe UI&quot;;
          </item>
         </layout>
        </widget>
-       <widget class="QPushButton" name="finalizeBooking">
+       <widget class="QWidget" name="horizontalLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>350</y>
-          <width>181</width>
-          <height>61</height>
+          <x>30</x>
+          <y>370</y>
+          <width>310</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QPushButton" name="addMatchButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 18pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Add Match</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="finalizeBooking">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 18pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Submit Booking</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QScrollArea" name="matchScrollArea">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>70</y>
+          <width>681</width>
+          <height>291</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(203, 203, 203);</string>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="widget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>679</width>
+           <height>289</height>
+          </rect>
+         </property>
+         <widget class="QScrollBar" name="verticalScrollBar_2">
+          <property name="geometry">
+           <rect>
+            <x>750</x>
+            <y>0</y>
+            <width>16</width>
+            <height>381</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="matchSetup">
+       <widget class="QWidget" name="matchEditWidget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>761</width>
+          <height>431</height>
          </rect>
         </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(0, 59, 0);
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="1" column="3" rowspan="2" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Winner:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="winnerComboBox"/>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="2" colspan="3">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Match Type:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="matchTypeComboBox">
+             <item>
+              <property name="text">
+               <string>Standard</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Steel Cage</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Ladder</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Battle Royal</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="4">
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QCheckBox" name="champCheckBox">
+             <property name="text">
+              <string>Championship Match</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="teamCheckBox">
+             <property name="text">
+              <string>Teams</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="0" rowspan="3" colspan="2">
+          <widget class="QWidget" name="participantLayout" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QGridLayout" name="participantGridLayout"/>
+          </widget>
+         </item>
+         <item row="4" column="4">
+          <widget class="QPushButton" name="saveMatchDetails">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
-font: 18pt &quot;Segoe UI&quot;;</string>
-        </property>
-        <property name="text">
-         <string>Submit Booking</string>
-        </property>
+font: 20pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Save Match Details</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QPushButton" name="addToMatch">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 20pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Add Wrestler</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="removeFromMatch">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 20pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Subtract Wrestler</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
       </widget>
      </widget>

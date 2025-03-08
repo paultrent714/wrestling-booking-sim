@@ -471,9 +471,21 @@
 			null
 		],
 		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/match.h",
+			"MU",
+			"EWIEGA46WW/moc_match.cpp",
+			null
+		],
+		[
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/randomUtilities.h",
 			"MU",
 			"EWIEGA46WW/moc_randomUtilities.cpp",
+			null
+		],
+		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.h",
+			"MU",
+			"EWIEGA46WW/moc_show.cpp",
 			null
 		],
 		[
@@ -569,6 +581,16 @@
 		],
 		[
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/match.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.cpp",
 			"MU",
 			null
 		],

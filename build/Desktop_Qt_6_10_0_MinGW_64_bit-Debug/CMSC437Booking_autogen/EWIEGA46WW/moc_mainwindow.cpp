@@ -54,7 +54,12 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_customRoster_clicked",
         "on_randomRoster_clicked",
         "on_backToLanding_clicked",
-        "on_RosterDisplayTab_clicked"
+        "on_RosterDisplayTab_clicked",
+        "on_addToMatch_clicked",
+        "on_addMatchButton_clicked",
+        "on_removeFromMatch_clicked",
+        "updateWinnerComboBox",
+        "on_saveMatchDetails_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -88,6 +93,16 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_RosterDisplayTab_clicked'
         QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_addToMatch_clicked'
+        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_addMatchButton_clicked'
+        QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_removeFromMatch_clicked'
+        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'updateWinnerComboBox'
+        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_saveMatchDetails_clicked'
+        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -126,6 +141,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 12: _t->on_randomRoster_clicked(); break;
         case 13: _t->on_backToLanding_clicked(); break;
         case 14: _t->on_RosterDisplayTab_clicked(); break;
+        case 15: _t->on_addToMatch_clicked(); break;
+        case 16: _t->on_addMatchButton_clicked(); break;
+        case 17: _t->on_removeFromMatch_clicked(); break;
+        case 18: _t->updateWinnerComboBox(); break;
+        case 19: _t->on_saveMatchDetails_clicked(); break;
         default: ;
         }
     }
@@ -151,14 +171,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 20)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 20;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 20)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 15;
+        _id -= 20;
     }
     return _id;
 }

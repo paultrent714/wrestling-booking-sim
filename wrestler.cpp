@@ -10,16 +10,20 @@ Wrestler::Wrestler(){
     std::mt19937& gen = RandomUtils::getGenerator(); // Use shared generator
 
     std::normal_distribution<> dist(60, 15); // Mean = 60, Std Dev = 15
-    std::uniform_int_distribution<> ageDist(18, 67);
+
+    std::normal_distribution<> ageDist(32, 11); // Keeps age of randomly generated wrestlers somewhere around 30
+
+
     std::uniform_int_distribution<> potentialDist(0, 499);
     std::uniform_int_distribution<> salaryDist(0, 999);
     std::uniform_int_distribution<> roleDist(0, 2);
-    std::uniform_int_distribution<> genderDist(0, 2);
+    std::uniform_int_distribution<> genderDist(0, 1);
 
-    this->name = generateRandomName(gen);
     this->gender = genderDist(gen);
+    this->name = generateRandomName(gen);
+
     this->popularity = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->age = ageDist(gen);
+    this->age = std::clamp<int>(std::round(ageDist(gen)), 18, 67);
     this->potential = potentialDist(gen);
     this->powerhouse = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->brawler = std::clamp<int>(std::round(dist(gen)), 0, 99);
@@ -34,7 +38,6 @@ Wrestler::Wrestler(){
 
 QString Wrestler::generateRandomName(std::mt19937& gen) {
 
-    qDebug() << "Current working directory:" << QDir::currentPath();
 
     // Choose first name file based on gender
     QString firstNameFile = (gender == 0) ? "data/first_name_male.txt" : "data/first_name_female.txt";
@@ -68,7 +71,5 @@ QStringList Wrestler::loadNamesFromFile(const QString& filename) {
 
     }
 
-    // Debugging output to check if names are being read
-    qDebug() << "Loaded names from " << filename << ": " << names;
     return names;
 }

@@ -1,14 +1,14 @@
 # ninja log v6
-26	347	7628393451093077	CMSC437Booking_autogen/timestamp	c72d711145cf681b
+42	1879	7630734465652869	CMSC437Booking_autogen/timestamp	c72d711145cf681b
 1700	4652	7627531620856115	CMakeFiles/CMSC437Booking.dir/roster.cpp.obj	7592800cf57c47dc
-348	5476	7628393454468072	CMakeFiles/CMSC437Booking.dir/mainwindow.cpp.obj	831a1546b4626a42
-5476	6212	7628393505749828	CMSC437Booking.exe	1443f06fbee27484
-1719	6199	7628385626945097	CMakeFiles/CMSC437Booking.dir/main.cpp.obj	27a481e1ec6004bc
-26	347	7628393451093077	CMSC437Booking_autogen/mocs_compilation.cpp	c72d711145cf681b
-26	347	7628393451093077	C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/mocs_compilation.cpp	c72d711145cf681b
-26	347	7628393451093077	C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/timestamp	c72d711145cf681b
-1678	6304	7628385626535889	CMakeFiles/CMSC437Booking.dir/CMSC437Booking_autogen/mocs_compilation.cpp.obj	42de99ada214ae00
-13	4201	7627541507416341	build.ninja	502260c9741721d4
+1960	8197	7630734469184857	CMakeFiles/CMSC437Booking.dir/mainwindow.cpp.obj	831a1546b4626a42
+8198	9199	7630734531551691	CMSC437Booking.exe	e06c5fc3d4e4e16d
+1921	6507	7630734468779264	CMakeFiles/CMSC437Booking.dir/main.cpp.obj	27a481e1ec6004bc
+42	1879	7630734465652869	CMSC437Booking_autogen/mocs_compilation.cpp	c72d711145cf681b
+42	1879	7630734465652869	C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/mocs_compilation.cpp	c72d711145cf681b
+42	1879	7630734465652869	C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/timestamp	c72d711145cf681b
+1883	6526	7630734468406583	CMakeFiles/CMSC437Booking.dir/CMSC437Booking_autogen/mocs_compilation.cpp.obj	42de99ada214ae00
+13	4201	7629320583637473	build.ninja	502260c9741721d4
 28	428	7624729018906024	MyProject_autogen/timestamp	308ab96daa74f11f
 28	428	7624729018906024	MyProject_autogen/mocs_compilation.cpp	308ab96daa74f11f
 28	428	7624729018906024	C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/MyProject_autogen/timestamp	308ab96daa74f11f
@@ -16,4 +16,12 @@
 693	884	7624727191010930	CMakeFiles/MyProject.dir/MyProject_autogen/mocs_compilation.cpp.obj	617ba62d41ac9881
 1287	3364	7625857873330170	CMakeFiles/CMSC437Booking.dir/cyclicalgraph.cpp.obj	f91050d3d965dde
 725	5694	7624727191321236	CMakeFiles/MyProject.dir/main.cpp.obj	c62cc51cfac5f646
-374	3660	7628393454722637	CMakeFiles/CMSC437Booking.dir/wrestler.cpp.obj	9e6df4a16862288d
+2618	6113	7629882002686908	CMakeFiles/CMSC437Booking.dir/wrestler.cpp.obj	9e6df4a16862288d
+2828	6413	7630718594519760	CMakeFiles/CMSC437Booking.dir/match.cpp.obj	dcd3f7252c2bfe7c
+2195	6111	7630729291797701	CMakeFiles/CMSC437Booking.dir/show.cpp.obj	75b7bd2c336ea433
+43	414	7631590880037229	CMSC437Booking_autogen/timestamp	c72d711145cf681b
+43	414	7631590880037229	CMSC437Booking_autogen/mocs_compilation.cpp	c72d711145cf681b
+43	414	7631590880037229	C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/timestamp	c72d711145cf681b
+43	414	7631590880037229	C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/mocs_compilation.cpp	c72d711145cf681b
+416	6017	7631590883760620	CMakeFiles/CMSC437Booking.dir/mainwindow.cpp.obj	831a1546b4626a42
+6018	7078	7631590939768245	CMSC437Booking.exe	e06c5fc3d4e4e16d

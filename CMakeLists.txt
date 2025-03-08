@@ -27,6 +27,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         randomUtilities.h
+        match.h match.cpp
+        show.h show.cpp
 
 
     )
