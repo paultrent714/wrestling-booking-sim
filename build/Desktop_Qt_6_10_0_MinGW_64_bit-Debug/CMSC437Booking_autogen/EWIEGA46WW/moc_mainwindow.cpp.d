@@ -27,6 +27,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/6.10.0/mingw_64/include/QtCore/QFileInfo \
   C:/Qt/6.10.0/mingw_64/include/QtCore/QList \
   C:/Qt/6.10.0/mingw_64/include/QtCore/QMargins \
+  C:/Qt/6.10.0/mingw_64/include/QtCore/QMetaType \
   C:/Qt/6.10.0/mingw_64/include/QtCore/QObject \
   C:/Qt/6.10.0/mingw_64/include/QtCore/QRect \
   C:/Qt/6.10.0/mingw_64/include/QtCore/QSize \
@@ -42,6 +43,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/6.10.0/mingw_64/include/QtCore/q20utility.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/q23utility.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qabstracteventdispatcher.h \
+  C:/Qt/6.10.0/mingw_64/include/QtCore/qabstractitemmodel.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qalgorithms.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qanystringview.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qarraydata.h \
@@ -126,6 +128,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/6.10.0/mingw_64/include/QtCore/qprocessordetection.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qrect.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qrefcount.h \
+  C:/Qt/6.10.0/mingw_64/include/QtCore/qregularexpression.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qscopedpointer.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qscopeguard.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/qset.h \
@@ -221,6 +224,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/6.10.0/mingw_64/include/QtGui/qtguiexports.h \
   C:/Qt/6.10.0/mingw_64/include/QtGui/qtguiglobal.h \
   C:/Qt/6.10.0/mingw_64/include/QtGui/qtransform.h \
+  C:/Qt/6.10.0/mingw_64/include/QtGui/qvalidator.h \
   C:/Qt/6.10.0/mingw_64/include/QtGui/qvector2d.h \
   C:/Qt/6.10.0/mingw_64/include/QtGui/qvectornd.h \
   C:/Qt/6.10.0/mingw_64/include/QtGui/qwindowdefs.h \
@@ -234,12 +238,17 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/6.10.0/mingw_64/include/QtSql/qtsql-config.h \
   C:/Qt/6.10.0/mingw_64/include/QtSql/qtsqlexports.h \
   C:/Qt/6.10.0/mingw_64/include/QtSql/qtsqlglobal.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/QComboBox \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/QFileDialog \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/QGraphicsView \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/QGraphicsWidget \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/QMainWindow \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/QMessageBox \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qabstractslider.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qcombobox.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qdialog.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qfiledialog.h \
@@ -251,8 +260,13 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qgraphicswidget.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qmainwindow.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qmessagebox.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qrubberband.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qscrollarea.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qsizepolicy.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qslider.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qstyle.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qstyleoption.h \
+  C:/Qt/6.10.0/mingw_64/include/QtWidgets/qtabbar.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qtabwidget.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt/6.10.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
@@ -509,7 +523,9 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
+  C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/championship.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/match.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/randomUtilities.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.h \
+  C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/team.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/wrestler.h

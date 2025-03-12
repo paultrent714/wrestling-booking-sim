@@ -26,11 +26,17 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_6">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_10">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -45,10 +51,10 @@
        <enum>Qt::FocusPolicy::StrongFocus</enum>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(30, 30, 30);</string>
       </property>
       <property name="currentIndex">
-       <number>11</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -601,6 +607,167 @@ font: 22pt &quot;Segoe UI&quot;;</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tagTeamPage">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item alignment="Qt::AlignmentFlag::AlignHCenter">
+         <widget class="QLabel" name="label_6">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(0, 0, 0);
+font: 24pt &quot;Segoe UI&quot;;</string>
+          </property>
+          <property name="text">
+           <string>Teams</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="tagTeamScrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>752</width>
+             <height>331</height>
+            </rect>
+           </property>
+           <widget class="QScrollBar" name="verticalScrollBar_3">
+            <property name="geometry">
+             <rect>
+              <x>730</x>
+              <y>0</y>
+              <width>20</width>
+              <height>321</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="newTeamButton">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(19, 76, 19);
+font: 20pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>New Team</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="editTeamPage">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_13">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 24pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Team Name:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="teamNameLineEdit">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 24pt &quot;Segoe UI&quot;;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QWidget" name="memberList" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_10"/>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QPushButton" name="addToTeamButton">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(20, 79, 20);
+font: 20pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Add Wrestler</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="saveTeamButton">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(21, 84, 21);
+color: rgb(255, 255, 255);
+font: 20pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="viewRoster">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 255);</string>
@@ -630,8 +797,8 @@ font: 20pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>16</height>
+             <width>752</width>
+             <height>388</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -653,63 +820,147 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        </layout>
       </widget>
       <widget class="QWidget" name="ChampionshipPage">
-       <widget class="QWidget" name="formLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>40</y>
-          <width>641</width>
-          <height>371</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_8">
-         <item row="3" column="0">
-          <widget class="QLabel" name="womenChampLabel">
-           <property name="styleSheet">
-            <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="6" column="0">
+           <widget class="QLabel" name="womenChampLabel">
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
 color: rgb(0, 0, 0);</string>
-           </property>
-           <property name="text">
-            <string>Women's Championship</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QComboBox" name="womenChampComboBox"/>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="worldChampLabel">
-           <property name="styleSheet">
-            <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+            </property>
+            <property name="text">
+             <string>Women's Championship</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="worldChampLabel">
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
 color: rgb(0, 0, 0);</string>
-           </property>
-           <property name="text">
-            <string>World Champion: </string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="tagChampLabel">
-           <property name="styleSheet">
-            <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+            </property>
+            <property name="text">
+             <string>World Champion: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QComboBox" name="womenChampComboBox">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
 color: rgb(0, 0, 0);</string>
-           </property>
-           <property name="text">
-            <string>Tag Team Championship</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QComboBox" name="tagChampComboBox1"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="worldChampComboBox"/>
-         </item>
-         <item row="1" column="2">
-          <widget class="QComboBox" name="tagChampComboBox2"/>
-         </item>
-        </layout>
-       </widget>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="tagChampLabel">
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Tag Team Championship</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="teamComboBox">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QComboBox" name="tagChampComboBox2">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="Line" name="line">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="worldChampComboBox">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QRadioButton" name="teamNameRadio">
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string>Select Champions by Team Name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="individualRadioButton">
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string>Select Champions by Individuals</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="tagChampComboBox1">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="Line" name="line_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="wrestlerStats">
        <property name="styleSheet">
@@ -997,276 +1248,422 @@ font: 36pt &quot;Segoe UI&quot;;</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
-       <widget class="QWidget" name="horizontalLayoutWidget_2">
-        <property name="geometry">
-         <rect>
-          <x>-11</x>
-          <y>0</y>
-          <width>801</width>
-          <height>80</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_5">
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 0, 0);
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
 font: 22pt &quot;Segoe UI&quot;;
 </string>
-           </property>
-           <property name="text">
-            <string>Today's Show</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="horizontalLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>370</y>
-          <width>310</width>
-          <height>80</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QPushButton" name="addMatchButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>100</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(0, 59, 0);
-color: rgb(255, 255, 255);
-font: 18pt &quot;Segoe UI&quot;;</string>
-           </property>
-           <property name="text">
-            <string>Add Match</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="finalizeBooking">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>100</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(0, 59, 0);
-color: rgb(255, 255, 255);
-font: 18pt &quot;Segoe UI&quot;;</string>
-           </property>
-           <property name="text">
-            <string>Submit Booking</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QScrollArea" name="matchScrollArea">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>70</y>
-          <width>681</width>
-          <height>291</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(203, 203, 203);</string>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="widget">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>679</width>
-           <height>289</height>
-          </rect>
-         </property>
-         <widget class="QScrollBar" name="verticalScrollBar_2">
-          <property name="geometry">
-           <rect>
-            <x>750</x>
-            <y>0</y>
-            <width>16</width>
-            <height>381</height>
-           </rect>
+            </property>
+            <property name="text">
+             <string>Today's Show</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="matchScrollArea">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(203, 203, 203);</string>
           </property>
-          <property name="orientation">
-           <enum>Qt::Orientation::Vertical</enum>
+          <property name="widgetResizable">
+           <bool>true</bool>
           </property>
+          <widget class="QWidget" name="widget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>752</width>
+             <height>335</height>
+            </rect>
+           </property>
+           <widget class="QScrollBar" name="verticalScrollBar_2">
+            <property name="geometry">
+             <rect>
+              <x>750</x>
+              <y>0</y>
+              <width>16</width>
+              <height>381</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+           </widget>
+          </widget>
          </widget>
-        </widget>
-       </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QPushButton" name="addMatchButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Add Match</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="finalizeBooking">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Submit Booking</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="matchSetup">
-       <widget class="QWidget" name="matchEditWidget" native="true">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>761</width>
-          <height>431</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_9">
-         <item row="1" column="3" rowspan="2" colspan="2">
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
-           <item>
-            <widget class="QLabel" name="label_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0" colspan="2">
+         <widget class="QWidget" name="matchEditWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="0" column="2" colspan="3">
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 12pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Match Type:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="matchTypeComboBox">
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+    background: #f0f0f0;
+    border: 1px solid #888;
+    padding: 4px;
+    border-radius: 4px;
+    color: black;
+}
+
+QComboBox::drop-down {
+    width: 20px;
+    border-left: 1px solid #888;
+    background: #d3d3d3;
+}
+
+QComboBox::down-arrow {
+    image: url(:/icons/down-arrow.png);  /* Use an actual icon in your resource file */
+    width: 12px;
+    height: 12px;
+}
+
+QComboBox QAbstractItemView {
+    background: white;
+    selection-background-color: #0078D7;
+    color: black;
+    border: 1px solid #888;
+}
+
+QCheckBox {
+    spacing: 5px;
+    font-size: 14px;
+    color: black;
+}
+
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/icons/checkbox_checked.png); /* Use an actual icon */
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(:/icons/checkbox_unchecked.png);
+}
+</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Standard</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Steel Cage</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Ladder</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Battle Royal</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="4">
+            <widget class="QPushButton" name="saveMatchDetails">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 20pt &quot;Segoe UI&quot;;</string>
+             </property>
              <property name="text">
-              <string>Winner:</string>
+              <string>Save Match Details</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QComboBox" name="winnerComboBox"/>
+           <item row="4" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <widget class="QPushButton" name="addToMatch">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 20pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Add Wrestler</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="removeFromMatch">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);
+font: 20pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Subtract Wrestler</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-          </layout>
-         </item>
-         <item row="0" column="2" colspan="3">
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
-           <item>
-            <widget class="QLabel" name="label_3">
+           <item row="0" column="0" rowspan="4" colspan="2">
+            <widget class="QWidget" name="participantLayout" native="true">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="text">
-              <string>Match Type:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="matchTypeComboBox">
-             <item>
-              <property name="text">
-               <string>Standard</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Steel Cage</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Ladder</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Battle Royal</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="3" column="4">
-          <layout class="QVBoxLayout" name="verticalLayout_8">
-           <item>
-            <widget class="QCheckBox" name="champCheckBox">
-             <property name="text">
-              <string>Championship Match</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="teamCheckBox">
-             <property name="text">
-              <string>Teams</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="0" rowspan="3" colspan="2">
-          <widget class="QWidget" name="participantLayout" native="true">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <layout class="QGridLayout" name="participantGridLayout"/>
-          </widget>
-         </item>
-         <item row="4" column="4">
-          <widget class="QPushButton" name="saveMatchDetails">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(0, 59, 0);
-color: rgb(255, 255, 255);
-font: 20pt &quot;Segoe UI&quot;;</string>
-           </property>
-           <property name="text">
-            <string>Save Match Details</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
-           <item>
-            <widget class="QPushButton" name="addToMatch">
              <property name="styleSheet">
-              <string notr="true">background-color: rgb(0, 59, 0);
-color: rgb(255, 255, 255);
-font: 20pt &quot;Segoe UI&quot;;</string>
+              <string notr="true"/>
              </property>
-             <property name="text">
-              <string>Add Wrestler</string>
-             </property>
+             <layout class="QGridLayout" name="participantGridLayout"/>
             </widget>
            </item>
-           <item>
-            <widget class="QPushButton" name="removeFromMatch">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(0, 59, 0);
-color: rgb(255, 255, 255);
-font: 20pt &quot;Segoe UI&quot;;</string>
-             </property>
-             <property name="text">
-              <string>Subtract Wrestler</string>
-             </property>
-            </widget>
+           <item row="1" column="2" rowspan="2" colspan="3">
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(0, 0, 0);
+font: 12pt &quot;Segoe UI&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Winner:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="winnerComboBox">
+               <property name="styleSheet">
+                <string notr="true">QComboBox {
+    background: #f0f0f0;
+    border: 1px solid #888;
+    padding: 4px;
+    border-radius: 4px;
+    color: black;
+}
+
+QComboBox::drop-down {
+    width: 20px;
+    border-left: 1px solid #888;
+    background: #d3d3d3;
+}
+
+QComboBox::down-arrow {
+    image: url(:/icons/down-arrow.png);  /* Use an actual icon in your resource file */
+    width: 12px;
+    height: 12px;
+}
+
+QComboBox QAbstractItemView {
+    background: white;
+    selection-background-color: #0078D7;
+    color: black;
+    border: 1px solid #888;
+}
+
+QCheckBox {
+    spacing: 5px;
+    font-size: 14px;
+    color: black;
+}
+
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/icons/checkbox_checked.png); /* Use an actual icon */
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(:/icons/checkbox_unchecked.png);
+}
+</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="3" colspan="2">
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <widget class="QCheckBox" name="champCheckBox">
+               <property name="styleSheet">
+                <string notr="true">QCheckBox {
+    color: black;
+    font-size: 14px;
+}
+QCheckBox::indicator {
+    width: 16px;  
+    height: 16px;  
+    border: 1px solid #888;  
+    background: white;       
+}
+QCheckBox::indicator:checked {
+    background: #0078D7;
+    border: 1px solid #0055A4; 
+}</string>
+               </property>
+               <property name="text">
+                <string>Championship Match</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="teamCheckBox">
+               <property name="styleSheet">
+                <string notr="true">QCheckBox {
+    color: black;
+    font-size: 14px;
+}
+QCheckBox::indicator {
+    width: 16px;  
+    height: 16px;  
+    border: 1px solid #888;  
+    background: white;       
+}
+QCheckBox::indicator:checked {
+    background: #0078D7;
+    border: 1px solid #0055A4; 
+}</string>
+               </property>
+               <property name="text">
+                <string>Teams</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

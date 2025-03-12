@@ -10,6 +10,7 @@ Allie
 Amber
 Amy
 Angel
+Angela
 Angelina
 Anna
 Anne
@@ -40,12 +41,14 @@ Cassie
 Charlie
 Charlotte
 Chelsea
+Cherlene
 China
 Christie
 Cora
 Crystal
 Dana
 Dani
+Day
 Deonna
 Destiny
 Dixie
@@ -112,6 +115,7 @@ Lily
 Lita
 Liv
 Lola
+London
 Lucy
 Lyra
 Maggie
@@ -174,6 +178,7 @@ Serena
 Shayna
 Sienna
 Sierra
+Sky
 Sonya
 Stacy
 Stephanie

@@ -4,6 +4,8 @@
 #include "wrestler.h"
 #include "match.h"
 #include "show.h"
+#include "team.h"
+#include "championship.h"
 
 #include <QMainWindow>
 #include <QSqlDatabase>  // Include this for database connection
@@ -16,6 +18,8 @@
 #include <QString>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QComboBox>
+
 
 
 #include <QtCharts/QChartView>
@@ -69,8 +73,15 @@ private slots:
     void on_addMatchButton_clicked();
     void on_removeFromMatch_clicked();
     void updateWinnerComboBox(); // Updates the choices the user has to select the winner of a match
-
     void on_saveMatchDetails_clicked();
+    void on_ChampionTab_clicked();  // shows championships
+    void on_teamNameRadio_toggled(bool checked);     // on champ page, whether to select tag champ by team name
+    void on_individualRadioButton_toggled(bool checked);    // on champ page, whether to select tag champ by individuals
+    void on_addToTeamButton_clicked();  //adds wrestler to team
+    void on_newTeamButton_clicked();    // creates new team
+    void on_saveTeamButton_clicked();   // saves team attributes
+
+    void on_TeamsTab_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -88,7 +99,7 @@ private:
     void makeCharts(const QList<int>& values, QWidget* chartWidget);
 
     // update labels in the GUI
-    void updateLabels();
+    void updateDashboardLabels();
 
     // sets all values to what they would be for creating a new save file
     void newGameSetup();
@@ -112,10 +123,41 @@ private:
     // Shows menu to edit match
     void populateEditMatchPage(match &m);
 
+    // Sets up combo boxes for championship page
+    void setUpChampionSelection();
 
+    // Select and update tag champs by selecting a team
+    void onTagChampSelected(int index);
+    // select and update tag champs by selecting individuals
+    void onManualTagChampsSelected();
+
+    // Select and update world champ
+    void onWorldChampSelected(int index);
+    // Select and update women's champ
+    void onWomenChampSelected(int index);
+
+    // Shows all teams
+    void populateTeamList();
+    // opens page to show specific team
+    void openEditTeamPage(team& team);
+    // Deletes team at index in m_teams
+    void removeTeam(int index);
+    // Removes individual wrestler from a team
+    void removeWrestlerFromTeam(QComboBox* wrestlerComboBox);
+    // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
+    void updateSaveButton();
 
 
     QList<Wrestler> m_playerRoster;
+    QList<team> m_teams;
+
+    championship m_world;
+    championship m_tag;
+    championship m_women;
+
+    team* m_currentTeam;
+    int m_currentTeamIndex;
+
     int m_money;
     int m_fans;
     int m_year;

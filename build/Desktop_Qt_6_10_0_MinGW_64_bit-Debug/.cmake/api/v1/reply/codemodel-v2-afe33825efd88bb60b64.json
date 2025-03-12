@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-7c15f48452f6b94f1f8a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "CMSC437Booking",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CMSC437Booking::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CMSC437Booking-Debug-c5a77e803d6d65abd12b.json",
+					"name" : "CMSC437Booking",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "CMSC437Booking_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CMSC437Booking_autogen-Debug-5d7182a0b8c66164e3f1.json",
+					"name" : "CMSC437Booking_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "CMSC437Booking_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CMSC437Booking_autogen_timestamp_deps-Debug-10b84f4a1763c3667490.json",
+					"name" : "CMSC437Booking_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug",
+		"source" : "C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

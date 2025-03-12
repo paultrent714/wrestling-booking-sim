@@ -13,7 +13,6 @@ Wrestler::Wrestler(){
 
     std::normal_distribution<> ageDist(32, 11); // Keeps age of randomly generated wrestlers somewhere around 30
 
-
     std::uniform_int_distribution<> potentialDist(0, 499);
     std::uniform_int_distribution<> salaryDist(0, 999);
     std::uniform_int_distribution<> roleDist(0, 2);

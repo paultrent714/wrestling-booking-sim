@@ -29,6 +29,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         randomUtilities.h
         match.h match.cpp
         show.h show.cpp
+        championship.h championship.cpp
+        team.h team.cpp
 
 
     )

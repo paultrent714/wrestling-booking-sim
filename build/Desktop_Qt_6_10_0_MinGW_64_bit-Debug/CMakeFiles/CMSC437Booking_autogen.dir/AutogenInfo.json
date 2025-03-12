@@ -465,6 +465,12 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/championship.h",
+			"MU",
+			"EWIEGA46WW/moc_championship.cpp",
+			null
+		],
+		[
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
@@ -486,6 +492,12 @@
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.h",
 			"MU",
 			"EWIEGA46WW/moc_show.cpp",
+			null
+		],
+		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/team.h",
+			"MU",
+			"EWIEGA46WW/moc_team.cpp",
 			null
 		],
 		[
@@ -575,6 +587,11 @@
 	"SOURCES" : 
 	[
 		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/championship.cpp",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/main.cpp",
 			"MU",
 			null
@@ -591,6 +608,11 @@
 		],
 		[
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/team.cpp",
 			"MU",
 			null
 		],
