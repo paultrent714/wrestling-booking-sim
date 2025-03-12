@@ -997,9 +997,10 @@ void MainWindow::on_newTeamButton_clicked()
     // Create a new empty team
     m_currentTeam = new team();
 
-    // Clear previous selections
+    // Clear previous name
     ui->teamNameLineEdit->clear();
 
+    // Clear previous combo boxes to select wrestlers
     QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->memberList->layout());
     if (wrestlerLayout) {
         while (wrestlerLayout->count() > 0) {
@@ -1081,24 +1082,6 @@ void MainWindow::on_addToTeamButton_clicked()
     // Update the Save button status based on the number of wrestlers
     updateSaveButton();
 }
-void MainWindow::updateSaveButton()
-{
-    QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->memberList->layout());
-    int wrestlerCount = 0;
-
-    if (wrestlerLayout) {
-        // Iterate through all items in the layout and count only the ComboBoxes
-        for (int i = 0; i < wrestlerLayout->count(); ++i) {
-            if (qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget())) {
-                wrestlerCount++;  // Count only the ComboBox widgets
-            }
-        }
-    }
-
-    // Enable the save button only if at least 2 wrestlers are added
-    ui->saveTeamButton->setEnabled(wrestlerCount >= 2);
-}
-
 void MainWindow::removeWrestlerFromTeam(QComboBox* wrestlerComboBox) {
     if (!wrestlerComboBox) return;
 
@@ -1132,8 +1115,24 @@ void MainWindow::removeWrestlerFromTeam(QComboBox* wrestlerComboBox) {
 
     updateSaveButton();
 }
+void MainWindow::updateSaveButton()
+{
+    QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->memberList->layout());
+    int wrestlerCount = 0;
 
-// saves team attributes to m_teams
+    if (wrestlerLayout) {
+        // Iterate through all items in the layout and count only the ComboBoxes
+        for (int i = 0; i < wrestlerLayout->count(); ++i) {
+            if (qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget())) {
+                wrestlerCount++;  // Count only the ComboBox widgets
+            }
+        }
+    }
+
+    // Enable the save button only if at least 2 wrestlers are added
+    ui->saveTeamButton->setEnabled(wrestlerCount >= 2);
+}
+
 void MainWindow::on_saveTeamButton_clicked()
 {
     if (!m_currentTeam) return;

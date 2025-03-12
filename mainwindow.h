@@ -62,18 +62,18 @@ private slots:
     void on_StartNew_clicked();
     void on_LoadGame_clicked();
     void on_userSave_clicked();
-    void on_finalizeBooking_clicked();
-    void on_pushButton_clicked();
-    void on_defaultRoster_clicked();
-    void on_customRoster_clicked();
-    void on_randomRoster_clicked();
-    void on_backToLanding_clicked();
-    void on_RosterDisplayTab_clicked();
-    void on_addToMatch_clicked();
-    void on_addMatchButton_clicked();
-    void on_removeFromMatch_clicked();
+    void on_finalizeBooking_clicked();      // goes to next week, performs weekly calculations
+    void on_pushButton_clicked();           // skips 26 weeks.!!!!!!!!!! FOR DEBUGGING!!! DO NOT KEEP THIS IN FINAL PROJECT!!!!!!!!!!!!
+    void on_defaultRoster_clicked();        // loads default roster
+    void on_customRoster_clicked();         // user selects custom roster
+    void on_randomRoster_clicked();         // user selects random roster
+    void on_backToLanding_clicked();        // goes back to landing page
+    void on_RosterDisplayTab_clicked();     // displays members of roster
+    void on_addToMatch_clicked();           // adds wrestler to match
+    void on_addMatchButton_clicked();       // adds match to show
+    void on_removeFromMatch_clicked();      // remove wrestler from a match
     void updateWinnerComboBox(); // Updates the choices the user has to select the winner of a match
-    void on_saveMatchDetails_clicked();
+    void on_saveMatchDetails_clicked();     // saves match details
     void on_ChampionTab_clicked();  // shows championships
     void on_teamNameRadio_toggled(bool checked);     // on champ page, whether to select tag champ by team name
     void on_individualRadioButton_toggled(bool checked);    // on champ page, whether to select tag champ by individuals
@@ -86,75 +86,43 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    // Method to set up the database connection
-    void connectToDatabase();
-    // Method to load wrestler attributes from the text file
-    void loadWrestlerAttributes(const QString &filePath);
-    // Method to save wrestker attributes to text file
-    void saveWrestlerAttributes(const QString &filePath, const QList<Wrestler> &wrestlers);
-    // Load data from a text file
-    void loadFromText(const QString &filePath);
+    void connectToDatabase();                                                           // Method to set up the database connection
+    void loadWrestlerAttributes(const QString &filePath);                               // Method to load wrestler attributes from the text file
+    void saveWrestlerAttributes(const QString &filePath,
+                                const QList<Wrestler> &wrestlers);     // Method to save wrestker attributes to text file
+    void loadFromText(const QString &filePath);                                 // Load data from a text file
+    void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
+    void updateDashboardLabels();                                               // update dashboard labels in the GUI
+    void newGameSetup();                                // sets all values to what they would be for creating a new save file
+    void showWrestlerDetails(const Wrestler &wrestler);         // for debugging
 
-    // function to display a line graph
-    void makeCharts(const QList<int>& values, QWidget* chartWidget);
+    void populateWrestlerList(const QList<Wrestler> &wrestlers);        // Displays all wrestlers that can be use
+    void updateWrestlerDetails(const Wrestler &wrestler);               // Shows all info to player about a wrestler
 
-    // update labels in the GUI
-    void updateDashboardLabels();
+    void populateMatchList( );                          // Shows matches that have been added to show
+    void addMatchToCard();                              // Adds a generic match to show
+    void openEditMatchPage(match &m, int index);        // Edit match
+    void populateEditMatchPage(match &m);               // Shows menu to edit match
 
-    // sets all values to what they would be for creating a new save file
-    void newGameSetup();
-
-    // for debugging
-    void showWrestlerDetails(const Wrestler &wrestler);
-
-    // Displays all wrestlers that can be used
-    void populateWrestlerList(const QList<Wrestler> &wrestlers);
-
-    // Shows all info to player about a wrestler
-    void updateWrestlerDetails(const Wrestler &wrestler);
-
-    // Shows matches that have been added to show
-    void populateMatchList( );
-    // Adds a generic match to show
-    void addMatchToCard();
-
-    // Edit match
-    void openEditMatchPage(match &m, int index);
-    // Shows menu to edit match
-    void populateEditMatchPage(match &m);
-
-    // Sets up combo boxes for championship page
-    void setUpChampionSelection();
-
-    // Select and update tag champs by selecting a team
-    void onTagChampSelected(int index);
-    // select and update tag champs by selecting individuals
-    void onManualTagChampsSelected();
-
-    // Select and update world champ
-    void onWorldChampSelected(int index);
-    // Select and update women's champ
-    void onWomenChampSelected(int index);
-
-    // Shows all teams
-    void populateTeamList();
-    // opens page to show specific team
-    void openEditTeamPage(team& team);
-    // Deletes team at index in m_teams
-    void removeTeam(int index);
-    // Removes individual wrestler from a team
-    void removeWrestlerFromTeam(QComboBox* wrestlerComboBox);
-    // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
-    void updateSaveButton();
+    void setUpChampionSelection();                  // Sets up combo boxes for championship page
+    void onTagChampSelected(int index);             // Select and update tag champs by selecting a team
+    void onManualTagChampsSelected();               // select and update tag champs by selecting individuals
+    void onWorldChampSelected(int index);           // Select and update world champ
+    void onWomenChampSelected(int index);           // Select and update women's champ
+    void populateTeamList();                        // Shows all teams
+    void openEditTeamPage(team& team);              // opens page to show specific team
+    void removeTeam(int index);                     // Deletes team at index in m_teams
+    void removeWrestlerFromTeam(QComboBox* wrestlerComboBox);   // Removes individual wrestler from a team
+    void updateSaveButton();        // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
 
 
     QList<Wrestler> m_playerRoster;
-    QList<team> m_teams;
 
     championship m_world;
     championship m_tag;
     championship m_women;
 
+    QList<team> m_teams;
     team* m_currentTeam;
     int m_currentTeamIndex;
 
@@ -164,7 +132,6 @@ private:
     int m_currentWeek;
 
     class show m_currentShow;
-
     match* m_currentMatch = nullptr;  // Match that is currently being edited
     int m_currentMatchIndex = -1; // Store the index of the match being edited
 
