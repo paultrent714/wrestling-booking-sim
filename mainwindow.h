@@ -83,6 +83,8 @@ private slots:
 
     void on_TeamsTab_clicked();
 
+    void on_nextWeekButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -92,11 +94,15 @@ private:
                                 const QList<Wrestler> &wrestlers);     // Method to save wrestker attributes to text file
     void loadFromText(const QString &filePath);                                 // Load data from a text file
     void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
-    void updateDashboardLabels();                                               // update dashboard labels in the GUI
     void newGameSetup();                                // sets all values to what they would be for creating a new save file
-    void showWrestlerDetails(const Wrestler &wrestler);         // for debugging
 
-    void populateWrestlerList(const QList<Wrestler> &wrestlers);        // Displays all wrestlers that can be use
+    void populateResultsList();         // Displays matches, the winners, and the ratings
+
+    void updateDashboardLabels();                                               // update dashboard labels in the GUI
+
+
+    void populateWrestlerList(const QList<Wrestler> &wrestlers);        // Adds wrestlers and important info to scoll widget
+    void showWrestlerDetails(const Wrestler &wrestler);         // for debugging
     void updateWrestlerDetails(const Wrestler &wrestler);               // Shows all info to player about a wrestler
 
     void populateMatchList( );                          // Shows matches that have been added to show
@@ -109,6 +115,7 @@ private:
     void onManualTagChampsSelected();               // select and update tag champs by selecting individuals
     void onWorldChampSelected(int index);           // Select and update world champ
     void onWomenChampSelected(int index);           // Select and update women's champ
+
     void populateTeamList();                        // Shows all teams
     void openEditTeamPage(team& team);              // opens page to show specific team
     void removeTeam(int index);                     // Deletes team at index in m_teams

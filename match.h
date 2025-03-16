@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QList>
+#include <QtGlobal> // for QRand
 
 #include "randomUtilities.h"
 #include "wrestler.h"
@@ -11,24 +12,23 @@ class match
 {
 public:
 
-
     match();
     match(QString type, bool hasTeams);
-    QStringList getAvailableMatchTypes();
-
-    void setMatchType(QString type);
-    void setWinner(QString winner);    // Decide a winner (random or user-defined)
-    void setChampionship(bool title) { m_championship = title; }    // Whether it is a title match
-    void setTag(bool teams) { m_teams = teams; }    // Whether there are teams in a match
-
-
 
     void addWrestler(Wrestler* wrestler);// Add a wrestler to the match
     void removeWrestler(int index); // Removes wrestler from match
+
     void setMatchRating(QList<Wrestler*> participants);  // Determines match quality based on participants skills, 1-5 *
+
+    void setMatchType(QString type) { m_matchType = type; }
+    void setWinner(QString winner) { m_winner = winner; }    // Decide a winner (random or user-defined)
+    void setChampionship(bool title) { m_championship = title; }    // Whether it is a title match
+    void setTag(bool teams) { m_teams = teams; }    // Whether there are teams in a match
 
     void decideWinner(QList<Wrestler*> participants);   // Decides winner of match
     QString randomWinner() const;   // Random winner based off popularity
+
+    QStringList getAvailableMatchTypes();
 
     void clearParticipants() { m_participants.clear(); }   // Empties list of participents
 
@@ -48,11 +48,11 @@ private:
     QString m_matchType;
     QList<Wrestler*> m_participants; // Who is competing
     bool m_teams; // True if the match has teams
-    float m_rating;  // Rating from 1 to 5 stars
+    float m_rating;  // Rating from 0 to 5 stars
     QString m_winner = "random"; // User can choose who wins
     bool m_championship; // Whether the match is for a championship
 
-    int finances;   // Financial impact of the match
+    int finances;   // cost of the match
 
 };
 

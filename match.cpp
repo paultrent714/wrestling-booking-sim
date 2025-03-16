@@ -29,11 +29,42 @@ void match::removeWrestler(int index) {
     }
 }
 
-void match::setMatchType(QString type){
-    m_matchType = type;
-}
-void match::setWinner(QString winner){
-    m_winner = winner;
+void match::setMatchRating(QList<Wrestler*> participants) {
+    if (participants.isEmpty()) {
+        m_rating = 0.0; // Default low rating if no wrestlers
+        return;
+    }
+
+    float totalSkill = 0;
+    for (Wrestler* wrestler : participants) {
+        float wrestlerSkill = (wrestler->getBrawler() + wrestler->getPowerhouse() +
+                               wrestler->getMMA() + wrestler->getHighFlyer() +
+                               wrestler->getTechnician()) / 5.0;
+        totalSkill += wrestlerSkill;
+    }
+
+    float avgSkill = totalSkill / participants.size();
+
+    // Normalize skill to a rating between 1 and 5
+    float baseRating = (avgSkill / 100.0) * 5.0;
+
+    // Introduce randomness (±0.5)
+    std::uniform_real_distribution<float> randomDist(-0.5, 0.5);
+    float randomness = randomDist(RandomUtils::getGenerator());
+
+    baseRating += randomness;
+
+    /*
+    // Apply Feud Boost if applicable
+    if (m_feud) {
+        baseRating += (m_feud->getIntensity() * 0.1);
+    }*/
+
+    // Ensure the rating stays between 1 and 5
+    if (baseRating < 0.0) baseRating = 0.0;
+    if (baseRating > 5.0) baseRating = 5.0;
+
+    m_rating = baseRating;
 }
 
 // Select winner based on popularity

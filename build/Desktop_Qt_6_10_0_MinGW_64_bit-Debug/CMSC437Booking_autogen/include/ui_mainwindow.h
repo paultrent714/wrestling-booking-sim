@@ -163,6 +163,25 @@ public:
     QHBoxLayout *horizontalLayout_7;
     QPushButton *addMatchButton;
     QPushButton *finalizeBooking;
+    QWidget *showResults;
+    QVBoxLayout *verticalLayout_15;
+    QLabel *weekLabel;
+    QGridLayout *gridLayout_11;
+    QWidget *verticalWidget1;
+    QVBoxLayout *verticalLayout_14;
+    QVBoxLayout *showUpdates;
+    QLabel *showRatingLabel;
+    QLabel *fansChangeLabel;
+    QLabel *resultFanLabel;
+    QFrame *line_3;
+    QLabel *showRevenueLabel;
+    QLabel *showCostsLabel;
+    QLabel *showProfitLabel;
+    QLabel *resultMoneyLabel;
+    QPushButton *nextWeekButton;
+    QScrollArea *matchResults;
+    QWidget *scrollAreaWidgetContents_3;
+    QScrollBar *verticalScrollBar_4;
     QWidget *matchSetup;
     QFormLayout *formLayout;
     QWidget *matchEditWidget;
@@ -561,7 +580,7 @@ public:
         tagTeamScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName("scrollAreaWidgetContents_2");
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 752, 331));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar_3 = new QScrollBar(scrollAreaWidgetContents_2);
         verticalScrollBar_3->setObjectName("verticalScrollBar_3");
         verticalScrollBar_3->setGeometry(QRect(730, 0, 20, 321));
@@ -665,7 +684,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 752, 388));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar = new QScrollBar(scrollAreaWidgetContents);
         verticalScrollBar->setObjectName("verticalScrollBar");
         verticalScrollBar->setGeometry(QRect(750, 0, 16, 381));
@@ -1003,6 +1022,131 @@ public:
         verticalLayout_9->addLayout(horizontalLayout_7);
 
         stackedWidget->addWidget(Show_Card);
+        showResults = new QWidget();
+        showResults->setObjectName("showResults");
+        showResults->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+        verticalLayout_15 = new QVBoxLayout(showResults);
+        verticalLayout_15->setObjectName("verticalLayout_15");
+        weekLabel = new QLabel(showResults);
+        weekLabel->setObjectName("weekLabel");
+        weekLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 22pt \"Segoe UI\";"));
+
+        verticalLayout_15->addWidget(weekLabel, 0, Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter);
+
+        gridLayout_11 = new QGridLayout();
+        gridLayout_11->setObjectName("gridLayout_11");
+        verticalWidget1 = new QWidget(showResults);
+        verticalWidget1->setObjectName("verticalWidget1");
+        QSizePolicy sizePolicy10(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Expanding);
+        sizePolicy10.setHorizontalStretch(0);
+        sizePolicy10.setVerticalStretch(0);
+        sizePolicy10.setHeightForWidth(verticalWidget1->sizePolicy().hasHeightForWidth());
+        verticalWidget1->setSizePolicy(sizePolicy10);
+        verticalLayout_14 = new QVBoxLayout(verticalWidget1);
+        verticalLayout_14->setObjectName("verticalLayout_14");
+        showUpdates = new QVBoxLayout();
+        showUpdates->setObjectName("showUpdates");
+        showRatingLabel = new QLabel(verticalWidget1);
+        showRatingLabel->setObjectName("showRatingLabel");
+        sizePolicy10.setHeightForWidth(showRatingLabel->sizePolicy().hasHeightForWidth());
+        showRatingLabel->setSizePolicy(sizePolicy10);
+        showRatingLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        showUpdates->addWidget(showRatingLabel);
+
+        fansChangeLabel = new QLabel(verticalWidget1);
+        fansChangeLabel->setObjectName("fansChangeLabel");
+        sizePolicy10.setHeightForWidth(fansChangeLabel->sizePolicy().hasHeightForWidth());
+        fansChangeLabel->setSizePolicy(sizePolicy10);
+        fansChangeLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        showUpdates->addWidget(fansChangeLabel);
+
+        resultFanLabel = new QLabel(verticalWidget1);
+        resultFanLabel->setObjectName("resultFanLabel");
+        sizePolicy10.setHeightForWidth(resultFanLabel->sizePolicy().hasHeightForWidth());
+        resultFanLabel->setSizePolicy(sizePolicy10);
+        resultFanLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        showUpdates->addWidget(resultFanLabel);
+
+        line_3 = new QFrame(verticalWidget1);
+        line_3->setObjectName("line_3");
+        line_3->setFrameShape(QFrame::Shape::HLine);
+        line_3->setFrameShadow(QFrame::Shadow::Sunken);
+
+        showUpdates->addWidget(line_3);
+
+        showRevenueLabel = new QLabel(verticalWidget1);
+        showRevenueLabel->setObjectName("showRevenueLabel");
+        sizePolicy10.setHeightForWidth(showRevenueLabel->sizePolicy().hasHeightForWidth());
+        showRevenueLabel->setSizePolicy(sizePolicy10);
+        showRevenueLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        showUpdates->addWidget(showRevenueLabel);
+
+        showCostsLabel = new QLabel(verticalWidget1);
+        showCostsLabel->setObjectName("showCostsLabel");
+        sizePolicy10.setHeightForWidth(showCostsLabel->sizePolicy().hasHeightForWidth());
+        showCostsLabel->setSizePolicy(sizePolicy10);
+        showCostsLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        showUpdates->addWidget(showCostsLabel);
+
+        showProfitLabel = new QLabel(verticalWidget1);
+        showProfitLabel->setObjectName("showProfitLabel");
+        sizePolicy10.setHeightForWidth(showProfitLabel->sizePolicy().hasHeightForWidth());
+        showProfitLabel->setSizePolicy(sizePolicy10);
+        showProfitLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        showUpdates->addWidget(showProfitLabel);
+
+        resultMoneyLabel = new QLabel(verticalWidget1);
+        resultMoneyLabel->setObjectName("resultMoneyLabel");
+        sizePolicy10.setHeightForWidth(resultMoneyLabel->sizePolicy().hasHeightForWidth());
+        resultMoneyLabel->setSizePolicy(sizePolicy10);
+        resultMoneyLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        showUpdates->addWidget(resultMoneyLabel);
+
+
+        verticalLayout_14->addLayout(showUpdates);
+
+        nextWeekButton = new QPushButton(verticalWidget1);
+        nextWeekButton->setObjectName("nextWeekButton");
+        QSizePolicy sizePolicy11(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Preferred);
+        sizePolicy11.setHorizontalStretch(0);
+        sizePolicy11.setVerticalStretch(0);
+        sizePolicy11.setHeightForWidth(nextWeekButton->sizePolicy().hasHeightForWidth());
+        nextWeekButton->setSizePolicy(sizePolicy11);
+        nextWeekButton->setStyleSheet(QString::fromUtf8("background-color: rgb(00, 80, 00);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 18pt \"Segoe UI\";"));
+
+        verticalLayout_14->addWidget(nextWeekButton);
+
+
+        gridLayout_11->addWidget(verticalWidget1, 0, 1, 1, 1);
+
+        matchResults = new QScrollArea(showResults);
+        matchResults->setObjectName("matchResults");
+        matchResults->setWidgetResizable(true);
+        scrollAreaWidgetContents_3 = new QWidget();
+        scrollAreaWidgetContents_3->setObjectName("scrollAreaWidgetContents_3");
+        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 471, 383));
+        verticalScrollBar_4 = new QScrollBar(scrollAreaWidgetContents_3);
+        verticalScrollBar_4->setObjectName("verticalScrollBar_4");
+        verticalScrollBar_4->setGeometry(QRect(460, 0, 16, 381));
+        verticalScrollBar_4->setOrientation(Qt::Orientation::Vertical);
+        matchResults->setWidget(scrollAreaWidgetContents_3);
+
+        gridLayout_11->addWidget(matchResults, 0, 0, 1, 1);
+
+
+        verticalLayout_15->addLayout(gridLayout_11);
+
+        stackedWidget->addWidget(showResults);
         matchSetup = new QWidget();
         matchSetup->setObjectName("matchSetup");
         sizePolicy1.setHeightForWidth(matchSetup->sizePolicy().hasHeightForWidth());
@@ -1021,11 +1165,11 @@ public:
         horizontalLayout_8->setObjectName("horizontalLayout_8");
         label_3 = new QLabel(matchEditWidget);
         label_3->setObjectName("label_3");
-        QSizePolicy sizePolicy10(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Preferred);
-        sizePolicy10.setHorizontalStretch(0);
-        sizePolicy10.setVerticalStretch(0);
-        sizePolicy10.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
-        label_3->setSizePolicy(sizePolicy10);
+        QSizePolicy sizePolicy12(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Preferred);
+        sizePolicy12.setHorizontalStretch(0);
+        sizePolicy12.setVerticalStretch(0);
+        sizePolicy12.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
+        label_3->setSizePolicy(sizePolicy12);
         label_3->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 12pt \"Segoe UI\";"));
 
@@ -1136,8 +1280,8 @@ public:
         horizontalLayout_9->setObjectName("horizontalLayout_9");
         label_4 = new QLabel(matchEditWidget);
         label_4->setObjectName("label_4");
-        sizePolicy10.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
-        label_4->setSizePolicy(sizePolicy10);
+        sizePolicy12.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
+        label_4->setSizePolicy(sizePolicy12);
         label_4->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 12pt \"Segoe UI\";"));
 
@@ -1275,11 +1419,11 @@ public:
 
         RosterTab = new QPushButton(centralwidget);
         RosterTab->setObjectName("RosterTab");
-        QSizePolicy sizePolicy11(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::MinimumExpanding);
-        sizePolicy11.setHorizontalStretch(0);
-        sizePolicy11.setVerticalStretch(0);
-        sizePolicy11.setHeightForWidth(RosterTab->sizePolicy().hasHeightForWidth());
-        RosterTab->setSizePolicy(sizePolicy11);
+        QSizePolicy sizePolicy13(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::MinimumExpanding);
+        sizePolicy13.setHorizontalStretch(0);
+        sizePolicy13.setVerticalStretch(0);
+        sizePolicy13.setHeightForWidth(RosterTab->sizePolicy().hasHeightForWidth());
+        RosterTab->setSizePolicy(sizePolicy13);
         RosterTab->setMaximumSize(QSize(16777215, 100));
         RosterTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
@@ -1312,7 +1456,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(7);
+        stackedWidget->setCurrentIndex(14);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1369,6 +1513,15 @@ public:
         label_5->setText(QCoreApplication::translate("MainWindow", "Today's Show", nullptr));
         addMatchButton->setText(QCoreApplication::translate("MainWindow", "Add Match", nullptr));
         finalizeBooking->setText(QCoreApplication::translate("MainWindow", "Submit Booking", nullptr));
+        weekLabel->setText(QCoreApplication::translate("MainWindow", "Week: ", nullptr));
+        showRatingLabel->setText(QCoreApplication::translate("MainWindow", "Show Rating: ", nullptr));
+        fansChangeLabel->setText(QCoreApplication::translate("MainWindow", "Fan Change:", nullptr));
+        resultFanLabel->setText(QCoreApplication::translate("MainWindow", "Total Fans:", nullptr));
+        showRevenueLabel->setText(QCoreApplication::translate("MainWindow", "Show Revenue: ", nullptr));
+        showCostsLabel->setText(QCoreApplication::translate("MainWindow", "Show Costs: ", nullptr));
+        showProfitLabel->setText(QCoreApplication::translate("MainWindow", "Show Profit:", nullptr));
+        resultMoneyLabel->setText(QCoreApplication::translate("MainWindow", "Money: ", nullptr));
+        nextWeekButton->setText(QCoreApplication::translate("MainWindow", "Continue to Next Week", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "Match Type:", nullptr));
         matchTypeComboBox->setItemText(0, QCoreApplication::translate("MainWindow", "Standard", nullptr));
         matchTypeComboBox->setItemText(1, QCoreApplication::translate("MainWindow", "Steel Cage", nullptr));

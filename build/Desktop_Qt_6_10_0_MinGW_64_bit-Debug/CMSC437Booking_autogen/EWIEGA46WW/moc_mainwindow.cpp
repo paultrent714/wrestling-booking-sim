@@ -67,7 +67,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_addToTeamButton_clicked",
         "on_newTeamButton_clicked",
         "on_saveTeamButton_clicked",
-        "on_TeamsTab_clicked"
+        "on_TeamsTab_clicked",
+        "on_nextWeekButton_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -129,6 +130,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_TeamsTab_clicked'
         QtMocHelpers::SlotData<void()>(29, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_nextWeekButton_clicked'
+        QtMocHelpers::SlotData<void()>(30, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -179,6 +182,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 24: _t->on_newTeamButton_clicked(); break;
         case 25: _t->on_saveTeamButton_clicked(); break;
         case 26: _t->on_TeamsTab_clicked(); break;
+        case 27: _t->on_nextWeekButton_clicked(); break;
         default: ;
         }
     }
@@ -203,14 +207,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 27)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 28;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 27)
+        if (_id < 28)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 27;
+        _id -= 28;
     }
     return _id;
 }

@@ -5,50 +5,17 @@
 
 show::show(){
     showType = Weekly;
-    showRating = totalCosts = fanImpact = 0;
+    showRating = totalCosts = fanImpact = showProfit = totalRevenue = 0;
     matches.clear();
 }
 
 show::show(ShowType type)
     : showRating(0), totalCosts(0), fanImpact(0), showType(type) {}
 
-void show::calculateShowRating()
-{
-    int totalRating = 0;
-    int matchCount = matches.size();
-
-    for (const match& match : matches) {
-        totalRating += match.getRating();
-    }
-
-    if (matchCount > 0) {
-        showRating = totalRating / matchCount;
-    } else {
-        showRating = 0;
-    }
+void show::clear(){
+    showRating = totalCosts = fanImpact = showProfit = totalRevenue = 0;
+    matches.clear();
 }
-
-void show::calculateShowRevenue()
-{
-    int totalRevenue = 0;
-
-
-    // Apply multiplicative factors for PVP or weekly show
-    applyMultiplicativeFactors();
-}
-
-void show::applyMultiplicativeFactors()
-{
-    float multiplier = 1.0;
-
-    if (showType == PVP) {
-        multiplier = 2.0; // Example: PVP shows double the revenue
-    } else if (showType == Weekly) {
-        multiplier = 1.2; // Example: Weekly shows get a small bonus
-    }
-
-}
-
 void show::addMatch(const match &m) {
     matches.append(m);  // Add the match to the matches list
 }
@@ -58,3 +25,56 @@ void show::removeMatch(int matchIndex) {
         matches.removeAt(matchIndex);  // Remove the match at the given index
     }
 }
+
+void show::calculateShowRating()
+{
+    if (matches.isEmpty()) {
+        showRating = 0.0; // Default to lowest rating if no matches
+        return;
+    }
+
+    float totalRating = 0.0;
+    for (const match &m : matches) {
+        totalRating += m.getRating();
+    }
+
+    showRating = totalRating / matches.size();
+}
+
+void show::calculateShowRevenue(int totalFans)
+{
+    // numbers that affect how the values are weighed when calculating revenue
+    float ratingFactor = showRating / 5.0;
+    float fanFactor = totalFans * 20;
+
+    int ratingMultiplier = 2000;
+    int fanMultiplier = 10;
+
+    totalRevenue = -500 + (ratingFactor * ratingMultiplier) + (fanFactor * fanMultiplier);
+
+    // Apply multiplicative factors for PVP
+    if (showType == PVP){
+        totalRevenue = totalRevenue * 1.5;
+    }
+}
+
+void show::calculateCosts(){
+    totalCosts = 0; // Reset cost calculation
+
+    for (const match &m : matches) {
+        for (Wrestler* wrestler : m.getParticipants()) {
+            totalCosts += wrestler->getSalary();
+        }
+    }
+}
+
+void show::calculateFanImpact(int totalFans){
+    float ratingFactor = (showRating - 3.0) / 2.0;
+    float fanGrowthRate = 0.05;
+
+    // Logarithmic scaling (reduces fan gain as fans grow)
+    int fanChange = static_cast<int>((log(totalFans + 1) * 10) * ratingFactor);
+
+    fanImpact = std::clamp(fanChange, -500, 2000); // Prevent extreme loss/gain
+}
+

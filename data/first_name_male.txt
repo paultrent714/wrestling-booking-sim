@@ -39,6 +39,7 @@ Bud
 Burt
 Buster
 Butch
+Buzz
 Cain
 Caleb
 Carmelo
@@ -52,6 +53,7 @@ CJ
 Clutch
 CM
 Cody
+Corbin
 Curt
 Dale
 Dallas
@@ -76,6 +78,7 @@ Dom
 Dominic
 Dragon
 Drew
+Dule
 Duke
 Dutch
 Dylan
@@ -99,6 +102,7 @@ Grayson
 Greg
 Gunnar
 Gunther
+Hammer
 Harry
 Heath
 Henry
@@ -143,6 +147,7 @@ Kenny
 Kenta
 Kerry
 Kevin
+Khalil
 Killer
 King
 Kofi
@@ -162,6 +167,7 @@ Logan
 Luca
 Lucas
 Luke
+Luther
 Malachi
 Manny
 Marco
@@ -172,6 +178,7 @@ Marcus
 Mark
 Marlon
 Marshawn
+Master
 Matt
 Max
 Micah
@@ -266,8 +273,10 @@ Tyson
 Victor
 Von
 Walter
+Wardlow
 Wayne
 Wes
+Whack
 Will
 Xavier
 Zach

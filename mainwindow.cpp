@@ -74,7 +74,27 @@ void MainWindow::on_TeamsTab_clicked()
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
     populateTeamList();
 }
+void MainWindow::on_nextWeekButton_clicked()
+{
+    m_currentWeek++;
 
+    if (m_currentWeek >= 53){
+        m_year++;
+        m_currentWeek = 1;
+    }
+    m_fanHistory.append(m_fans);
+    if (m_fanHistory.size() > 5){
+        m_fanHistory.removeAt(0);
+    }
+    m_moneyHistory.append(m_money);
+    if (m_moneyHistory.size() > 5){
+        m_moneyHistory.removeAt(0);
+    }
+
+    updateDashboardLabels();
+    ui->stackedWidget->setCurrentWidget(ui->Dashboard_Page);
+    m_currentShow.clear();
+}
 // Skips 26 weeks; used mainly for debugging
 void MainWindow::on_pushButton_clicked()
 {
@@ -283,10 +303,10 @@ void MainWindow::saveWrestlerAttributes(const QString &filePath, const QList<Wre
         // wrestler.displayInfo();
     }
 
-
     out.flush();
     // Close the file after writing
     file.close();
+    qDebug() << "Full file path:" << QFileInfo(file).absoluteFilePath();
     qDebug() << "Wrestler data successfully saved to " << filePath;
 }
 
@@ -344,11 +364,10 @@ void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
     chartView->update();
 }
 
-// Initializes values to create a new game
 void MainWindow::newGameSetup(){
     // Initialize the game data
-    m_money = 10000; // starting value
-    m_fans = 100;   // starting value
+    m_money = 1000000; // starting value of 1 mil
+    m_fans = 1000;   // starting value
     m_year = 2025;
     m_currentWeek = 1; // starting week
 
@@ -380,30 +399,88 @@ void MainWindow::newGameSetup(){
 
 }
 
+// Shows results of a show
 void MainWindow::on_finalizeBooking_clicked()
 {
-    m_currentWeek++;
-    m_money += 1000;
-    m_fans += 100;
-
-    if (m_currentWeek >= 53){
-        m_year++;
-        m_currentWeek = 1;
-    }
-    m_fanHistory.append(m_fans);
-    if (m_fanHistory.size() > 5){
-        m_fanHistory.removeAt(0);
-    }
-    m_moneyHistory.append(m_money);
-    if (m_moneyHistory.size() > 5){
-        m_moneyHistory.removeAt(0);
+    // Set ratings for each match
+    for ( match &m : m_currentShow.getMatchesEdit()) {
+        m.setMatchRating(m.getParticipants());
     }
 
-    ui->stackedWidget->setCurrentWidget(ui->Dashboard_Page);
-    updateDashboardLabels();
+    // Calculates values for the show
+    m_currentShow.calculateShowRating();
+    m_currentShow.calculateCosts();
+    m_currentShow.calculateFanImpact(m_fans);
+    m_currentShow.calculateShowRevenue(m_fans);
+
+    // updates fans and money values
+    m_money += m_currentShow.getTotalRevenue() - m_currentShow.getTotalCosts();
+    m_fans += m_currentShow.getFanImpact();
+
+    ui->WeekDisplay->setText("Year" + QString::number(m_year) + "Week " + QString::number(m_currentWeek));
+
+    ui->showRatingLabel->setText("Show Rating: " + QString::number(m_currentShow.getShowRating(), 'f', 2) );
+    ui->fansChangeLabel->setText("Fans Change: " + QString::number(m_currentShow.getFanImpact()));
+    ui->resultFanLabel->setText("Total Fans: " + QString::number(m_fans));
+    ui->showRevenueLabel->setText("Show Revenue: " + QString::number(m_currentShow.getTotalRevenue()));
+    ui->showCostsLabel->setText("Show Costs: " + QString::number(m_currentShow.getTotalCosts()));
+    ui->showProfitLabel->setText("Show Profit: " +
+                                 QString::number(m_currentShow.getTotalRevenue() - m_currentShow.getTotalCosts()));
+    ui->resultMoneyLabel->setText("Total Money: " + QString::number(m_money));
+
+    ui->stackedWidget->setCurrentWidget(ui->showResults);
+    populateResultsList();  // shows matches and their results
+}
+void MainWindow::populateResultsList(){
+    QList<match>& matches = m_currentShow.getMatchesEdit();
+
+    QWidget *container = new QWidget;
+    QVBoxLayout *layout = new QVBoxLayout(container);
+
+    for (int i = 0; i < matches.size(); ++i) {
+        match& m = matches[i];
+
+        QHBoxLayout *hLayout = new QHBoxLayout;
+
+        // Match type
+        QLabel *matchTypeLabel = new QLabel(m.getMatchType());
+        matchTypeLabel->setStyleSheet("color: black;");
+
+        // Participants list
+        QString participantsList;
+        for (Wrestler* wrestler : m.getParticipants()) {
+            if (wrestler) {
+                if (!participantsList.isEmpty()) {
+                    participantsList += ", ";
+                }
+                participantsList += wrestler->getName();
+            }
+        }
+        QLabel *participantsLabel = new QLabel(participantsList);
+        participantsLabel->setStyleSheet("color: black;");
+
+        // Winner label
+        QLabel *winnerLabel = new QLabel("Winner: " + m.getWinner());
+        winnerLabel->setStyleSheet("color: black;");
+
+        // Rating label
+        QLabel *ratingLabel = new QLabel("⭐ " + QString::number(m.getRating(), 'f', 1));
+        ratingLabel->setStyleSheet("color: black;");
+
+        // Layout
+        hLayout->addWidget(matchTypeLabel);
+        hLayout->addWidget(participantsLabel);
+        hLayout->addWidget(winnerLabel);
+        hLayout->addWidget(ratingLabel);
+
+        layout->addLayout(hLayout);
+    }
+
+    container->setLayout(layout);
+    ui->matchResults->setWidget(container);  // Assign to the results scroll area
+    ui->matchResults->setWidgetResizable(true);
 }
 
-// updates dashboard labels
 void MainWindow::updateDashboardLabels(){
     ui->fansDisplay->setText("Fans: " + QString::number(m_fans));
     ui->moneyDisplay->setText("Money: $" + QString::number(m_money));
@@ -411,7 +488,6 @@ void MainWindow::updateDashboardLabels(){
     ui->yearDisplay->setText("Year: " + QString::number(m_year));
 }
 
-// Adds wrestlers and important info to the scoll widget
 void MainWindow::populateWrestlerList(const QList<Wrestler> &wrestlers) {
     QWidget *container = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout(container);
@@ -485,11 +561,9 @@ void MainWindow::populateWrestlerList(const QList<Wrestler> &wrestlers) {
     ui->scrollArea->setWidget(container);
     ui->scrollArea->setWidgetResizable(true);
 }
-// Function to help debug wrestler selection
 void MainWindow::showWrestlerDetails(const Wrestler &wrestler) {
     qDebug() << "Displaying details for " << wrestler.getName();
 }
-// Shows all info about a wrestler to player
 void MainWindow::updateWrestlerDetails(const Wrestler &wrestler) {
 
     ui->nameLabel->setText(wrestler.getName());
@@ -518,7 +592,7 @@ void MainWindow::updateWrestlerDetails(const Wrestler &wrestler) {
 
 }
 
-// Shows list of matches on show and edis matches
+// Functions that show list of matches on show and edit matches
 void MainWindow::populateMatchList( ) {
     QList<match>& matches = m_currentShow.getMatchesEdit();
 

@@ -35,6 +35,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/6.10.0/mingw_64/include/QtCore/QString \
   C:/Qt/6.10.0/mingw_64/include/QtCore/QTextStream \
   C:/Qt/6.10.0/mingw_64/include/QtCore/QVariant \
+  C:/Qt/6.10.0/mingw_64/include/QtCore/QtGlobal \
   C:/Qt/6.10.0/mingw_64/include/QtCore/q17memory.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.10.0/mingw_64/include/QtCore/q20iterator.h \
