@@ -109,6 +109,12 @@ public:
     QWidget *viewRoster;
     QVBoxLayout *verticalLayout_7;
     QLabel *rosterLabel;
+    QWidget *widget_2;
+    QHBoxLayout *horizontalLayout_12;
+    QLabel *sortByLabel;
+    QComboBox *sortByAttributesCB;
+    QSpacerItem *horizontalSpacer_10;
+    QCheckBox *RosterDescendingSort;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QScrollBar *verticalScrollBar;
@@ -139,14 +145,20 @@ public:
     QLabel *roleLabel;
     QPushButton *pushButton_2;
     QGridLayout *gridLayout;
-    QLabel *staminaLabel;
     QLabel *brawlerLabel;
     QLabel *powerhouseLabel;
-    QLabel *mmaLabel;
     QLabel *technicianLabel;
-    QLabel *charismaLabel;
     QLabel *highFlyerLabel;
     QLabel *populatiryLabel;
+    QLabel *mmaLabel;
+    QLabel *staminaLabel;
+    QLabel *charismaLabel;
+    QFrame *line_4;
+    QWidget *widget_3;
+    QGridLayout *gridLayout_12;
+    QLabel *matchesRemainingLabel;
+    QLabel *salaryLabel;
+    QPushButton *resignButton;
     QWidget *Settings_Page;
     QWidget *horizontalLayoutWidget_3;
     QHBoxLayout *horizontalLayout_3;
@@ -678,13 +690,48 @@ public:
 
         verticalLayout_7->addWidget(rosterLabel, 0, Qt::AlignmentFlag::AlignHCenter);
 
+        widget_2 = new QWidget(viewRoster);
+        widget_2->setObjectName("widget_2");
+        sizePolicy7.setHeightForWidth(widget_2->sizePolicy().hasHeightForWidth());
+        widget_2->setSizePolicy(sizePolicy7);
+        horizontalLayout_12 = new QHBoxLayout(widget_2);
+        horizontalLayout_12->setObjectName("horizontalLayout_12");
+        sortByLabel = new QLabel(widget_2);
+        sortByLabel->setObjectName("sortByLabel");
+        sortByLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        horizontalLayout_12->addWidget(sortByLabel);
+
+        sortByAttributesCB = new QComboBox(widget_2);
+        sortByAttributesCB->setObjectName("sortByAttributesCB");
+        QSizePolicy sizePolicy8(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(sortByAttributesCB->sizePolicy().hasHeightForWidth());
+        sortByAttributesCB->setSizePolicy(sizePolicy8);
+
+        horizontalLayout_12->addWidget(sortByAttributesCB);
+
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_12->addItem(horizontalSpacer_10);
+
+        RosterDescendingSort = new QCheckBox(widget_2);
+        RosterDescendingSort->setObjectName("RosterDescendingSort");
+        RosterDescendingSort->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        horizontalLayout_12->addWidget(RosterDescendingSort);
+
+
+        verticalLayout_7->addWidget(widget_2);
+
         scrollArea = new QScrollArea(viewRoster);
         scrollArea->setObjectName("scrollArea");
         scrollArea->setStyleSheet(QString::fromUtf8("background-color: rgb(203, 203, 203);"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 66, 16));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 752, 340));
         verticalScrollBar = new QScrollBar(scrollAreaWidgetContents);
         verticalScrollBar->setObjectName("verticalScrollBar");
         verticalScrollBar->setGeometry(QRect(750, 0, 16, 381));
@@ -747,9 +794,6 @@ public:
 
         line = new QFrame(ChampionshipPage);
         line->setObjectName("line");
-        QSizePolicy sizePolicy8(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
         sizePolicy8.setHeightForWidth(line->sizePolicy().hasHeightForWidth());
         line->setSizePolicy(sizePolicy8);
         line->setStyleSheet(QString::fromUtf8(""));
@@ -871,13 +915,6 @@ public:
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName("gridLayout");
-        staminaLabel = new QLabel(wrestlerStats);
-        staminaLabel->setObjectName("staminaLabel");
-        staminaLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"font: 18pt \"Segoe UI\";"));
-
-        gridLayout->addWidget(staminaLabel, 5, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter);
-
         brawlerLabel = new QLabel(wrestlerStats);
         brawlerLabel->setObjectName("brawlerLabel");
         brawlerLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
@@ -892,26 +929,12 @@ public:
 
         gridLayout->addWidget(powerhouseLabel, 1, 1, 1, 1, Qt::AlignmentFlag::AlignHCenter);
 
-        mmaLabel = new QLabel(wrestlerStats);
-        mmaLabel->setObjectName("mmaLabel");
-        mmaLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"font: 18pt \"Segoe UI\";"));
-
-        gridLayout->addWidget(mmaLabel, 5, 1, 1, 1, Qt::AlignmentFlag::AlignHCenter);
-
         technicianLabel = new QLabel(wrestlerStats);
         technicianLabel->setObjectName("technicianLabel");
         technicianLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 18pt \"Segoe UI\";"));
 
         gridLayout->addWidget(technicianLabel, 4, 1, 1, 1, Qt::AlignmentFlag::AlignHCenter);
-
-        charismaLabel = new QLabel(wrestlerStats);
-        charismaLabel->setObjectName("charismaLabel");
-        charismaLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"font: 18pt \"Segoe UI\";"));
-
-        gridLayout->addWidget(charismaLabel, 3, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter);
 
         highFlyerLabel = new QLabel(wrestlerStats);
         highFlyerLabel->setObjectName("highFlyerLabel");
@@ -927,8 +950,64 @@ public:
 
         gridLayout->addWidget(populatiryLabel, 1, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter);
 
+        mmaLabel = new QLabel(wrestlerStats);
+        mmaLabel->setObjectName("mmaLabel");
+        mmaLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 18pt \"Segoe UI\";"));
+
+        gridLayout->addWidget(mmaLabel, 5, 1, 1, 1, Qt::AlignmentFlag::AlignHCenter);
+
+        staminaLabel = new QLabel(wrestlerStats);
+        staminaLabel->setObjectName("staminaLabel");
+        staminaLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 18pt \"Segoe UI\";"));
+
+        gridLayout->addWidget(staminaLabel, 5, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter);
+
+        charismaLabel = new QLabel(wrestlerStats);
+        charismaLabel->setObjectName("charismaLabel");
+        charismaLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 18pt \"Segoe UI\";"));
+
+        gridLayout->addWidget(charismaLabel, 3, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter);
+
 
         verticalLayout_5->addLayout(gridLayout);
+
+        line_4 = new QFrame(wrestlerStats);
+        line_4->setObjectName("line_4");
+        line_4->setFrameShape(QFrame::Shape::HLine);
+        line_4->setFrameShadow(QFrame::Shadow::Sunken);
+
+        verticalLayout_5->addWidget(line_4);
+
+        widget_3 = new QWidget(wrestlerStats);
+        widget_3->setObjectName("widget_3");
+        gridLayout_12 = new QGridLayout(widget_3);
+        gridLayout_12->setObjectName("gridLayout_12");
+        matchesRemainingLabel = new QLabel(widget_3);
+        matchesRemainingLabel->setObjectName("matchesRemainingLabel");
+        matchesRemainingLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 18pt \"Segoe UI\";"));
+
+        gridLayout_12->addWidget(matchesRemainingLabel, 1, 0, 1, 1);
+
+        salaryLabel = new QLabel(widget_3);
+        salaryLabel->setObjectName("salaryLabel");
+        salaryLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 18pt \"Segoe UI\";"));
+
+        gridLayout_12->addWidget(salaryLabel, 0, 0, 1, 1);
+
+        resignButton = new QPushButton(widget_3);
+        resignButton->setObjectName("resignButton");
+        resignButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 16pt \"Segoe UI\";"));
+
+        gridLayout_12->addWidget(resignButton, 0, 1, 1, 1);
+
+
+        verticalLayout_5->addWidget(widget_3);
 
         stackedWidget->addWidget(wrestlerStats);
         Settings_Page = new QWidget();
@@ -985,7 +1064,7 @@ public:
         matchScrollArea->setWidgetResizable(true);
         widget = new QWidget();
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(0, 0, 752, 335));
+        widget->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar_2 = new QScrollBar(widget);
         verticalScrollBar_2->setObjectName("verticalScrollBar_2");
         verticalScrollBar_2->setGeometry(QRect(750, 0, 16, 381));
@@ -1134,7 +1213,7 @@ public:
         matchResults->setWidgetResizable(true);
         scrollAreaWidgetContents_3 = new QWidget();
         scrollAreaWidgetContents_3->setObjectName("scrollAreaWidgetContents_3");
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 471, 383));
+        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 21, 16));
         verticalScrollBar_4 = new QScrollBar(scrollAreaWidgetContents_3);
         verticalScrollBar_4->setObjectName("verticalScrollBar_4");
         verticalScrollBar_4->setGeometry(QRect(460, 0, 16, 381));
@@ -1456,7 +1535,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(14);
+        stackedWidget->setCurrentIndex(10);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1491,6 +1570,8 @@ public:
         addToTeamButton->setText(QCoreApplication::translate("MainWindow", "Add Wrestler", nullptr));
         saveTeamButton->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         rosterLabel->setText(QCoreApplication::translate("MainWindow", "Your Roster", nullptr));
+        sortByLabel->setText(QCoreApplication::translate("MainWindow", "Sort by:", nullptr));
+        RosterDescendingSort->setText(QCoreApplication::translate("MainWindow", "Desending Order", nullptr));
         womenChampLabel->setText(QCoreApplication::translate("MainWindow", "Women's Championship", nullptr));
         worldChampLabel->setText(QCoreApplication::translate("MainWindow", "World Champion: ", nullptr));
         tagChampLabel->setText(QCoreApplication::translate("MainWindow", "Tag Team Championship", nullptr));
@@ -1501,14 +1582,17 @@ public:
         ageLabel->setText(QCoreApplication::translate("MainWindow", "Age: ", nullptr));
         roleLabel->setText(QCoreApplication::translate("MainWindow", "Role:", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "Edit Name", nullptr));
-        staminaLabel->setText(QCoreApplication::translate("MainWindow", "Stamina:", nullptr));
         brawlerLabel->setText(QCoreApplication::translate("MainWindow", "Brawler:", nullptr));
         powerhouseLabel->setText(QCoreApplication::translate("MainWindow", "Powerhouse:", nullptr));
-        mmaLabel->setText(QCoreApplication::translate("MainWindow", "MMA:", nullptr));
         technicianLabel->setText(QCoreApplication::translate("MainWindow", "Technician", nullptr));
-        charismaLabel->setText(QCoreApplication::translate("MainWindow", "Charisma:", nullptr));
         highFlyerLabel->setText(QCoreApplication::translate("MainWindow", "High Flyer:", nullptr));
         populatiryLabel->setText(QCoreApplication::translate("MainWindow", "Popularity:", nullptr));
+        mmaLabel->setText(QCoreApplication::translate("MainWindow", "MMA:", nullptr));
+        staminaLabel->setText(QCoreApplication::translate("MainWindow", "Stamina:", nullptr));
+        charismaLabel->setText(QCoreApplication::translate("MainWindow", "Charisma:", nullptr));
+        matchesRemainingLabel->setText(QCoreApplication::translate("MainWindow", "Matches Remaining:", nullptr));
+        salaryLabel->setText(QCoreApplication::translate("MainWindow", "Salary:", nullptr));
+        resignButton->setText(QCoreApplication::translate("MainWindow", "Resign", nullptr));
         userSave->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "Today's Show", nullptr));
         addMatchButton->setText(QCoreApplication::translate("MainWindow", "Add Match", nullptr));

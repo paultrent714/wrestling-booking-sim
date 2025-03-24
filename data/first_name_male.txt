@@ -70,7 +70,9 @@ Davante
 David
 Dawson
 Dean
+DeAndre
 Denny
+Desean
 Devon
 Dexter
 Dimitri
@@ -113,13 +115,16 @@ Ilja
 Ivan
 Jack
 Jacob
+Jacoby
 Jake
 Jalen
+Jamal
 James
 Javier
 Jay
 JD
 Jeff
+Jermaine
 Jerry
 Jey
 Je'Von
@@ -152,6 +157,7 @@ Killer
 King
 Kofi
 Kurt
+Kwame
 Kyle
 Lamar
 Lance
@@ -164,6 +170,7 @@ Lexis
 Lio
 LJ
 Logan
+Lou
 Luca
 Lucas
 Luke
@@ -188,6 +195,7 @@ Mike
 Miles
 Montez
 Moose
+Mr
 Myles
 Nate
 Nathan
@@ -213,6 +221,7 @@ Pierce
 PJ
 Prince
 Quincy
+Rahim
 Randy
 Raphael
 Raul
@@ -223,6 +232,7 @@ Rey
 Rhino
 Rick
 Ricky
+Rico
 RJ
 Rob
 Robert
@@ -231,6 +241,8 @@ Roddy
 Roderick
 Roman
 Ron
+Ronde
+Ronte
 Rory
 Rusty
 Sam
@@ -239,6 +251,8 @@ Sammy
 Scott
 Sean
 Seth
+Shaggy
+Shamard
 Shane
 Shawn
 Sheamus
@@ -272,6 +286,7 @@ Tyrone
 Tyson
 Victor
 Von
+Vontae
 Walter
 Wardlow
 Wayne

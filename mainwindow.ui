@@ -54,7 +54,7 @@
        <string notr="true">background-color: rgb(30, 30, 30);</string>
       </property>
       <property name="currentIndex">
-       <number>14</number>
+       <number>10</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -785,6 +785,61 @@ font: 20pt &quot;Segoe UI&quot;;</string>
          </widget>
         </item>
         <item>
+         <widget class="QWidget" name="widget_2" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="sortByLabel">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);</string>
+             </property>
+             <property name="text">
+              <string>Sort by:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="sortByAttributesCB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_10">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="RosterDescendingSort">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);</string>
+             </property>
+             <property name="text">
+              <string>Desending Order</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="QScrollArea" name="scrollArea">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(203, 203, 203);</string>
@@ -797,8 +852,8 @@ font: 20pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>16</height>
+             <width>752</width>
+             <height>340</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -1080,17 +1135,6 @@ color: rgb(0, 0, 0);</string>
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="5" column="0" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-           <widget class="QLabel" name="staminaLabel">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-font: 18pt &quot;Segoe UI&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Stamina:</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
            <widget class="QLabel" name="brawlerLabel">
             <property name="styleSheet">
@@ -1113,17 +1157,6 @@ font: 18pt &quot;Segoe UI&quot;;</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
-           <widget class="QLabel" name="mmaLabel">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-font: 18pt &quot;Segoe UI&quot;;</string>
-            </property>
-            <property name="text">
-             <string>MMA:</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
            <widget class="QLabel" name="technicianLabel">
             <property name="styleSheet">
@@ -1132,17 +1165,6 @@ font: 18pt &quot;Segoe UI&quot;;</string>
             </property>
             <property name="text">
              <string>Technician</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
-           <widget class="QLabel" name="charismaLabel">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-font: 18pt &quot;Segoe UI&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Charisma:</string>
             </property>
            </widget>
           </item>
@@ -1168,7 +1190,86 @@ font: 18pt &quot;Segoe UI&quot;;</string>
             </property>
            </widget>
           </item>
+          <item row="5" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="mmaLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>MMA:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+           <widget class="QLabel" name="staminaLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Stamina:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="charismaLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Charisma:</string>
+            </property>
+           </widget>
+          </item>
          </layout>
+        </item>
+        <item>
+         <widget class="Line" name="line_4">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="widget_3" native="true">
+          <layout class="QGridLayout" name="gridLayout_12">
+           <item row="1" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
+            <widget class="QLabel" name="matchesRemainingLabel">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Matches Remaining:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+            <widget class="QLabel" name="salaryLabel">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Salary:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
+            <widget class="QPushButton" name="resignButton">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 16pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Resign</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1281,8 +1382,8 @@ font: 22pt &quot;Segoe UI&quot;;
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>335</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_2">
@@ -1536,8 +1637,8 @@ font: 18pt &quot;Segoe UI&quot;;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>471</width>
-               <height>383</height>
+               <width>21</width>
+               <height>16</height>
               </rect>
              </property>
              <widget class="QScrollBar" name="verticalScrollBar_4">

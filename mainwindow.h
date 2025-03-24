@@ -72,14 +72,14 @@ private slots:
     void on_addToMatch_clicked();           // adds wrestler to match
     void on_addMatchButton_clicked();       // adds match to show
     void on_removeFromMatch_clicked();      // remove wrestler from a match
-    void updateWinnerComboBox(); // Updates the choices the user has to select the winner of a match
+    void updateWinnerComboBox();            // Updates the choices the user has to select the winner of a match
     void on_saveMatchDetails_clicked();     // saves match details
-    void on_ChampionTab_clicked();  // shows championships
-    void on_teamNameRadio_toggled(bool checked);     // on champ page, whether to select tag champ by team name
+    void on_ChampionTab_clicked();          // shows championships
+    void on_teamNameRadio_toggled(bool checked);            // on champ page, whether to select tag champ by team name
     void on_individualRadioButton_toggled(bool checked);    // on champ page, whether to select tag champ by individuals
-    void on_addToTeamButton_clicked();  //adds wrestler to team
-    void on_newTeamButton_clicked();    // creates new team
-    void on_saveTeamButton_clicked();   // saves team attributes
+    void on_addToTeamButton_clicked();      //adds wrestler to team
+    void on_newTeamButton_clicked();        // creates new team
+    void on_saveTeamButton_clicked();       // saves team attributes
 
     void on_TeamsTab_clicked();
 
@@ -96,19 +96,19 @@ private:
     void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
     void newGameSetup();                                // sets all values to what they would be for creating a new save file
 
-    void populateResultsList();         // Displays matches, the winners, and the ratings
+    void populateResultsList();                     // Displays matches, the winners, and the ratings
 
-    void updateDashboardLabels();                                               // update dashboard labels in the GUI
+    void updateDashboardLabels();                   // update dashboard labels in the GUI
 
 
     void populateWrestlerList(const QList<Wrestler> &wrestlers);        // Adds wrestlers and important info to scoll widget
-    void showWrestlerDetails(const Wrestler &wrestler);         // for debugging
     void updateWrestlerDetails(const Wrestler &wrestler);               // Shows all info to player about a wrestler
 
     void populateMatchList( );                          // Shows matches that have been added to show
     void addMatchToCard();                              // Adds a generic match to show
     void openEditMatchPage(match &m, int index);        // Edit match
     void populateEditMatchPage(match &m);               // Shows menu to edit match
+    void updateMatchWrestlerSelection();                // Updates wrestlers that can be in a match
 
     void setUpChampionSelection();                  // Sets up combo boxes for championship page
     void onTagChampSelected(int index);             // Select and update tag champs by selecting a team
@@ -121,6 +121,7 @@ private:
     void removeTeam(int index);                     // Deletes team at index in m_teams
     void removeWrestlerFromTeam(QComboBox* wrestlerComboBox);   // Removes individual wrestler from a team
     void updateSaveButton();        // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
+    void updateWrestlerTeamSelection();             // Updates wrestlers able to be chosen for a team
 
 
     QList<Wrestler> m_playerRoster;

@@ -63,12 +63,15 @@ Carpenter
 Carter
 Cartman
 Cassidy
+Catanzaro
 Cena
 Charles
 Chase
 Ciampa
+Clancy
 Clark
 Clutch
+Cobb
 Cole
 Colon
 Conrad
@@ -80,9 +83,12 @@ Cross
 Cruz
 Custer
 D'Angelo
+Daddio
+Dain
 Dallas
 Daniels
 Danielson
+Davenport
 David
 Davis
 Dawkins
@@ -102,6 +108,7 @@ Dixon
 Doe
 Dover
 Dragon
+Drake
 Dream
 Dreamer
 Drolix
@@ -125,6 +132,7 @@ Fish
 Fisher
 Flair
 Flowers
+Foist
 Foley
 Ford
 Frazier
@@ -143,6 +151,7 @@ Gargano
 Gaster
 George
 Gibbs
+Goochberg
 Gonzalez
 Gordon
 Gotch
@@ -273,15 +282,19 @@ Morales
 Morgan
 Moriarty
 Morrison
+Mosley
 Moss
+Moxley
 Mundo
 Nakamura
 Nash
 Ngata
 Nichols
+Nightingale
 Nile
 Niven
 Nix
+North
 O'Hara
 O'Malley
 O'Neill
@@ -307,8 +320,10 @@ Peterson
 Petty
 Philips
 Phoenix
+Pilone
 Pines
 Poe
+Povenmire
 Priest
 Priestly
 Punk
@@ -345,6 +360,7 @@ Royce
 Rude
 Rush
 Russo
+Ryder
 Ryken
 Sabin
 Sadler
@@ -354,6 +370,7 @@ Samuels
 Sane
 Santana
 Sapphire
+Savage
 Scott
 Shamrock
 Shaw
@@ -365,6 +382,7 @@ Sinclair
 Sky
 Slater
 Smith
+Snuka
 Sparks
 Spears
 Spencer
@@ -387,6 +405,7 @@ Sullivan
 Tate
 Taylor
 Temple
+Thesz
 Thomas
 Thompson
 Thorpe
@@ -415,6 +434,8 @@ Watson
 Wayne
 Welker
 Wentz
+West
+Westley
 White
 Wilde
 Williams
@@ -429,3 +450,4 @@ Yim
 York
 Young
 Zayn
+Ziggler
