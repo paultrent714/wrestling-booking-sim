@@ -71,8 +71,6 @@ private slots:
     void on_RosterDisplayTab_clicked();     // displays members of roster
     void on_addToMatch_clicked();           // adds wrestler to match
     void on_addMatchButton_clicked();       // adds match to show
-    void on_removeFromMatch_clicked();      // remove wrestler from a match
-    void updateWinnerComboBox();            // Updates the choices the user has to select the winner of a match
     void on_saveMatchDetails_clicked();     // saves match details
     void on_ChampionTab_clicked();          // shows championships
     void on_teamNameRadio_toggled(bool checked);            // on champ page, whether to select tag champ by team name
@@ -105,9 +103,10 @@ private:
     void updateWrestlerDetails(const Wrestler &wrestler);               // Shows all info to player about a wrestler
 
     void populateMatchList( );                          // Shows matches that have been added to show
-    void addMatchToCard();                              // Adds a generic match to show
     void openEditMatchPage(match &m, int index);        // Edit match
     void populateEditMatchPage(match &m);               // Shows menu to edit match
+    void removeWrestlerFromMatch(QComboBox* WrestlerComboBox);   // Removes specific wrestler from match
+    void updateSaveMatchButton();                       // Allows player to save match
     void updateMatchWrestlerSelection();                // Updates wrestlers that can be in a match
 
     void setUpChampionSelection();                  // Sets up combo boxes for championship page
@@ -120,7 +119,7 @@ private:
     void openEditTeamPage(team& team);              // opens page to show specific team
     void removeTeam(int index);                     // Deletes team at index in m_teams
     void removeWrestlerFromTeam(QComboBox* wrestlerComboBox);   // Removes individual wrestler from a team
-    void updateSaveButton();        // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
+    void updateSaveTeamButton();        // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
     void updateWrestlerTeamSelection();             // Updates wrestlers able to be chosen for a team
 
 

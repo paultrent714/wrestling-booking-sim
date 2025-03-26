@@ -57,8 +57,6 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_RosterDisplayTab_clicked",
         "on_addToMatch_clicked",
         "on_addMatchButton_clicked",
-        "on_removeFromMatch_clicked",
-        "updateWinnerComboBox",
         "on_saveMatchDetails_clicked",
         "on_ChampionTab_clicked",
         "on_teamNameRadio_toggled",
@@ -106,32 +104,28 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_addMatchButton_clicked'
         QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_removeFromMatch_clicked'
-        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'updateWinnerComboBox'
-        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_saveMatchDetails_clicked'
-        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_ChampionTab_clicked'
-        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_teamNameRadio_toggled'
-        QtMocHelpers::SlotData<void(bool)>(23, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Bool, 24 },
+        QtMocHelpers::SlotData<void(bool)>(21, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Bool, 22 },
         }}),
         // Slot 'on_individualRadioButton_toggled'
-        QtMocHelpers::SlotData<void(bool)>(25, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Bool, 24 },
+        QtMocHelpers::SlotData<void(bool)>(23, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Bool, 22 },
         }}),
         // Slot 'on_addToTeamButton_clicked'
-        QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_newTeamButton_clicked'
-        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_saveTeamButton_clicked'
-        QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_TeamsTab_clicked'
-        QtMocHelpers::SlotData<void()>(29, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_nextWeekButton_clicked'
-        QtMocHelpers::SlotData<void()>(30, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -172,17 +166,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 14: _t->on_RosterDisplayTab_clicked(); break;
         case 15: _t->on_addToMatch_clicked(); break;
         case 16: _t->on_addMatchButton_clicked(); break;
-        case 17: _t->on_removeFromMatch_clicked(); break;
-        case 18: _t->updateWinnerComboBox(); break;
-        case 19: _t->on_saveMatchDetails_clicked(); break;
-        case 20: _t->on_ChampionTab_clicked(); break;
-        case 21: _t->on_teamNameRadio_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
-        case 22: _t->on_individualRadioButton_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
-        case 23: _t->on_addToTeamButton_clicked(); break;
-        case 24: _t->on_newTeamButton_clicked(); break;
-        case 25: _t->on_saveTeamButton_clicked(); break;
-        case 26: _t->on_TeamsTab_clicked(); break;
-        case 27: _t->on_nextWeekButton_clicked(); break;
+        case 17: _t->on_saveMatchDetails_clicked(); break;
+        case 18: _t->on_ChampionTab_clicked(); break;
+        case 19: _t->on_teamNameRadio_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 20: _t->on_individualRadioButton_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 21: _t->on_addToTeamButton_clicked(); break;
+        case 22: _t->on_newTeamButton_clicked(); break;
+        case 23: _t->on_saveTeamButton_clicked(); break;
+        case 24: _t->on_TeamsTab_clicked(); break;
+        case 25: _t->on_nextWeekButton_clicked(); break;
         default: ;
         }
     }
@@ -207,14 +199,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 28)
+        if (_id < 26)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 28;
+        _id -= 26;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 28)
+        if (_id < 26)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 28;
+        _id -= 26;
     }
     return _id;
 }

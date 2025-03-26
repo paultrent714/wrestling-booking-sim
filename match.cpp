@@ -21,7 +21,9 @@ match::match(QString type, bool hasTeams)
 // Add a wrestler to the match
 void match::addWrestler (Wrestler* wrestler)
 {
-    m_participants.append(wrestler);
+    if (wrestler && !m_participants.contains(wrestler)) {
+        m_participants.append(wrestler);
+    }
 }
 void match::removeWrestler(int index) {
     if (index >= 0 && index < m_participants.size()) {
@@ -68,7 +70,7 @@ void match::setMatchRating(QList<Wrestler*> participants) {
 }
 
 // Select winner based on popularity
-QString match::randomWinner() const
+Wrestler* match::randomWinner() const
 {
     // Initialize random generator
     std::mt19937& gen = RandomUtils::getGenerator();
@@ -90,15 +92,62 @@ QString match::randomWinner() const
     for (auto* wrestler : m_participants) {
         accumulatedPopularity += wrestler->getPopularity();
         if (accumulatedPopularity > randomValue) {
-            return wrestler->getName();  // Return the winner's name
+            return wrestler;  // Return the winner's name
         }
     }
 
-    return "";  // This should not happen
+    return NULL;  // This should not happen
 }
 
 QStringList match::getAvailableMatchTypes() {
 
     // Return a list of predefined match types
     return QStringList{"Standard", "Ladder", "Hardcore", "Steel Cage", "Battle Royal"};
+}
+void match::applyTitleChange(championship* championship)
+{
+    // Check if it's a singles championship
+    if (championship->getChampions().size() == 1) {
+        Wrestler* currentChampion = championship->getChampions().first();
+
+        // If the champion is in the match or if there is no champion (Vacant), update it
+        if (!currentChampion || m_participants.contains(currentChampion)) {
+            if (m_participants.contains(m_winner)) {
+                championship->setChampions({m_winner});
+            }
+        }
+    }
+    // Check if it's a tag team championship
+    else if (championship->getChampions().size() == 2) {
+        // If the match is a tag match and has at least one tag team champion in the participants list
+        if (m_teams && m_participants.size() == 4) {  // Example for tag team match, check if there are 4 participants
+            bool isChampionInMatch = false;
+            for (auto& champ : championship->getChampions()) {
+                if (m_participants.contains(champ)) {
+                    isChampionInMatch = true;
+                    break;
+                }
+            }
+
+            if (isChampionInMatch) {
+                // If the winner is in one of the teams, set the team as the new champions
+                int winnerIndex = m_participants.indexOf(m_winner);
+                QList<Wrestler*> tagChampions;
+                if (winnerIndex < m_participants.size() / 2) {  // First half of participants (team 1)
+                    tagChampions = {m_participants[0], m_participants[1]};
+                } else {  // Second half of participants (team 2)
+                    tagChampions = {m_participants[2], m_participants[3]};
+                }
+                championship->setChampions(tagChampions);  // Set the tag team champions
+            }
+        }
+    }
+
+    // Check if it's a women's championship
+    else if (championship->isWomensTitle()) {
+        if (m_winner->getGender() == 1) {  // Ensure the winner is a woman (1 represents female)
+            QList<Wrestler*> newChampion = {m_winner};
+            championship->setChampions(newChampion);  // Set the new champion (as a list of one)
+        }
+    }
 }

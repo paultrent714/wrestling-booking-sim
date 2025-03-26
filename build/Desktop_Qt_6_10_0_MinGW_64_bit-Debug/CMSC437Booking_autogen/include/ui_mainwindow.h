@@ -204,7 +204,6 @@ public:
     QPushButton *saveMatchDetails;
     QHBoxLayout *horizontalLayout_10;
     QPushButton *addToMatch;
-    QPushButton *removeFromMatch;
     QWidget *participantLayout;
     QGridLayout *participantGridLayout;
     QHBoxLayout *horizontalLayout_9;
@@ -592,7 +591,7 @@ public:
         tagTeamScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName("scrollAreaWidgetContents_2");
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 66, 16));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 752, 355));
         verticalScrollBar_3 = new QScrollBar(scrollAreaWidgetContents_2);
         verticalScrollBar_3->setObjectName("verticalScrollBar_3");
         verticalScrollBar_3->setGeometry(QRect(730, 0, 20, 321));
@@ -731,7 +730,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 752, 340));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar = new QScrollBar(scrollAreaWidgetContents);
         verticalScrollBar->setObjectName("verticalScrollBar");
         verticalScrollBar->setGeometry(QRect(750, 0, 16, 381));
@@ -990,21 +989,21 @@ public:
         matchesRemainingLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 18pt \"Segoe UI\";"));
 
-        gridLayout_12->addWidget(matchesRemainingLabel, 1, 0, 1, 1);
+        gridLayout_12->addWidget(matchesRemainingLabel, 1, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter);
 
         salaryLabel = new QLabel(widget_3);
         salaryLabel->setObjectName("salaryLabel");
         salaryLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 18pt \"Segoe UI\";"));
 
-        gridLayout_12->addWidget(salaryLabel, 0, 0, 1, 1);
+        gridLayout_12->addWidget(salaryLabel, 0, 0, 1, 1, Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter);
 
         resignButton = new QPushButton(widget_3);
         resignButton->setObjectName("resignButton");
         resignButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
-        gridLayout_12->addWidget(resignButton, 0, 1, 1, 1);
+        gridLayout_12->addWidget(resignButton, 0, 1, 1, 1, Qt::AlignmentFlag::AlignHCenter);
 
 
         verticalLayout_5->addWidget(widget_3);
@@ -1064,7 +1063,7 @@ public:
         matchScrollArea->setWidgetResizable(true);
         widget = new QWidget();
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(0, 0, 66, 16));
+        widget->setGeometry(QRect(0, 0, 752, 359));
         verticalScrollBar_2 = new QScrollBar(widget);
         verticalScrollBar_2->setObjectName("verticalScrollBar_2");
         verticalScrollBar_2->setGeometry(QRect(750, 0, 16, 381));
@@ -1332,16 +1331,6 @@ public:
 
         horizontalLayout_10->addWidget(addToMatch);
 
-        removeFromMatch = new QPushButton(matchEditWidget);
-        removeFromMatch->setObjectName("removeFromMatch");
-        sizePolicy8.setHeightForWidth(removeFromMatch->sizePolicy().hasHeightForWidth());
-        removeFromMatch->setSizePolicy(sizePolicy8);
-        removeFromMatch->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
-"color: rgb(255, 255, 255);\n"
-"font: 20pt \"Segoe UI\";"));
-
-        horizontalLayout_10->addWidget(removeFromMatch);
-
 
         gridLayout_9->addLayout(horizontalLayout_10, 4, 0, 1, 1);
 
@@ -1535,7 +1524,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(10);
+        stackedWidget->setCurrentIndex(14);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1614,7 +1603,6 @@ public:
 
         saveMatchDetails->setText(QCoreApplication::translate("MainWindow", "Save Match Details", nullptr));
         addToMatch->setText(QCoreApplication::translate("MainWindow", "Add Wrestler", nullptr));
-        removeFromMatch->setText(QCoreApplication::translate("MainWindow", "Subtract Wrestler", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "Winner:", nullptr));
         champCheckBox->setText(QCoreApplication::translate("MainWindow", "Championship Match", nullptr));
         teamCheckBox->setText(QCoreApplication::translate("MainWindow", "Teams", nullptr));

@@ -404,9 +404,18 @@ void MainWindow::newGameSetup(){
 // Shows results of a show
 void MainWindow::on_finalizeBooking_clicked()
 {
-    // Set ratings for each match
+    // Set ratings for each match and update championships if necessary
     for ( match &m : m_currentShow.getMatchesEdit()) {
         m.setMatchRating(m.getParticipants());
+
+        // Apply title change for each championship if applicable
+        if (m.isChampionship()) {
+
+            m.applyTitleChange(&m_world);  // For world championship
+            m.applyTitleChange(&m_tag);    // For tag team championship
+            m.applyTitleChange(&m_women);  // For women's championship
+
+        }
     }
 
     // Calculates values for the show
@@ -432,6 +441,8 @@ void MainWindow::on_finalizeBooking_clicked()
 
     ui->stackedWidget->setCurrentWidget(ui->showResults);
     populateResultsList();  // shows matches and their results
+
+
 }
 void MainWindow::populateResultsList(){
     QList<match>& matches = m_currentShow.getMatchesEdit();
@@ -462,7 +473,7 @@ void MainWindow::populateResultsList(){
         participantsLabel->setStyleSheet("color: black;");
 
         // Winner label
-        QLabel *winnerLabel = new QLabel("Winner: " + m.getWinner());
+        QLabel *winnerLabel = new QLabel("Winner: " + m.getWinner()->getName());
         winnerLabel->setStyleSheet("color: black;");
 
         // Rating label
@@ -601,6 +612,7 @@ void MainWindow::updateWrestlerDetails(const Wrestler &wrestler) {
 
 // Functions that show list of matches on show and edit matches
 void MainWindow::populateMatchList( ) {
+    ui->stackedWidget->setCurrentWidget(ui->Show_Card);
     QList<match>& matches = m_currentShow.getMatchesEdit();
 
     QWidget *container = new QWidget;
@@ -653,15 +665,6 @@ void MainWindow::populateMatchList( ) {
     ui->matchScrollArea->setWidget(container);
     ui->matchScrollArea->setWidgetResizable(true);
 }
-void MainWindow::on_addMatchButton_clicked()
-{
-    match newMatch;
-    newMatch.setMatchType("Standard");
-
-    m_currentShow.addMatch(newMatch);
-
-    populateMatchList();
-}
 void MainWindow::openEditMatchPage(match& m, int index)
 {
     m_currentMatch = &m; // Store a pointer to the current match being edited
@@ -682,39 +685,87 @@ void MainWindow::openEditMatchPage(match& m, int index)
         }
     }
 
-    // Populate wrestler selection combo boxes
+    // Populate wrestler selection combo boxes and add remove buttons for each participant
     for (Wrestler* wrestler : m.getParticipants()) {
-        on_addToMatch_clicked(); // Add a new ComboBox
+        // Create a new ComboBox for the wrestler
+        QComboBox* wrestlerComboBox = new QComboBox(this);
+        wrestlerComboBox->addItem(wrestler->getName()); // Add the wrestler's name
+        wrestlerComboBox->setStyleSheet(
+            "QComboBox { background: #f0f0f0; border: 1px solid #888; padding: 4px; border-radius: 4px; color: black; }"
+            "QComboBox::drop-down { width: 20px; border-left: 1px solid #888; background: #d3d3d3; }"
+            "QComboBox::down-arrow { image: url(:/icons/down-arrow.png); width: 12px; height: 12px; }"
+            "QComboBox QAbstractItemView { background: #f0f0f0; selection-background-color: #0078D7; color: black; border: 1px solid #888; }"
+            );
+        wrestlerComboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+
+        // Create a new Remove button for the wrestler
+        QPushButton* removeButton = new QPushButton("Remove", this);
+        connect(removeButton, &QPushButton::clicked, this, [this, wrestlerComboBox]() {
+            removeWrestlerFromMatch(wrestlerComboBox);  // Remove the selected wrestler ComboBox
+        });
+        // Remove button style is visible
+        removeButton->setStyleSheet(
+            "background-color: #D32F2F; color: white; font-size: 16px; padding: 4px 8px; border-radius: 5px;"
+            );
+
+        // Add the ComboBox and Remove button to the layout
         QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
-        if (wrestlerLayout && wrestlerLayout->count() > 0) {
-            QComboBox* comboBox = qobject_cast<QComboBox*>(wrestlerLayout->itemAt(wrestlerLayout->count() - 1)->widget());
-            if (comboBox) {
-                comboBox->setCurrentText(wrestler->getName()); // Set the selected wrestler
-            }
-        }
+        int row = wrestlerLayout->rowCount();
+        wrestlerLayout->addWidget(wrestlerComboBox, row, 0);
+        wrestlerLayout->addWidget(removeButton, row, 1);
+
+        // Connect the ComboBox to updateMatchWrestlerSelection function
+        connect(wrestlerComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::updateMatchWrestlerSelection);
     }
 
     // Set the winner combobox selection
-    QString winnerName = m.getWinner();
-    if (!winnerName.isEmpty()) {
+    if (m.getWinner()) {
+        QString winnerName = m.getWinner()->getName();
         ui->winnerComboBox->setCurrentText(winnerName);
     } else {
-        ui->winnerComboBox->setCurrentIndex(0); // Default to first option if no winner is set
+        ui->winnerComboBox->setCurrentIndex(ui->winnerComboBox->findText("Random Winner")); // Set to "Random Winner" if no winner
     }
+
 
     // Set checkboxes for whether tag/ championship match is scheduled
     ui->champCheckBox->setChecked(m.isChampionship());
     ui->teamCheckBox->setChecked(m.isTeam());
 }
-void MainWindow::on_addToMatch_clicked()
+void MainWindow::on_addMatchButton_clicked()
 {
+    match newMatch;
+    newMatch.setMatchType("Standard");
+
+    m_currentShow.addMatch(newMatch);
+
+    populateMatchList();
+}
+void MainWindow::on_addToMatch_clicked() {
+    // Ensure participantLayout has a valid layout (initialized only once)
+    if (!ui->participantLayout->layout()) {
+        ui->participantLayout->setLayout(new QGridLayout);  // Initialize layout if not done yet
+    }
+
     // Create a new ComboBox for selecting a wrestler
     QComboBox* wrestlerComboBox = new QComboBox(this);
 
-    // Populate the ComboBox with available wrestlers from m_playerRoster
+    // Get currently selected wrestlers to avoid duplicates
+    QSet<QString> selectedWrestlers;
+    QGridLayout* participantLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+    for (int i = 0; i < participantLayout->count(); ++i) {
+        QComboBox* existingCombo = qobject_cast<QComboBox*>(participantLayout->itemAt(i)->widget());
+        if (existingCombo) {
+            selectedWrestlers.insert(existingCombo->currentText());
+        }
+    }
+
+    // Populate with available wrestlers
     QStringList wrestlerNames;
-    for (const Wrestler &wrestler : m_playerRoster) {
-        wrestlerNames.append(wrestler.getName());
+    for (const Wrestler& wrestler : m_playerRoster) {
+        if (!selectedWrestlers.contains(wrestler.getName())) {
+            wrestlerNames.append(wrestler.getName());
+        }
     }
 
     // Add check to ensure there's at least one wrestler
@@ -723,169 +774,166 @@ void MainWindow::on_addToMatch_clicked()
     }
 
     wrestlerComboBox->addItems(wrestlerNames);
+
+    // ComboBox style is visible
     wrestlerComboBox->setStyleSheet(
         "QComboBox { background: #f0f0f0; border: 1px solid #888; padding: 4px; border-radius: 4px; color: black; }"
         "QComboBox::drop-down { width: 20px; border-left: 1px solid #888; background: #d3d3d3; }"
         "QComboBox::down-arrow { image: url(:/icons/down-arrow.png); width: 12px; height: 12px; }"
         "QComboBox QAbstractItemView { background: #f0f0f0; selection-background-color: #0078D7; color: black; border: 1px solid #888; }"
         );
+    wrestlerComboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+    // Add the ComboBox to the layout
+    int row = participantLayout->rowCount();
+    participantLayout->addWidget(wrestlerComboBox, row, 0);
 
-    // Add the ComboBox to the wrestler layout
-    QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+    // Connect the ComboBox to updateMatchWrestlerSelection
+    connect(wrestlerComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::updateMatchWrestlerSelection);
 
-    // Add the ComboBox to the layout (this will add it in the next available grid cell)
-    int row = wrestlerLayout->rowCount();
-    wrestlerLayout->addWidget(wrestlerComboBox, row, 0);
+    // Create and configure the Remove button for the wrestler
+    QPushButton* removeButton = new QPushButton("Remove", this);
+    connect(removeButton, &QPushButton::clicked, this, [this, wrestlerComboBox]() {
+        removeWrestlerFromMatch(wrestlerComboBox);  // Remove the selected wrestler ComboBox
+    });
 
-    // In the constructor or initialization part
-    connect(wrestlerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateWinnerComboBox()));
+    // Remove button is visible
+    removeButton->setStyleSheet(
+        "background-color: #D32F2F; color: white; font-size: 16px; padding: 4px 8px; border-radius: 5px;"
+        );
 
-    // Update the winnerComboBox with this new wrestler as an option
-    ui->winnerComboBox->addItem(wrestlerComboBox->currentText());  // The most recently added wrestler
+    // Add the Remove button next to the ComboBox in the same row
+    participantLayout->addWidget(removeButton, row, 1);
+
+    // Ensure that the layout has been properly updated
+    participantLayout->update();  // Refresh layout after adding the widgets
+
+    // Update the Save button status based on the number of wrestlers
+    updateSaveMatchButton();
+    updateMatchWrestlerSelection();
 }
-void MainWindow::on_removeFromMatch_clicked()
-{
-    // Access the layout
-    QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+void MainWindow::removeWrestlerFromMatch(QComboBox* wrestlerComboBox) {
+    if (!wrestlerComboBox) return;
 
-    // Ensures there's at least 2 participants
-    if (wrestlerLayout && wrestlerLayout->count() > 2) {
-        // Get the last widget added to the layout (the most recent participant's QComboBox)
-        QWidget* lastWidget = wrestlerLayout->itemAt(wrestlerLayout->count() - 1)->widget();
+    QGridLayout* participantLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+    if (!participantLayout) return;
 
-        // If it's a QComboBox, remove it
-        QComboBox* lastComboBox = qobject_cast<QComboBox*>(lastWidget);
-        if (lastComboBox) {
-            // Remove the ComboBox from the layout
-            wrestlerLayout->removeWidget(lastComboBox);
+    int indexToRemove = -1;
 
-            // Delete the ComboBox to free up memory
-            delete lastComboBox;
-
-            // Update the winnerComboBox to remove this wrestler's name
-            updateWinnerComboBox();
+    // Find the index of the ComboBox
+    for (int i = 0; i < participantLayout->count(); ++i) {
+        QWidget* widget = participantLayout->itemAt(i)->widget();
+        if (widget == wrestlerComboBox) {
+            indexToRemove = i;
+            break;
         }
     }
-}
-void MainWindow::updateWinnerComboBox()
-{
-    // Clear and repopulate the winnerComboBox based on the current participants
-    ui->winnerComboBox->clear();
 
-    ui->winnerComboBox->addItem("Random Winner");  // Add the random option
+    if (indexToRemove != -1) {
+        // Remove and delete the combo box
+        QWidget* comboWidget = participantLayout->itemAt(indexToRemove)->widget();
+        participantLayout->removeWidget(comboWidget);
+        delete comboWidget;
 
-
-    // Access the QGridLayout (updated to participantGridLayout)
-    QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
-    if (!wrestlerLayout) {
-        qDebug() << "Wrestler layout is null!";
-        return;
-    }
-
-    // Go through each widget in the layout, find the ComboBoxes, and update the winnerComboBox
-    for (int i = 0; i < wrestlerLayout->count(); ++i) {
-        QWidget* widget = wrestlerLayout->itemAt(i)->widget();
-        QComboBox* comboBox = qobject_cast<QComboBox*>(widget);
-        if (comboBox) {
-            ui->winnerComboBox->addItem(comboBox->currentText());  // Add the wrestler's name to the winnerComboBox
+        // Remove and delete the corresponding remove button
+        QWidget* buttonWidget = participantLayout->itemAt(indexToRemove)->widget();
+        if (buttonWidget) {
+            participantLayout->removeWidget(buttonWidget);
+            delete buttonWidget;
         }
     }
+    updateMatchWrestlerSelection();
+    updateSaveMatchButton();
 }
-void MainWindow::on_saveMatchDetails_clicked()
-{
-    if (!m_currentMatch) return;
-
-    // Update match type (stipulation)
-    m_currentMatch->setMatchType(ui->matchTypeComboBox->currentText());
-
-    // Clear existing participants and update with new selections
-    m_currentMatch->clearParticipants();
-
-    // Get layout
+void MainWindow::updateSaveMatchButton(){
     QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+    QSet<QString> uniqueWrestlers;  // To track unique wrestlers
+
     if (wrestlerLayout) {
-        // iterate through the widgets in layout
+        // Iterate through all items in the layout and add the wrestler names to the set
         for (int i = 0; i < wrestlerLayout->count(); ++i) {
             QComboBox* comboBox = qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget());
             if (comboBox) {
-                QString selectedWrestler = comboBox->currentText();
-                for (Wrestler &w : m_playerRoster) {
-                    if (w.getName() == selectedWrestler) {
-                        m_currentMatch->addWrestler(&w);
-                        break;
-                    }
+                QString wrestlerName = comboBox->currentText();
+                if (!wrestlerName.isEmpty()) {
+                    uniqueWrestlers.insert(wrestlerName);  // Add wrestler name to set
                 }
             }
         }
     }
 
-    // Update match winner
-    QString winnerName = ui->winnerComboBox->currentText();
-    if (winnerName == "Random Winner") {
-        winnerName = m_currentMatch->randomWinner();  // Call function to select random winner
+    // Enable the save button only if at least 2 different wrestlers are added
+    ui->saveMatchDetails->setEnabled(uniqueWrestlers.size() >= 2);
+}
+void MainWindow::updateMatchWrestlerSelection() {
+    if (!m_currentMatch) return;
+
+    QSet<QString> selectedWrestlers;
+    QGridLayout* layout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+    if (!layout) return;
+
+    m_currentMatch->clearParticipants();
+    for (int i = 0; i < layout->count(); ++i) {
+        QComboBox* comboBox = qobject_cast<QComboBox*>(layout->itemAt(i)->widget());
+        if (comboBox) {
+            QString wrestlerName = comboBox->currentText();
+            for (Wrestler& wrestler : m_playerRoster) {
+                if (wrestler.getName() == wrestlerName) {
+                    m_currentMatch->addWrestler(&wrestler);
+                    selectedWrestlers.insert(wrestlerName);
+                    break;
+                }
+            }
+        }
     }
 
-    m_currentMatch->setWinner(winnerName);
+    // Update the winnerComboBox
+    ui->winnerComboBox->clear();
+    // Add the "Random" option to the winnerComboBox
+    ui->winnerComboBox->addItem("Random");
 
-    // Update match settings (championship, tag)
+    for (Wrestler* wrestler : m_currentMatch->getParticipants()) {
+        ui->winnerComboBox->addItem(wrestler->getName());
+    }
+}
+void MainWindow::on_saveMatchDetails_clicked() {
+    if (!m_currentMatch) return;
+
+    QString matchType = ui->matchTypeComboBox->currentText();
+    m_currentMatch->setMatchType(matchType);
+
+    // Set championship status
     m_currentMatch->setChampionship(ui->champCheckBox->isChecked());
+
+    // Set tag match status
     m_currentMatch->setTag(ui->teamCheckBox->isChecked());
 
-    m_currentShow.getMatchesEdit()[m_currentMatchIndex] = *m_currentMatch;
-
-    // Refresh match list and return to match card screen
-    populateMatchList();
-    ui->stackedWidget->setCurrentWidget(ui->Show_Card);
-}
-void MainWindow::updateMatchWrestlerSelection()
-{
-    QSet<QString> selectedWrestlers;
-    QGridLayout* matchLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
-
-    if (!matchLayout) return;
-
-    // Collect currently selected wrestlers
-    for (int i = 0; i < matchLayout->count(); ++i) {
-        QComboBox* comboBox = qobject_cast<QComboBox*>(matchLayout->itemAt(i)->widget());
-        if (comboBox) {
-            selectedWrestlers.insert(comboBox->currentText());
-        }
+    // Check if the winner is selected as "Random"
+    if (ui->winnerComboBox->currentText() == "Random") {
+        m_currentMatch->setWinner(m_currentMatch->randomWinner());  // Set a random winner
     }
-
-    // Update each ComboBox safely
-    for (int i = 0; i < matchLayout->count(); ++i) {
-        QComboBox* comboBox = qobject_cast<QComboBox*>(matchLayout->itemAt(i)->widget());
-        if (comboBox) {
-            QString currentSelection = comboBox->currentText();
-
-            // Block signals to prevent crashes
-            comboBox->blockSignals(true);
-
-            // Clear and repopulate the ComboBox
-            comboBox->clear();
-            QStringList wrestlerNames;
-            for (const Wrestler& wrestler : m_playerRoster) {
-                if (!selectedWrestlers.contains(wrestler.getName()) || wrestler.getName() == currentSelection) {
-                    wrestlerNames.append(wrestler.getName());
-                }
+    else {
+    // Otherwise, set the winner based on the ComboBox selection
+        QString winnerName = ui->winnerComboBox->currentText();
+        for (Wrestler& wrestler : m_playerRoster) {
+            if (wrestler.getName() == winnerName) {
+                m_currentMatch->setWinner(&wrestler);
+                break;
             }
-
-            comboBox->addItems(wrestlerNames);
-            comboBox->setCurrentText(currentSelection);
-
-            // Re-enable signals
-            comboBox->blockSignals(false);
         }
     }
+    ui->stackedWidget->setCurrentWidget(ui->Show_Card);
+    populateMatchList();
 }
 
 //For champions page
 void MainWindow::setUpChampionSelection() {
 
+    connect(ui->worldChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWorldChampSelected);
     connect(ui->teamComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onTagChampSelected);
     connect(ui->tagChampComboBox1, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
     connect(ui->tagChampComboBox2, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
+    connect(ui->womenChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWomenChampSelected);
 
     // No champion selected
     ui->worldChampComboBox->addItem("Vacant", QVariant());
@@ -979,6 +1027,12 @@ void MainWindow::onWorldChampSelected(int index) {
     if (index < 0) return; // No valid selection
 
     QVariant data = ui->worldChampComboBox->itemData(index);
+    // Check if "Vacant" is selected
+    if (data.isNull()) {
+        m_world.setChampions({});  // Set champions to an empty list
+        return;
+    }
+
     Wrestler* selectedWrestler = data.value<Wrestler*>();
 
     m_world.setChampions({selectedWrestler});
@@ -986,7 +1040,13 @@ void MainWindow::onWorldChampSelected(int index) {
 void MainWindow::onWomenChampSelected(int index) {
     if (index < 0) return; // No valid selection
 
-    QVariant data = ui->worldChampComboBox->itemData(index);
+    QVariant data = ui->womenChampComboBox->itemData(index);
+    // Check if "Vacant" is selected
+    if (data.isNull()) {
+        m_women.setChampions({});  // Set champions to an empty list
+        return;
+    }
+
     Wrestler* selectedWrestler = data.value<Wrestler*>();
 
     m_women.setChampions({selectedWrestler});
@@ -1137,7 +1197,7 @@ void MainWindow::on_newTeamButton_clicked()
 
     // Switch to team creation page
     ui->stackedWidget->setCurrentWidget(ui->editTeamPage);
-    updateSaveButton();
+    updateSaveTeamButton();
 }
 void MainWindow::removeTeam(int index) {
     // Confirm removal
@@ -1214,7 +1274,7 @@ void MainWindow::on_addToTeamButton_clicked()
     wrestlerLayout->update();  // Refresh layout after adding the widgets
 
     // Update the Save button status based on the number of wrestlers
-    updateSaveButton();
+    updateSaveTeamButton();
 }
 void MainWindow::removeWrestlerFromTeam(QComboBox* wrestlerComboBox) {
     if (!wrestlerComboBox) return;
@@ -1247,9 +1307,9 @@ void MainWindow::removeWrestlerFromTeam(QComboBox* wrestlerComboBox) {
         }
     }
 
-    updateSaveButton();
+    updateSaveTeamButton();
 }
-void MainWindow::updateSaveButton()
+void MainWindow::updateSaveTeamButton()
 {
     QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->memberList->layout());
     int wrestlerCount = 0;
@@ -1265,6 +1325,44 @@ void MainWindow::updateSaveButton()
 
     // Enable the save button only if at least 2 wrestlers are added
     ui->saveTeamButton->setEnabled(wrestlerCount >= 2);
+}
+void MainWindow::updateWrestlerTeamSelection(){
+    QSet<QString> selectedWrestlers;
+    QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->memberList->layout());
+
+    // Collect selected wrestlers
+    for (int i = 0; i < wrestlerLayout->count(); ++i) {
+        QComboBox* comboBox = qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget());
+        if (comboBox) {
+            selectedWrestlers.insert(comboBox->currentText());
+        }
+    }
+
+    // Update each combo box
+    for (int i = 0; i < wrestlerLayout->count(); ++i) {
+        QComboBox* comboBox = qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget());
+        if (comboBox) {
+            QString currentSelection = comboBox->currentText();
+
+            // Block signals to prevent crashes
+            comboBox->blockSignals(true);
+
+            // Clear and repopulate the ComboBox
+            comboBox->clear();
+            QStringList wrestlerNames;
+            for (const Wrestler& wrestler : m_playerRoster) {
+                if (!selectedWrestlers.contains(wrestler.getName()) || wrestler.getName() == currentSelection) {
+                    wrestlerNames.append(wrestler.getName());
+                }
+            }
+
+            comboBox->addItems(wrestlerNames);
+            comboBox->setCurrentText(currentSelection);
+
+            // Re-enable signals
+            comboBox->blockSignals(false);
+        }
+    }
 }
 void MainWindow::on_saveTeamButton_clicked()
 {
@@ -1321,48 +1419,7 @@ void MainWindow::on_saveTeamButton_clicked()
     populateTeamList();
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
 }
-void MainWindow::updateWrestlerTeamSelection(){
-    QSet<QString> selectedWrestlers;
-    QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->memberList->layout());
 
-    for (int i = 0; i < wrestlerLayout->count(); ++i) {
-        QComboBox* comboBox = qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget());
-        if (comboBox) {
-            selectedWrestlers.insert(comboBox->currentText());
-        }
-    }
-    // Collect selected wrestlers
-    for (int i = 0; i < wrestlerLayout->count(); ++i) {
-        QComboBox* comboBox = qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget());
-        if (comboBox) {
-            selectedWrestlers.insert(comboBox->currentText());
-        }
-    }
 
-    // Update each combo box
-    for (int i = 0; i < wrestlerLayout->count(); ++i) {
-        QComboBox* comboBox = qobject_cast<QComboBox*>(wrestlerLayout->itemAt(i)->widget());
-        if (comboBox) {
-            QString currentSelection = comboBox->currentText();
 
-            // Block signals to prevent crashes
-            comboBox->blockSignals(true);
-
-            // Clear and repopulate the ComboBox
-            comboBox->clear();
-            QStringList wrestlerNames;
-            for (const Wrestler& wrestler : m_playerRoster) {
-                if (!selectedWrestlers.contains(wrestler.getName()) || wrestler.getName() == currentSelection) {
-                    wrestlerNames.append(wrestler.getName());
-                }
-            }
-
-            comboBox->addItems(wrestlerNames);
-            comboBox->setCurrentText(currentSelection);
-
-            // Re-enable signals
-            comboBox->blockSignals(false);
-        }
-    }
-}
 
