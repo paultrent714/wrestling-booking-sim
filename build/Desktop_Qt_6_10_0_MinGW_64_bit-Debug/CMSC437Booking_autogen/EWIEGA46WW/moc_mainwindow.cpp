@@ -66,7 +66,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_newTeamButton_clicked",
         "on_saveTeamButton_clicked",
         "on_TeamsTab_clicked",
-        "on_nextWeekButton_clicked"
+        "on_nextWeekButton_clicked",
+        "on_teamCheckBox_toggled"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -126,6 +127,10 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_nextWeekButton_clicked'
         QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_teamCheckBox_toggled'
+        QtMocHelpers::SlotData<void(bool)>(29, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Bool, 22 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -175,6 +180,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 23: _t->on_saveTeamButton_clicked(); break;
         case 24: _t->on_TeamsTab_clicked(); break;
         case 25: _t->on_nextWeekButton_clicked(); break;
+        case 26: _t->on_teamCheckBox_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         default: ;
         }
     }
@@ -199,14 +205,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 26)
+        if (_id < 27)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 26;
+        _id -= 27;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 26)
+        if (_id < 27)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 26;
+        _id -= 27;
     }
     return _id;
 }

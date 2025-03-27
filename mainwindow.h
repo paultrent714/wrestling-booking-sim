@@ -19,6 +19,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QComboBox>
+#include <QSpacerItem>
 
 
 
@@ -83,6 +84,8 @@ private slots:
 
     void on_nextWeekButton_clicked();
 
+    void on_teamCheckBox_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
 
@@ -108,6 +111,8 @@ private:
     void removeWrestlerFromMatch(QComboBox* WrestlerComboBox);   // Removes specific wrestler from match
     void updateSaveMatchButton();                       // Allows player to save match
     void updateMatchWrestlerSelection();                // Updates wrestlers that can be in a match
+    void updateTeamMatchLayout(bool isTeamMatch);       // Changes layout when editing a tag match, or unselecting tag team check box
+
 
     void setUpChampionSelection();                  // Sets up combo boxes for championship page
     void onTagChampSelected(int index);             // Select and update tag champs by selecting a team
@@ -121,7 +126,6 @@ private:
     void removeWrestlerFromTeam(QComboBox* wrestlerComboBox);   // Removes individual wrestler from a team
     void updateSaveTeamButton();        // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
     void updateWrestlerTeamSelection();             // Updates wrestlers able to be chosen for a team
-
 
     QList<Wrestler> m_playerRoster;
 
@@ -139,8 +143,9 @@ private:
     int m_currentWeek;
 
     class show m_currentShow;
-    match* m_currentMatch = nullptr;  // Match that is currently being edited
-    int m_currentMatchIndex = -1; // Store the index of the match being edited
+    match* m_currentMatch = nullptr;            // Match that is currently being edited
+    int m_currentMatchIndex = -1;               // Store the index of the match being edited
+    QSpacerItem* m_spacerItem = nullptr;        // Spacer on match edit page for uneven teams
 
     // Tracks money over the past n weeks
     QList<int> m_moneyHistory;

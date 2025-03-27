@@ -249,6 +249,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/QGraphicsWidget
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/QMainWindow
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/QMessageBox
+ mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/QSpacerItem
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qabstractscrollarea.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qabstractslider.h
@@ -263,6 +264,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qgraphicsscene.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qgraphicsview.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qgraphicswidget.h
+ mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qlayoutitem.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qmainwindow.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qmessagebox.h
  mdp:C:/Qt/6.10.0/mingw_64/include/QtWidgets/qrubberband.h

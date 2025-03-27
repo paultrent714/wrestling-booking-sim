@@ -21,7 +21,9 @@ match::match(QString type, bool hasTeams)
 // Add a wrestler to the match
 void match::addWrestler (Wrestler* wrestler)
 {
-    if (wrestler && !m_participants.contains(wrestler)) {
+    // For simplicity sake, match can have at most 10 people
+    if (m_participants.size() < 10 &&
+        wrestler && !m_participants.contains(wrestler)) {
         m_participants.append(wrestler);
     }
 }

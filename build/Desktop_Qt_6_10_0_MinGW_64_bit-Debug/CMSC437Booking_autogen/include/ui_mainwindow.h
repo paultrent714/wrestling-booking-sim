@@ -591,7 +591,7 @@ public:
         tagTeamScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName("scrollAreaWidgetContents_2");
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 752, 355));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar_3 = new QScrollBar(scrollAreaWidgetContents_2);
         verticalScrollBar_3->setObjectName("verticalScrollBar_3");
         verticalScrollBar_3->setGeometry(QRect(730, 0, 20, 321));
@@ -1063,7 +1063,7 @@ public:
         matchScrollArea->setWidgetResizable(true);
         widget = new QWidget();
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(0, 0, 752, 359));
+        widget->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar_2 = new QScrollBar(widget);
         verticalScrollBar_2->setObjectName("verticalScrollBar_2");
         verticalScrollBar_2->setGeometry(QRect(750, 0, 16, 381));
@@ -1212,7 +1212,7 @@ public:
         matchResults->setWidgetResizable(true);
         scrollAreaWidgetContents_3 = new QWidget();
         scrollAreaWidgetContents_3->setObjectName("scrollAreaWidgetContents_3");
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 21, 16));
+        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 471, 407));
         verticalScrollBar_4 = new QScrollBar(scrollAreaWidgetContents_3);
         verticalScrollBar_4->setObjectName("verticalScrollBar_4");
         verticalScrollBar_4->setGeometry(QRect(460, 0, 16, 381));

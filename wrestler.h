@@ -10,10 +10,7 @@
 #include <QString>
 #include <QMetaType>     // used to store wrestler data in combo boxes
 
-
-
 #include "randomUtilities.h"
-
 
 class Wrestler
 {
@@ -45,7 +42,7 @@ public:
     int getRole() const { return role; }
 
     // Setters
-    void setName(const QString& n) { name = n; }
+    void setName(const QString& n);
     void setGender(bool g) { gender = g; }
     void setPopularity(int p) { popularity = p; }
     void setAge(int a) { age = a; }
@@ -88,6 +85,7 @@ private:
 
     QString generateRandomName(std::mt19937& gen);
     QStringList loadNamesFromFile(const QString& filename);
+    int calcSalary() const;         // Calculates pay based on popularity
 
 };
 

@@ -113,7 +113,6 @@ void MainWindow::on_StartNew_clicked()
 }
 void MainWindow::on_defaultRoster_clicked()
 {
-
     newGameSetup();
 }
 void MainWindow::on_customRoster_clicked()
@@ -136,7 +135,6 @@ void MainWindow::on_customRoster_clicked()
 }
 void MainWindow::on_randomRoster_clicked()
 {
-
     srand(static_cast<unsigned int>(time(0)));
 
     for (int i = 0; i < 20; ++i){
@@ -145,7 +143,6 @@ void MainWindow::on_randomRoster_clicked()
         m_playerRoster.append(randomGuy);
     }
     newGameSetup();
-
 }
 void MainWindow::on_LoadGame_clicked()
 {
@@ -707,7 +704,7 @@ void MainWindow::openEditMatchPage(match& m, int index)
         // Remove button style is visible
         removeButton->setStyleSheet(
             "background-color: #D32F2F; color: white; font-size: 16px; padding: 4px 8px; border-radius: 5px;"
-            );
+        );
 
         // Add the ComboBox and Remove button to the layout
         QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
@@ -747,12 +744,19 @@ void MainWindow::on_addToMatch_clicked() {
         ui->participantLayout->setLayout(new QGridLayout);  // Initialize layout if not done yet
     }
 
+    // Check if there are already 10 participants in the match (10 combo boxes and 10 buttons)
+    QGridLayout* participantLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+    if (participantLayout->count() >= 20) {
+        // Show a message saying you can't add more participants
+        QMessageBox::information(this, "Limit Reached", "A match can have a maximum of 10 participants.");
+        return;  // Exit the function if the limit is reached
+    }
+
     // Create a new ComboBox for selecting a wrestler
     QComboBox* wrestlerComboBox = new QComboBox(this);
 
     // Get currently selected wrestlers to avoid duplicates
     QSet<QString> selectedWrestlers;
-    QGridLayout* participantLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
     for (int i = 0; i < participantLayout->count(); ++i) {
         QComboBox* existingCombo = qobject_cast<QComboBox*>(participantLayout->itemAt(i)->widget());
         if (existingCombo) {
@@ -895,6 +899,11 @@ void MainWindow::updateMatchWrestlerSelection() {
     for (Wrestler* wrestler : m_currentMatch->getParticipants()) {
         ui->winnerComboBox->addItem(wrestler->getName());
     }
+
+    // Updates layout if tag team match
+    if (ui->teamCheckBox->isChecked()) {
+        updateTeamMatchLayout(true);  // Call function to update layout for team match
+    }
 }
 void MainWindow::on_saveMatchDetails_clicked() {
     if (!m_currentMatch) return;
@@ -925,6 +934,61 @@ void MainWindow::on_saveMatchDetails_clicked() {
     ui->stackedWidget->setCurrentWidget(ui->Show_Card);
     populateMatchList();
 }
+//For tag team matches
+void MainWindow::on_teamCheckBox_toggled(bool checked)
+{
+    updateTeamMatchLayout(checked);
+}
+void MainWindow::updateTeamMatchLayout(bool isTeamMatch) {
+    QGridLayout* layout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+
+    if (!layout) return; // Ensure layout exists
+
+    // Get number of wrestler widgets
+    int wrestlerCount = 0;
+    for (int i = 0; i < layout->count(); ++i) {
+        QWidget* widget = layout->itemAt(i)->widget();
+        // Assuming wrestlers are combo boxes, count them
+        if (qobject_cast<QComboBox*>(widget)) {
+            wrestlerCount++;
+        }
+    }
+
+    // Apply color split style
+    if (isTeamMatch) {
+        ui->participantLayout->setStyleSheet(
+            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
+            "stop:0 #A3C6FF, stop:0.49 #A3C6FF, stop:0.50 #FFB3B3, stop:1 #FFB3B3);"
+            );
+    } else { ui->participantLayout->setStyleSheet(""); }
+
+    // Remove any existing spacer
+    if (m_spacerItem != nullptr ) {
+        layout->removeItem(m_spacerItem);
+        delete m_spacerItem;
+        m_spacerItem = nullptr;
+    }
+
+    // If odd number of wrestlers, add a spacer at the bottom
+    if (isTeamMatch && wrestlerCount % 2 == 1) {
+        // Try to get the height of the first combo box
+        int comboBoxHeight = 0;
+        if (layout->count() > 0) {
+            QWidget* firstItemWidget = layout->itemAt(0)->widget();
+            if (qobject_cast<QComboBox*>(firstItemWidget)) {
+                comboBoxHeight = firstItemWidget->height(); // Get the height of the first combo box
+            }
+        }
+
+        // Spacer the slighlty taller than height of the combo boxes
+        m_spacerItem = new QSpacerItem(0, comboBoxHeight * 1.3, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        int row = layout->rowCount();
+        // Insert spacer at the last row
+        layout->addItem(m_spacerItem, row, 0); // Add spacer at the end
+    }
+}
+
 
 //For champions page
 void MainWindow::setUpChampionSelection() {
@@ -1419,6 +1483,8 @@ void MainWindow::on_saveTeamButton_clicked()
     populateTeamList();
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
 }
+
+
 
 
 
