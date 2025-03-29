@@ -14,8 +14,23 @@ championship::championship(QString titleName, bool isTag, bool isWomen)
     : m_titleName(titleName), m_isTagTitle(isTag), m_isWomensTitle(isWomen) {}
 
 void championship::setChampions( const QList<Wrestler*>& champions ){
-    if (isValidChampions(champions)) {
-        m_champions = champions;
+    m_champions.clear();
+
+    // Ensure only valid wrestlers are added
+    for (Wrestler* champ : champions) {
+        if (champ) {  // Check if not nullptr
+            qDebug() << "Setting champ: " << champ->getName();
+            m_champions.append(champ);
+        } else {
+            qDebug() << "Vacant championship slot detected.";
+        }
+    }
+
+    if (m_champions.isEmpty()) {
+        qDebug() << "Championship is vacant!";
+    } else if (!isValidChampions(m_champions)) {
+        qDebug() << "Invalid champions detected! Championship update aborted.";
+        m_champions.clear();  // Reset champions if invalid
     }
 }
 
@@ -29,6 +44,13 @@ bool championship::isValidChampions(QList<Wrestler*> champions)  {
     return champions.size() == 1;  // Default: title needs exactly 1 champion
 }
 
+Wrestler* championship::getChampion() {
+    if (m_champions.isEmpty()) {
+        qDebug() << "No champion set!";
+        return nullptr;
+    }
+    return m_champions[0];
+}
 
 void championship::setTagTeamChampions(team* tagTeam) {
     if (m_isTagTitle) {

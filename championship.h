@@ -13,6 +13,7 @@ public:
     championship(QString beltName);
     championship(QString titleName, bool isTag, bool isWomen);
 
+    void setTitleName(QString name) { m_titleName = name; }
     void setChampions(const QList<Wrestler*>& champions);
     void setTagTeamChampions(team* tagTeam);  // Explicitly for tag team champions
 
@@ -24,6 +25,7 @@ public:
     bool isValidChampions (QList<Wrestler*> champions) ;
 
     QList<Wrestler*> getChampions()  { return m_champions; }
+    Wrestler* getChampion() ;      // For singles championships
     QString getTitleName() const { return m_titleName; }
 
 private:

@@ -6,6 +6,7 @@
 #include "show.h"
 #include "team.h"
 #include "championship.h"
+#include "gamedatamanager.h"
 
 #include <QMainWindow>
 #include <QSqlDatabase>  // Include this for database connection
@@ -89,10 +90,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    void connectToDatabase();                                                           // Method to set up the database connection
-    void loadWrestlerAttributes(const QString &filePath);                               // Method to load wrestler attributes from the text file
-    void saveWrestlerAttributes(const QString &filePath,
-                                const QList<Wrestler> &wrestlers);     // Method to save wrestker attributes to text file
     void loadFromText(const QString &filePath);                                 // Load data from a text file
     void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
     void newGameSetup();                                // sets all values to what they would be for creating a new save file
@@ -112,7 +109,7 @@ private:
     void updateSaveMatchButton();                       // Allows player to save match
     void updateMatchWrestlerSelection();                // Updates wrestlers that can be in a match
     void updateTeamMatchLayout(bool isTeamMatch);       // Changes layout when editing a tag match, or unselecting tag team check box
-
+    void clearTeamMatchSpacer();                        // Removes the spacer and sets the spacer pointer to null when finished editing match
 
     void setUpChampionSelection();                  // Sets up combo boxes for championship page
     void onTagChampSelected(int index);             // Select and update tag champs by selecting a team
@@ -127,7 +124,10 @@ private:
     void updateSaveTeamButton();        // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
     void updateWrestlerTeamSelection();             // Updates wrestlers able to be chosen for a team
 
+    GameDataManager* dataManager;
+
     QList<Wrestler> m_playerRoster;
+    int m_lastUsedID;           // Last created wrestler ID
 
     championship m_world;
     championship m_tag;

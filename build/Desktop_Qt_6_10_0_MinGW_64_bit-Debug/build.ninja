@@ -113,6 +113,14 @@ build CMakeFiles/CMSC437Booking.dir/team.cpp.obj: CXX_COMPILER__CMSC437Booking_u
   OBJECT_DIR = CMakeFiles\CMSC437Booking.dir
   OBJECT_FILE_DIR = CMakeFiles\CMSC437Booking.dir
 
+build CMakeFiles/CMSC437Booking.dir/gamedatamanager.cpp.obj: CXX_COMPILER__CMSC437Booking_unscanned_Debug C$:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/gamedatamanager.cpp || cmake_object_order_depends_target_CMSC437Booking
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CHARTS_LIB -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_OPENGLWIDGETS_LIB -DQT_OPENGL_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\CMSC437Booking.dir\gamedatamanager.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/CMSC437Booking_autogen/include -isystem C:/Qt/6.10.0/mingw_64/include/QtCore -isystem C:/Qt/6.10.0/mingw_64/include -isystem C:/Qt/6.10.0/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.10.0/mingw_64/include/QtWidgets -isystem C:/Qt/6.10.0/mingw_64/include/QtGui -isystem C:/Qt/6.10.0/mingw_64/include/QtSql -isystem C:/Qt/6.10.0/mingw_64/include/QtCharts -isystem C:/Qt/6.10.0/mingw_64/include/QtOpenGL -isystem C:/Qt/6.10.0/mingw_64/include/QtOpenGLWidgets
+  OBJECT_DIR = CMakeFiles\CMSC437Booking.dir
+  OBJECT_FILE_DIR = CMakeFiles\CMSC437Booking.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target CMSC437Booking
@@ -121,7 +129,7 @@ build CMakeFiles/CMSC437Booking.dir/team.cpp.obj: CXX_COMPILER__CMSC437Booking_u
 #############################################
 # Link the executable CMSC437Booking.exe
 
-build CMSC437Booking.exe: CXX_EXECUTABLE_LINKER__CMSC437Booking_Debug CMakeFiles/CMSC437Booking.dir/CMSC437Booking_autogen/mocs_compilation.cpp.obj CMakeFiles/CMSC437Booking.dir/main.cpp.obj CMakeFiles/CMSC437Booking.dir/mainwindow.cpp.obj CMakeFiles/CMSC437Booking.dir/wrestler.cpp.obj CMakeFiles/CMSC437Booking.dir/match.cpp.obj CMakeFiles/CMSC437Booking.dir/show.cpp.obj CMakeFiles/CMSC437Booking.dir/championship.cpp.obj CMakeFiles/CMSC437Booking.dir/team.cpp.obj | C$:/Qt/6.10.0/mingw_64/lib/libQt6Sql.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Charts.a C$:/Qt/6.10.0/mingw_64/lib/libQt6OpenGLWidgets.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.10.0/mingw_64/lib/libQt6OpenGL.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Gui.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Core.a C$:/Qt/6.10.0/mingw_64/lib/libQt6EntryPoint.a || CMSC437Booking_autogen CMSC437Booking_autogen_timestamp_deps
+build CMSC437Booking.exe: CXX_EXECUTABLE_LINKER__CMSC437Booking_Debug CMakeFiles/CMSC437Booking.dir/CMSC437Booking_autogen/mocs_compilation.cpp.obj CMakeFiles/CMSC437Booking.dir/main.cpp.obj CMakeFiles/CMSC437Booking.dir/mainwindow.cpp.obj CMakeFiles/CMSC437Booking.dir/wrestler.cpp.obj CMakeFiles/CMSC437Booking.dir/match.cpp.obj CMakeFiles/CMSC437Booking.dir/show.cpp.obj CMakeFiles/CMSC437Booking.dir/championship.cpp.obj CMakeFiles/CMSC437Booking.dir/team.cpp.obj CMakeFiles/CMSC437Booking.dir/gamedatamanager.cpp.obj | C$:/Qt/6.10.0/mingw_64/lib/libQt6Sql.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Charts.a C$:/Qt/6.10.0/mingw_64/lib/libQt6OpenGLWidgets.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.10.0/mingw_64/lib/libQt6OpenGL.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Gui.a C$:/Qt/6.10.0/mingw_64/lib/libQt6Core.a C$:/Qt/6.10.0/mingw_64/lib/libQt6EntryPoint.a || CMSC437Booking_autogen CMSC437Booking_autogen_timestamp_deps
   FLAGS = -DQT_QML_DEBUG -g
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = C:/Qt/6.10.0/mingw_64/lib/libQt6Sql.a  C:/Qt/6.10.0/mingw_64/lib/libQt6Charts.a  C:/Qt/6.10.0/mingw_64/lib/libQt6OpenGLWidgets.a  C:/Qt/6.10.0/mingw_64/lib/libQt6Widgets.a  C:/Qt/6.10.0/mingw_64/lib/libQt6OpenGL.a  C:/Qt/6.10.0/mingw_64/lib/libQt6Gui.a  C:/Qt/6.10.0/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  C:/Qt/6.10.0/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -ld3d11  -ldxgi  -ldxguid  -ld3d12  -luser32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

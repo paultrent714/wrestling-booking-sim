@@ -7,7 +7,7 @@ match::match() {
     m_winner = NULL;
     m_participants.clear();
 
-    finances = 0;
+    m_finances = 0;
 
 }
 
@@ -33,7 +33,7 @@ void match::removeWrestler(int index) {
     }
 }
 
-void match::setMatchRating(QList<Wrestler*> participants) {
+void match::calcMatchRating(QList<Wrestler*> participants) {
     if (participants.isEmpty()) {
         m_rating = 0.0; // Default low rating if no wrestlers
         return;

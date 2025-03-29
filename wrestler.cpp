@@ -4,9 +4,7 @@
 #include <QDir>
 
 Wrestler::Wrestler(){
-
     // Member variables (attributes)
-
     std::mt19937& gen = RandomUtils::getGenerator(); // Use shared generator
 
     std::normal_distribution<> dist(60, 15); // Mean = 60, Std Dev = 15
@@ -18,21 +16,51 @@ Wrestler::Wrestler(){
     std::uniform_int_distribution<> roleDist(0, 2);
     std::uniform_int_distribution<> genderDist(0, 1);
 
-    this->gender = genderDist(gen);
-    this->name = generateRandomName(gen).trimmed();
+    this->m_gender = genderDist(gen);
+    this->m_name = generateRandomName(gen).trimmed();
 
-    this->popularity = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->age = std::clamp<int>(std::round(ageDist(gen)), 18, 67);
-    this->potential = potentialDist(gen);
-    this->powerhouse = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->brawler = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->highFlyer = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->technician = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->mma = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->charisma = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->stamina = std::clamp<int>(std::round(dist(gen)), 0, 99);
-    this->salary = calcSalary();
-    this->role = roleDist(gen);
+    this->m_popularity = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_age = std::clamp<int>(std::round(ageDist(gen)), 18, 67);
+    this->m_potential = potentialDist(gen);
+    this->m_powerhouse = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_brawler = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_highFlyer = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_technician = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_mma = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_charisma = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_stamina = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_salary = calcSalary();
+    this->m_role = roleDist(gen);
+}
+Wrestler::Wrestler(int id) {
+    // Member variables (attributes)
+    std::mt19937& gen = RandomUtils::getGenerator(); // Use shared generator
+
+    std::normal_distribution<> dist(60, 15); // Mean = 60, Std Dev = 15
+
+    std::normal_distribution<> ageDist(32, 11); // Keeps age of randomly generated wrestlers somewhere around 30
+
+    std::uniform_int_distribution<> potentialDist(0, 499);
+
+    std::uniform_int_distribution<> roleDist(0, 2);
+    std::uniform_int_distribution<> genderDist(0, 1);
+
+    this->m_id = id;
+    this->m_gender = genderDist(gen);
+    this->m_name = generateRandomName(gen).trimmed();
+
+    this->m_popularity = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_age = std::clamp<int>(std::round(ageDist(gen)), 18, 67);
+    this->m_potential = potentialDist(gen);
+    this->m_powerhouse = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_brawler = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_highFlyer = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_technician = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_mma = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_charisma = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_stamina = std::clamp<int>(std::round(dist(gen)), 0, 99);
+    this->m_salary = calcSalary();
+    this->m_role = roleDist(gen);
 }
 
 void Wrestler::setName(const QString& n) {
@@ -41,12 +69,12 @@ void Wrestler::setName(const QString& n) {
     if (trimmedName.isEmpty()) {
         return; // Do not set an empty name
     }
-    name = trimmedName;
+    m_name = trimmedName;
 }
 
 QString Wrestler::generateRandomName(std::mt19937& gen) {
-    // Choose first name file based on gender
-    QString firstNameFile = (gender == 0) ? "data/first_name_male.txt" : "data/first_name_female.txt";
+    // Choose first name file based on m_gender
+    QString firstNameFile = (m_gender == 0) ? "data/first_name_male.txt" : "data/first_name_female.txt";
     QStringList firstNames = loadNamesFromFile(firstNameFile);
     QStringList lastNames = loadNamesFromFile("data/last_name.txt");
 
@@ -90,7 +118,7 @@ int Wrestler::calcSalary() const {
     const int maxPopularity = 100; // Popularity is on a 0-100 scale
 
     // Calculate salary proportionally
-    double scale = static_cast<double>(popularity) / maxPopularity;
+    double scale = static_cast<double>(m_popularity) / maxPopularity;
     return static_cast<int>(minSalary + scale * (maxSalary - minSalary));
 }
 

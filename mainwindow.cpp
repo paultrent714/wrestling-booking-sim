@@ -9,7 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Call the database connection method when the MainWindow is created
-    connectToDatabase();
+    //connectToDatabase();
+
+    dataManager = new GameDataManager();
+    dataManager->openDatabase();
 
     // Ensures the initial page is the landing page
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
@@ -27,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    dataManager->closeDatabase();
     delete ui;
 }
 
@@ -137,19 +141,38 @@ void MainWindow::on_randomRoster_clicked()
 {
     srand(static_cast<unsigned int>(time(0)));
 
+    m_lastUsedID = 1;
     for (int i = 0; i < 20; ++i){
-        Wrestler randomGuy = Wrestler();
+        Wrestler randomGuy = Wrestler(m_lastUsedID);
         randomGuy.displayInfo();
+        m_lastUsedID++;
         m_playerRoster.append(randomGuy);
     }
     newGameSetup();
 }
 void MainWindow::on_LoadGame_clicked()
 {
-    // Load wrestler attributes from a text file (provide the correct path)
-    loadWrestlerAttributes("savefile.txt"); // file path
+    // Load wrestlers and store them in m_playerRoster
+    dataManager->loadWrestlers();
+    m_playerRoster = dataManager->getWrestlers();
 
-    ui->stackedWidget->setCurrentIndex(1);
+    // Load championships, then store them in m_world, m_tag, and m_women
+    dataManager->loadChampionships();
+    QList<championship> championshipsList = dataManager->getChampionships();
+    // Check if the list is not empty and has the expected number of championships
+    if (championshipsList.size() >= 3) {
+        m_world = championshipsList[0];
+        m_tag = championshipsList[1];
+        m_women = championshipsList[2];
+    }
+    // Load teams and store them in m_teams
+    dataManager->loadTeams(m_teams);
+    // Load game info and store it in m_money, m_fans, m_year, m_currentWeek, etc.
+    dataManager->loadGameInfo(m_money, m_fans, m_year, m_currentWeek, m_moneyHistory, m_fanHistory);
+    // Load the current show and store it in m_currentShow
+    dataManager->loadShow(m_currentShow);
+
+    ui->stackedWidget->setCurrentWidget(ui->Dashboard_Page);
     ui->RosterTab->show();
     ui->DashboardTab->show();
     ui->PromotionTab->show();
@@ -159,8 +182,16 @@ void MainWindow::on_LoadGame_clicked()
 }
 void MainWindow::on_userSave_clicked()
 {
-    // This automatically saves the file in build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug
-    saveWrestlerAttributes("saveFile.txt", m_playerRoster);
+
+    // Load game data into member variables using the GameDataManager
+    dataManager->saveWrestlers(m_playerRoster);          // Load wrestlers into m_playerRoster
+    dataManager->saveChampionships(m_world, m_tag, m_women); // Load championships
+    dataManager->saveTeams(m_teams);                      // Load teams
+    dataManager->saveGameInfo(m_money, m_fans, m_year, m_currentWeek, m_moneyHistory, m_fanHistory); // Load game-specific info
+    dataManager->saveShow(m_currentShow);                 // Load current show data
+
+    // Set the last used ID (assuming it is saved in the database or calculated from the loaded data)
+    m_lastUsedID = m_playerRoster.size() + 1;  // or another approach to set the last ID
 }
 void MainWindow::loadFromText(const QString &filePath) {
     QFile file(filePath);
@@ -211,7 +242,7 @@ void MainWindow::loadFromText(const QString &filePath) {
         int role = fields[13].toInt();
 
         // Create a new Wrestler object and add it to the list
-        Wrestler wrestler(name, gender, popularity, age, potential, powerhouse, brawler, highFlyer, technician,
+        Wrestler wrestler(lineCount, name, gender, popularity, age, potential, powerhouse, brawler, highFlyer, technician,
                           mma, charisma, stamina, salary, role);
         m_playerRoster.append(wrestler);
     }
@@ -221,92 +252,6 @@ void MainWindow::loadFromText(const QString &filePath) {
     if (lineCount == 0) {
         QMessageBox::warning(this, "Warning", "The file is empty.");
     }
-}
-void MainWindow::connectToDatabase() {
-    // Set up SQLite database
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("my_database.db");  // You can specify a path if needed
-
-    // Open the database
-    if (!db.open()) {
-        qDebug() << "Error: Unable to open database" << db.lastError().text();
-    }
-}
-void MainWindow::loadWrestlerAttributes(const QString &filePath) {
-
-    // Assuming the data is loaded from the SQLite database
-    QSqlQuery query("SELECT name, popularity, age, potential, powerhouse, brawler, high_flyer, technician, mma, charisma, stamina, salary, role FROM wrestlers");
-
-    // Iterate over the result set and populate the QList with Wrestler objects
-    while (query.next()) {
-        QString name = query.value(0).toString();
-        bool gender = query.value(1).toInt();
-        int popularity = query.value(2).toInt();
-        int age = query.value(3).toInt();
-        int potential = query.value(4).toInt();
-        int powerhouse = query.value(5).toInt();
-        int brawler = query.value(6).toInt();
-        int highFlyer = query.value(7).toInt();
-        int technician = query.value(8).toInt();
-        int mma = query.value(9).toInt();
-        int charisma = query.value(10).toInt();
-        int stamina = query.value(11).toInt();
-        int salary = query.value(12).toInt();
-        int role = query.value(13).toInt();
-
-        // Create a new Wrestler object and add it to the list
-        Wrestler Wrestler(name, gender, popularity, age, potential, powerhouse, brawler, highFlyer, technician,
-                          mma, charisma, stamina, salary, role);
-        m_playerRoster.append(Wrestler);
-    }
-
-}
-void MainWindow::saveWrestlerAttributes(const QString &filePath, const QList<Wrestler> &wrestlers) {
-    // Get the directory where the executable is located
-    QString directory = QCoreApplication::applicationDirPath();
-    QString fullFilePath = directory + "/" + filePath;
-
-    QFile file(fullFilePath);
-
-    // Open the file in WriteOnly mode (overwrites existing content)
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Error: Unable to open file for writing - " << file.errorString();
-        return;
-    }
-    if (wrestlers.empty()){
-        qDebug() << "The list is empty" << filePath;
-        return;
-    }
-
-    QTextStream out(&file);
-
-
-    // Iterate through the list and write each wrestler’s attributes as CSV
-    for (const Wrestler &wrestler : wrestlers) {
-        out << wrestler.getName() << ","
-            << wrestler.getGender() << ","
-            << wrestler.getPopularity() << ","
-            << wrestler.getAge() << ","
-            << wrestler.getPotential() << ","
-            << wrestler.getPowerhouse() << ","
-            << wrestler.getBrawler() << ","
-            << wrestler.getHighFlyer() << ","
-            << wrestler.getTechnician() << ","
-            << wrestler.getMMA() << ","
-            << wrestler.getCharisma() << ","
-            << wrestler.getStamina() << ","
-            << wrestler.getSalary() << ","
-            << wrestler.getRole() << "\n";
-
-        // displays info for debugging
-        // wrestler.displayInfo();
-    }
-
-    out.flush();
-    // Close the file after writing
-    file.close();
-    qDebug() << "Full file path:" << QFileInfo(file).absoluteFilePath();
-    qDebug() << "Wrestler data successfully saved to " << filePath;
 }
 
 void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
@@ -403,7 +348,7 @@ void MainWindow::on_finalizeBooking_clicked()
 {
     // Set ratings for each match and update championships if necessary
     for ( match &m : m_currentShow.getMatchesEdit()) {
-        m.setMatchRating(m.getParticipants());
+        m.calcMatchRating(m.getParticipants());
 
         // Apply title change for each championship if applicable
         if (m.isChampionship()) {
@@ -917,6 +862,8 @@ void MainWindow::on_saveMatchDetails_clicked() {
     // Set tag match status
     m_currentMatch->setTag(ui->teamCheckBox->isChecked());
 
+    clearTeamMatchSpacer();
+
     // Check if the winner is selected as "Random"
     if (ui->winnerComboBox->currentText() == "Random") {
         m_currentMatch->setWinner(m_currentMatch->randomWinner());  // Set a random winner
@@ -988,23 +935,33 @@ void MainWindow::updateTeamMatchLayout(bool isTeamMatch) {
         layout->addItem(m_spacerItem, row, 0); // Add spacer at the end
     }
 }
+void MainWindow::clearTeamMatchSpacer() {
+    if (m_spacerItem != nullptr) {
+        QGridLayout* layout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
+        if (layout) {
+            layout->removeItem(m_spacerItem);
+        }
+        delete m_spacerItem;
+        m_spacerItem = nullptr;
+    }
+}
 
 
 //For champions page
 void MainWindow::setUpChampionSelection() {
 
-    connect(ui->worldChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWorldChampSelected);
-    connect(ui->teamComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onTagChampSelected);
-    connect(ui->tagChampComboBox1, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
-    connect(ui->tagChampComboBox2, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
-    connect(ui->womenChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWomenChampSelected);
+    // Initially disconnect combo boxes so champion will not be set to vacant/ first option added in combobox
+    disconnect(ui->worldChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWorldChampSelected);
+    disconnect(ui->teamComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onTagChampSelected);
+    disconnect(ui->tagChampComboBox1, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
+    disconnect(ui->tagChampComboBox2, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
+    disconnect(ui->womenChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWomenChampSelected);
 
     // No champion selected
     ui->worldChampComboBox->addItem("Vacant", QVariant());
     ui->tagChampComboBox1->addItem("Vacant", QVariant());
     ui->tagChampComboBox2->addItem("Vacant", QVariant());
     ui->womenChampComboBox->addItem("Vacant", QVariant());
-
 
     for (const Wrestler& wrestler : m_playerRoster) {
         QVariant data = QVariant::fromValue(const_cast<Wrestler*>(&wrestler));
@@ -1026,41 +983,52 @@ void MainWindow::setUpChampionSelection() {
 
     // Set the current champions as the default selection if they exist
     // Women's Championship
-    if (!m_women.getChampions().isEmpty()) { // Check if there are champions
-        Wrestler* currentChampion = m_women.getChampions().first();  // Get the first champion (you can adjust if there are multiple)
-        int index = ui->womenChampComboBox->findData(QVariant::fromValue(currentChampion));
+    if (m_women.getChampion() != nullptr) { // Check if there are champions
+        QString currentChampionName = m_women.getChampion()->getName(); // Use name
+        int index = ui->womenChampComboBox->findText(currentChampionName); // Find based on name
         if (index != -1) {
             ui->womenChampComboBox->setCurrentIndex(index); // Set current champion as selected
         }
+        else {
+            qDebug() << "Women's Champion not found: " << currentChampionName;
+        }
     }
-
     // World Championship
     if (!m_world.getChampions().isEmpty()) { // Check if there are champions
-        Wrestler* currentChampion = m_world.getChampions().first();  // Get the first champion (you can adjust if there are multiple)
-        int index = ui->worldChampComboBox->findData(QVariant::fromValue(currentChampion));
+        QString currentChampionName = m_world.getChampion()->getName(); // Use name
+        int index = ui->worldChampComboBox->findText(currentChampionName); // Find based on name
+
         if (index != -1) {
             ui->worldChampComboBox->setCurrentIndex(index); // Set current champion as selected
         }
+        else{
+            qDebug() << "World Champion not found: " << currentChampionName;
+        }
     }
-
     // Shows both tag titles or neither
     if (m_tag.getChampions().size() > 1) { // Check if there are champions
-        Wrestler* currentChampion1 = m_tag.getChampions().first();  // Get the first champion of the tag team
-        int index1 = ui->tagChampComboBox1->findData(QVariant::fromValue(currentChampion1));
+        QString currentChampionName1 = m_tag.getChampions()[0]->getName();
+        int index1 = ui->tagChampComboBox1->findText(currentChampionName1);
         if (index1 != -1) {
-            ui->tagChampComboBox1->setCurrentIndex(index1); // Set first tag team champion as selected
+            ui->tagChampComboBox1->setCurrentIndex(index1);
         }
 
-        Wrestler* currentChampion2 = m_tag.getChampions().at(1);  // Get the second tag team champion
-        int index2 = ui->tagChampComboBox2->findData(QVariant::fromValue(currentChampion2));
+        QString currentChampionName2 = m_tag.getChampions()[1]->getName();
+        int index2 = ui->tagChampComboBox2->findText(currentChampionName2);
         if (index2 != -1) {
-                ui->tagChampComboBox2->setCurrentIndex(index2); // Set second tag team champion as selected
+            ui->tagChampComboBox2->setCurrentIndex(index2);
         }
     }
     else{
         ui->tagChampComboBox1->setCurrentIndex(0);  // "Vacant" option
         ui->tagChampComboBox2->setCurrentIndex(0);  // "Vacant" option
     }
+
+    connect(ui->worldChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWorldChampSelected);
+    connect(ui->teamComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onTagChampSelected);
+    connect(ui->tagChampComboBox1, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
+    connect(ui->tagChampComboBox2, &QComboBox::currentIndexChanged, this, &MainWindow::onManualTagChampsSelected);
+    connect(ui->womenChampComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::onWomenChampSelected);
 }
 void MainWindow::onTagChampSelected(int index) {
     if (index < 0) return;

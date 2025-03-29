@@ -9,7 +9,7 @@ show::show(){
     matches.clear();
 }
 
-show::show(ShowType type)
+show::show(int type)
     : showRating(0), totalCosts(0), fanImpact(0), showType(type) {}
 
 void show::clear(){

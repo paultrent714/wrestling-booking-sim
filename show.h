@@ -15,7 +15,7 @@ public:
 
     show();
     // Constructor for the Show class
-    show(ShowType type);
+    show(int type);
 
     void clear();
 
@@ -28,15 +28,23 @@ public:
     void calculateCosts();  // Calculate costs for show
     void calculateFanImpact(int totalFans);   // Calculate the total fan impact
 
+    void setShowRating(int rating) { showRating = rating;}
+    void setTotalCosts(int costs) { totalCosts = costs; }
+    void setTotalRevenue(int revenue) { totalRevenue = revenue; }
+    void setShowProfit(int profit) {showProfit = profit;}
+    void setFanImpact(int fans) { fanImpact = fans;}
+    void setShowType(int type) { showType = type;}
+
     // Getters for the show data
     int getShowRating() const { return showRating; }
     int getTotalCosts() const { return totalCosts; }
     int getTotalRevenue() const { return totalRevenue; }
+    int getShowProfit() const { return showProfit;}
     int getFanImpact() const { return fanImpact; }
     QList<match>& getMatchesEdit()  { return matches; } // Getter specifically for editing the matches
     const QList<match> getMatches() const { return matches; }
 
-    ShowType getShowType() const { return showType; } // Get show type (Weekly or PVP)
+    bool getShowType() const { return showType; } // Get show type (Weekly or PVP)
 
 
 private:
@@ -46,7 +54,7 @@ private:
     int totalCosts;     // Costs associated with the show
     int showProfit;     // Revenue - costs
     int fanImpact;      // Total fan impact from the show
-    ShowType showType;  // Type of the show (Weekly or PVP)
+    bool showType;  // Type of the show (Weekly 0  or PVP 1)
 
 };
 

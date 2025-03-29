@@ -471,6 +471,12 @@
 			null
 		],
 		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/gamedatamanager.h",
+			"MU",
+			"EWIEGA46WW/moc_gamedatamanager.cpp",
+			null
+		],
+		[
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
@@ -588,6 +594,11 @@
 	[
 		[
 			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/championship.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/gamedatamanager.cpp",
 			"MU",
 			null
 		],

@@ -527,6 +527,7 @@ C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/build/Desktop_Qt_6_10_0
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
   C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/championship.h \
+  C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/gamedatamanager.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/match.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/randomUtilities.h \
   C:/Users/pault/OneDrive/Documents/CMSC437/CMSC437Booking/show.h \
