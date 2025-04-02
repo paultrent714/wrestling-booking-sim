@@ -49,8 +49,12 @@ public:
     bool isTeam() const { return m_teams; }
     int getFinances() const { return m_finances; }
 
-    // Method to check if match is valid (correct number of wrestlers)
-    bool isValidMatch() const;
+    bool isValidMatch() const;  // Method to check if match is valid (correct number of wrestlers)
+    void calculateHealthLoss ( Wrestler& wrestler) ;    // calculates health lost by wrestler in a match
+    void determineInjuryDuration ( Wrestler& wrestler);
+
+    int matchTypeDamage(); // determines base health loss of a match type
+
 
 private:
     QString m_matchType;

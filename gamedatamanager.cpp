@@ -23,12 +23,16 @@ void GameDataManager::initializeDatabase() {
     QSqlQuery query;
 
     // Wrestler Table
+
     query.exec("CREATE TABLE IF NOT EXISTS Wrestlers ("
                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                "name TEXT, gender INTEGER, popularity INTEGER, age INTEGER, "
                "potential INTEGER, powerhouse INTEGER, brawler INTEGER, "
                "highFlyer INTEGER, technician INTEGER, mma INTEGER, "
-               "charisma INTEGER, stamina INTEGER, salary INTEGER, role INTEGER);");
+               "charisma INTEGER, stamina INTEGER, salary INTEGER, role INTEGER, "
+               "health INTEGER, injury INTEGER);");
+
+
 
     // Championship Table
     query.exec("CREATE TABLE IF NOT EXISTS Championships ("
@@ -104,11 +108,12 @@ void GameDataManager::saveWrestlers( QList<Wrestler> &wrestlers) {
     // Reset the auto-increment counter
     query.exec("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Wrestlers'");
 
+
     for (const Wrestler &wrestler : wrestlers) {
-        query.prepare("INSERT INTO Wrestlers ( name, gender, popularity, age, potential, powerhouse, brawler, "
-                      "highFlyer, technician, mma, charisma, stamina, salary, role) "
+        query.prepare("INSERT INTO Wrestlers (name, gender, popularity, age, potential, powerhouse, brawler, "
+                      "highFlyer, technician, mma, charisma, stamina, salary, role, health, injury) "
                       "VALUES (:name, :gender, :popularity, :age, :potential, :powerhouse, :brawler, "
-                      ":highFlyer, :technician, :mma, :charisma, :stamina, :salary, :role)");
+                      ":highFlyer, :technician, :mma, :charisma, :stamina, :salary, :role, :health, :injury)");
 
         query.bindValue(":name", wrestler.getName());
         query.bindValue(":gender", wrestler.getGender());
@@ -124,6 +129,8 @@ void GameDataManager::saveWrestlers( QList<Wrestler> &wrestlers) {
         query.bindValue(":stamina", wrestler.getStamina());
         query.bindValue(":salary", wrestler.getSalary());
         query.bindValue(":role", wrestler.getRole());
+        query.bindValue(":health", wrestler.getHealth());
+        query.bindValue(":injury", wrestler.getInjury());
 
         query.exec();
     }
@@ -364,6 +371,8 @@ void GameDataManager::loadWrestlers() {
             wrestler.setStamina(query.value("stamina").toInt());
             wrestler.setSalary(query.value("salary").toInt());
             wrestler.setRole(query.value("role").toInt());
+            wrestler.setHealth(query.value("health").toInt());
+            wrestler.setInjury(query.value("injury").toInt());
 
             m_wrestlers.append(wrestler);
         }

@@ -153,3 +153,50 @@ void match::applyTitleChange(championship* championship)
         }
     }
 }
+
+void match::calculateHealthLoss( Wrestler& wrestler)  {
+    int baseDamage = matchTypeDamage();  // Function that returns damage based on match type
+    int staminaFactor = std::max(1, 100 - wrestler.getStamina());  // Higher stamina = less damage
+
+    int healthLoss = (baseDamage * staminaFactor) / 100; // Scale based on stamina
+    healthLoss = std::clamp(healthLoss, 1, 50); // Ensures at least 1 health lost, max 50
+
+    int newHealth = std::max(0, wrestler.getHealth() - healthLoss);  // Prevent negative health
+    wrestler.setHealth(newHealth);
+}
+
+void match::determineInjuryDuration(Wrestler& wrestler) {
+    int health = wrestler.getHealth();
+
+    // Calculate normalized factor: 0 when health is 100, 1 when health is 0.
+    double normalized = (100 - health) / 100.0;
+
+    // Use a quadratic scaling for injury chance:
+    // At full health: 5% chance, at 0 health: 90% chance.
+    int injuryChance = static_cast<int>(5 + (90 - 5) * pow(normalized, 2));
+    injuryChance = std::min(injuryChance, 90); // Cap at 90%
+
+    int roll = rand() % 100; // Random number between 0 and 99
+    // If injury occurs
+    if (roll < injuryChance) {
+        // Determine injury duration based on health.
+        // Generate a duration between 1 and 12 weeks.
+        // Use the normalized factor to bias the base duration.
+        int baseDuration = 1 + static_cast<int>(11 * (1 - normalized));
+        // Add a random offset between -1 and 1 to add variability.
+        int randomOffset = (rand() % 3) - 1;
+        int injuryDuration = std::clamp(baseDuration + randomOffset, 1, 12);
+
+        wrestler.setInjury(injuryDuration);
+    }
+}
+
+int  match::matchTypeDamage(){
+    if (m_matchType == "Steel Cage") { return 15;}
+    else if (m_matchType == "Ladder") { return 20; }
+    else if (m_matchType == "Battle Royal") { return 25; }
+    else if (m_matchType == "Squash") { return 5; }
+    else { return 10; } // standard or wierd invalid match type
+}
+
+
