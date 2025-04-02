@@ -43,6 +43,8 @@ public:
     int getStamina() const { return m_stamina; }
     int getSalary() const { return m_salary; }
     int getRole() const { return m_role; }
+    int getHealth() const { return m_health; }
+    int getInjury() const { return m_injury; }
 
     // Setters
     void setName(const QString& n);
@@ -60,7 +62,10 @@ public:
     void setStamina(int s) { m_stamina = s; }
     void setSalary(int s) { m_salary = s; }
     void setRole(int r) { m_role = r; }
+    void setHealth( int h) { m_health = h; }
+    void setInjury(int i) {m_injury = i; }
 
+    void recoverHealth(int amount) { setHealth(m_health + amount); } // Called at week's end
 
     // member function to display wrestler info (for debugging)
     void displayInfo() const {
@@ -84,9 +89,14 @@ private:
     int m_id;       // for storing in SQLite
     QString m_name;
     bool m_gender; // 0  for men's division, 1 for women's
-    int m_popularity, m_age, m_potential, m_powerhouse, m_brawler, m_highFlyer, m_technician, m_mma, m_charisma, m_stamina, m_salary;
+    int m_popularity, m_age;
+    int m_potential;    // max sum of the 5 match related traits
+    // match related traits
+    int m_powerhouse, m_brawler, m_highFlyer, m_technician, m_mma;
+    int m_charisma, m_stamina, m_salary;
     int m_role;   // 1 for bad, 2 for good, 0 for neutral
-
+    int m_health;   // Affects odds/ duration of injury
+    int m_injury;   // Duration of wrestler's injury
 
     QString generateRandomName(std::mt19937& gen);
     QStringList loadNamesFromFile(const QString& filename);

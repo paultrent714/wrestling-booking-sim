@@ -5,6 +5,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QFont defaultFont("Arial", 10);
+    a.setFont(defaultFont);
 
     qRegisterMetaType<Wrestler*>("Wrestler*");
 

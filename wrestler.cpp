@@ -8,29 +8,37 @@ Wrestler::Wrestler(){
     std::mt19937& gen = RandomUtils::getGenerator(); // Use shared generator
 
     std::normal_distribution<> dist(60, 15); // Mean = 60, Std Dev = 15
-
     std::normal_distribution<> ageDist(32, 11); // Keeps age of randomly generated wrestlers somewhere around 30
-
-    std::uniform_int_distribution<> potentialDist(0, 499);
-
     std::uniform_int_distribution<> roleDist(0, 2);
     std::uniform_int_distribution<> genderDist(0, 1);
+
+    std::uniform_int_distribution<> healthDist(40,99); // Don't want them to start at constant or low health
 
     this->m_gender = genderDist(gen);
     this->m_name = generateRandomName(gen).trimmed();
 
     this->m_popularity = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_age = std::clamp<int>(std::round(ageDist(gen)), 18, 67);
-    this->m_potential = potentialDist(gen);
+
     this->m_powerhouse = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_brawler = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_highFlyer = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_technician = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_mma = std::clamp<int>(std::round(dist(gen)), 0, 99);
+
+    // Calculate the sum of the individual attributes
+    int sumOfAttributes = m_powerhouse + m_brawler + m_highFlyer + m_technician + m_mma;
+
+    // Ensure potential is greater than the sum but not more than 99 * 5
+    std::uniform_int_distribution<> potentialDist(sumOfAttributes + 1, 99 * 5);
+    this->m_potential = potentialDist(gen);
+
     this->m_charisma = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_stamina = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_salary = calcSalary();
     this->m_role = roleDist(gen);
+    this->m_health = healthDist(gen);
+    this->m_injury = 0;     // Don't start injured
 }
 Wrestler::Wrestler(int id) {
     // Member variables (attributes)
@@ -40,10 +48,10 @@ Wrestler::Wrestler(int id) {
 
     std::normal_distribution<> ageDist(32, 11); // Keeps age of randomly generated wrestlers somewhere around 30
 
-    std::uniform_int_distribution<> potentialDist(0, 499);
-
     std::uniform_int_distribution<> roleDist(0, 2);
     std::uniform_int_distribution<> genderDist(0, 1);
+
+    std::uniform_int_distribution<> healthDist(40, 99); // Don't want them to start at constant or low health
 
     this->m_id = id;
     this->m_gender = genderDist(gen);
@@ -51,16 +59,26 @@ Wrestler::Wrestler(int id) {
 
     this->m_popularity = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_age = std::clamp<int>(std::round(ageDist(gen)), 18, 67);
-    this->m_potential = potentialDist(gen);
+
     this->m_powerhouse = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_brawler = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_highFlyer = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_technician = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_mma = std::clamp<int>(std::round(dist(gen)), 0, 99);
+
+    // Calculate the sum of the individual attributes
+    int sumOfAttributes = m_powerhouse + m_brawler + m_highFlyer + m_technician + m_mma;
+
+    // Ensure potential is greater than the sum but not more than 99 * 5
+    std::uniform_int_distribution<> potentialDist(sumOfAttributes + 1, 99 * 5);
+    this->m_potential = potentialDist(gen);
+
     this->m_charisma = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_stamina = std::clamp<int>(std::round(dist(gen)), 0, 99);
     this->m_salary = calcSalary();
     this->m_role = roleDist(gen);
+    this->m_health = healthDist(gen);
+    this->m_injury = 0;     // Don't start injured
 }
 
 void Wrestler::setName(const QString& n) {

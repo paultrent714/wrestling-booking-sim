@@ -16,13 +16,12 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
+#include <QFontDatabase>    // for symbols and icons on buttons
 #include <QString>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QComboBox>
 #include <QSpacerItem>
-
-
 
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
@@ -87,8 +86,12 @@ private slots:
 
     void on_teamCheckBox_toggled(bool checked);
 
+    void on_InjuredTab_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    void loadMaterialFont();
 
     void loadFromText(const QString &filePath);                                 // Load data from a text file
     void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
@@ -101,6 +104,7 @@ private:
 
     void populateWrestlerList(const QList<Wrestler> &wrestlers);        // Adds wrestlers and important info to scoll widget
     void updateWrestlerDetails(const Wrestler &wrestler);               // Shows all info to player about a wrestler
+    void populateInjuredWrestlersList(const QList<Wrestler> &wrestlers);    // Shows wrestlers who are injured and for how long
 
     void populateMatchList( );                          // Shows matches that have been added to show
     void openEditMatchPage(match &m, int index);        // Edit match
@@ -150,6 +154,14 @@ private:
     // Tracks money over the past n weeks
     QList<int> m_moneyHistory;
     QList<int> m_fanHistory;
+
+    QFont m_materialFont;       // Where the symbols are being retrieved from
+
+    // QChars for icons used in program
+    const QChar saveIcon = QChar(0xe161);
+    const QChar injuredIcon = QChar(0xe3f3);
+    // QIcons for icons used for buttons, because buttons can't have different fonts
+    const QIcon injuredIconRed =  QIcon("icons/healing_red.png");
 };
 
 #endif // MAINWINDOW_H

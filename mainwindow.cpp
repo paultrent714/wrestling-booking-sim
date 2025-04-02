@@ -8,11 +8,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Call the database connection method when the MainWindow is created
-    //connectToDatabase();
-
     dataManager = new GameDataManager();
     dataManager->openDatabase();
+    dataManager->initializeDatabase();
+
+    loadMaterialFont();
 
     // Ensures the initial page is the landing page
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
@@ -70,6 +70,12 @@ void MainWindow::on_backToLanding_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
 }
+void MainWindow::on_InjuredTab_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->InjuredList);
+    populateInjuredWrestlersList(m_playerRoster);
+
+}
 void MainWindow::on_ChampionTab_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->ChampionshipPage);
@@ -109,6 +115,50 @@ void MainWindow::on_pushButton_clicked()
     }
 
 }
+
+// Load the Material Symbols font
+void MainWindow::loadMaterialFont()
+{
+    // Ensure a known default font is set before applying Material Symbols
+    QFont defaultFont("Arial"); // Choose a widely available font like Arial
+    defaultFont.setPointSize(10); // Set a reasonable default size
+    qApp->setFont(defaultFont); // Apply globally
+
+    // Load Material Symbols font
+    QString fontPath = "fonts/MaterialSymbolsRounded_36pt-Regular.ttf";
+    int fontId = QFontDatabase::addApplicationFont(fontPath);
+
+    if (fontId == -1) {
+        qWarning() << "Failed to load Material Symbols font!";
+        //return;
+    }
+
+
+    QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
+    if (!fontFamilies.isEmpty()) {
+        m_materialFont = QFont(fontFamilies.first());
+        m_materialFont.setPointSize(36);  // Adjust size as needed
+    }
+
+
+
+
+
+    // !!!!! Delete the rest of the function when you're done debugging!!!!!!!
+
+    // Adds icon to save button (for debugging and because button wont change
+    ui->userSave->setFont(m_materialFont);
+    // Construct the button text with HTML containing two different fonts
+    QString saveButtonText = QString(
+                                 "<span style='font-family: Material Symbols Rounded 36pt; font-size: 18px;'>%1</span>"
+                                 "<span style='font-family: Arial; font-size: 16px;'> Save</span>"
+                                 ).arg(QChar(0xeb60));  // 0xeb60 is the Unicode for the save icon
+
+    // Set the button's text with the formatted HTML
+    ui->userSave->setText(saveButtonText);
+
+}
+
 
 // Loading and creating roster
 void MainWindow::on_StartNew_clicked()
@@ -182,7 +232,6 @@ void MainWindow::on_LoadGame_clicked()
 }
 void MainWindow::on_userSave_clicked()
 {
-
     // Load game data into member variables using the GameDataManager
     dataManager->saveWrestlers(m_playerRoster);          // Load wrestlers into m_playerRoster
     dataManager->saveChampionships(m_world, m_tag, m_women); // Load championships
@@ -349,14 +398,18 @@ void MainWindow::on_finalizeBooking_clicked()
     // Set ratings for each match and update championships if necessary
     for ( match &m : m_currentShow.getMatchesEdit()) {
         m.calcMatchRating(m.getParticipants());
-
         // Apply title change for each championship if applicable
         if (m.isChampionship()) {
-
             m.applyTitleChange(&m_world);  // For world championship
             m.applyTitleChange(&m_tag);    // For tag team championship
             m.applyTitleChange(&m_women);  // For women's championship
-
+        }
+        // Process health loss and injuries for each wrestler in the match
+        for (Wrestler* wrestler : m.getParticipants()) {
+            if (wrestler) {
+                m.calculateHealthLoss(*wrestler); // This should handle health updates
+                m.determineInjuryDuration(*wrestler); // This should handle injury updates
+            }
         }
     }
 
@@ -383,7 +436,6 @@ void MainWindow::on_finalizeBooking_clicked()
 
     ui->stackedWidget->setCurrentWidget(ui->showResults);
     populateResultsList();  // shows matches and their results
-
 
 }
 void MainWindow::populateResultsList(){
@@ -454,9 +506,10 @@ void MainWindow::populateWrestlerList(const QList<Wrestler> &wrestlers) {
     QLabel *roleLabel = new QLabel("Role");
 
     // Set bold style for legend
-    QString legendStyle = "font-weight: bold; text-decoration: underline;";
+    QString legendStyle = "font-weight: bold; text-decoration: underline; color: black;";
     popularityLabel->setStyleSheet(legendStyle);
     nameLabel->setStyleSheet(legendStyle);
+    ageLabel->setStyleSheet(legendStyle);
     roleLabel->setStyleSheet(legendStyle);
 
     legendLayout->addWidget(popularityLabel);
@@ -520,7 +573,6 @@ void MainWindow::updateWrestlerDetails(const Wrestler &wrestler) {
 
     ui->nameLabel->setText(wrestler.getName());
 
-
     ui->ageLabel->setText("Age: " + QString::number(wrestler.getAge()));
 
     ui->powerhouseLabel->setText("Powerhouse: " + QString::number(wrestler.getPowerhouse()));
@@ -550,7 +602,104 @@ void MainWindow::updateWrestlerDetails(const Wrestler &wrestler) {
     QString genderText = wrestler.getGender() ? "F" : "M";
     ui->genderLabel->setText("Gender: " + genderText);
 
+    if (wrestler.getInjury() <= 0) {
+       ui->injuredLabel->setStyleSheet("background: white; color: white;");
+    }
+    else{
+        //ui->injuredLabel->setFont(m_materialFont);
+        ui->injuredLabel->setStyleSheet("background-color: rgb(200, 0, 0); "
+                                        "color: white;");
+        // Sets everything but hurt icon to different font, %2 is placeholder for getInjury
+        QString injured = QString("<span style='font-family: Material Symbols Rounded 36pt; font-size: 18px; line-height: 1;'>%1</span> "
+                                  "<span style='font-family: Arial; font-size: 20px;'>Injured %2 weeks</span>")
+                              .arg(injuredIcon)
+                              .arg(wrestler.getInjury());
+
+
+        ui->injuredLabel->setText(injured);
+        ui->injuredLabel->adjustSize(); // Supposed to remove the weird red empty space above the text
+    }
 }
+void MainWindow::populateInjuredWrestlersList(const QList<Wrestler> &wrestlers) {
+    // Create a container widget and layout for injured wrestlers
+    QWidget *container = new QWidget;
+    QVBoxLayout *layout = new QVBoxLayout(container);
+    layout->setAlignment(Qt::AlignTop);
+
+    // Legend Layout
+    QHBoxLayout *legendLayout = new QHBoxLayout;
+    QLabel *popularityLabel = new QLabel("Popularity");
+    QLabel *nameLabel = new QLabel("Name");
+    QLabel *injuryLabel = new QLabel("Weeks Injured");
+    QLabel *ageLabel = new QLabel("Age");
+
+    // Set bold and underlined style for the legend
+    QString legendStyle = "font-weight: bold; text-decoration: underline; color: black;";
+    popularityLabel->setStyleSheet(legendStyle);
+    nameLabel->setStyleSheet(legendStyle);
+    injuryLabel->setStyleSheet(legendStyle);
+    ageLabel->setStyleSheet(legendStyle);
+
+    // Add labels to legend layout
+    legendLayout->addWidget(popularityLabel);
+    legendLayout->addWidget(nameLabel);
+    legendLayout->addWidget(injuryLabel);
+    legendLayout->addWidget(ageLabel);
+
+    layout->addLayout(legendLayout);  // Add legend to the top
+
+    // Iterate over wrestlers and add only those who are injured
+    for (const Wrestler &wrestler : wrestlers) {
+        if (wrestler.getInjury() > 0) {  // Show only injured wrestlers
+            QHBoxLayout *hLayout = new QHBoxLayout;
+
+            // Popularity Label
+            QLabel *popularityValue = new QLabel(QString::number(wrestler.getPopularity()));
+            popularityValue->setStyleSheet("color: black;");
+
+            // Name Button with Injury Icon
+            QPushButton *nameButton = new QPushButton(wrestler.getName());
+            nameButton->setIcon(injuredIconRed); // Set the injury icon
+            nameButton->setIconSize(QSize(20, 20)); // Adjust icon size as needed
+            nameButton->setStyleSheet("QPushButton {"
+                                      "border: none;"
+                                      "background: transparent;"
+                                      "text-align: left;"
+                                      "color: red;" // Highlight injured wrestlers
+                                      "font-size: 16px;"
+                                      "}");
+            nameButton->setCursor(Qt::PointingHandCursor);
+            // Weeks Injured Label
+            QLabel *injuryValue = new QLabel(QString::number(wrestler.getInjury()));
+            injuryValue->setStyleSheet("color: black;");
+
+            // Age Label
+            QLabel *ageValue = new QLabel(QString::number(wrestler.getAge()));
+            ageValue->setStyleSheet("color: black;");
+
+            // Connect the button to update wrestler details
+            connect(nameButton, &QPushButton::clicked, this, [this, wrestler]() {
+                ui->stackedWidget->setCurrentWidget(ui->wrestlerStats);
+                updateWrestlerDetails(wrestler);
+            });
+
+            // Add widgets to row layout
+            hLayout->addWidget(popularityValue);
+            hLayout->addWidget(nameButton);
+            hLayout->addWidget(injuryValue);
+            hLayout->addWidget(ageValue);
+
+            layout->addLayout(hLayout);
+        }
+    }
+
+    // Apply layout to the container and set it in the injury scroll area
+    container->setLayout(layout);
+    //ui->injuryScrollWidgetContent->setLayout(layout);
+    ui->injuryScrollArea->setWidget(container);
+    ui->injuryScrollArea->setWidgetResizable(true);
+}
+
 
 // Functions that show list of matches on show and edit matches
 void MainWindow::populateMatchList( ) {
@@ -709,10 +858,11 @@ void MainWindow::on_addToMatch_clicked() {
         }
     }
 
-    // Populate with available wrestlers
+    // Populate with available wrestlers who are not injured
     QStringList wrestlerNames;
     for (const Wrestler& wrestler : m_playerRoster) {
-        if (!selectedWrestlers.contains(wrestler.getName())) {
+        if (!selectedWrestlers.contains(wrestler.getName()) &&
+            wrestler.getInjury() <= 0) {
             wrestlerNames.append(wrestler.getName());
         }
     }
@@ -827,7 +977,9 @@ void MainWindow::updateMatchWrestlerSelection() {
         if (comboBox) {
             QString wrestlerName = comboBox->currentText();
             for (Wrestler& wrestler : m_playerRoster) {
-                if (wrestler.getName() == wrestlerName) {
+                // Again, ensures injured wrestlers don't competing
+                if (wrestler.getName() == wrestlerName &&
+                    wrestler.getInjury() <= 0) {
                     m_currentMatch->addWrestler(&wrestler);
                     selectedWrestlers.insert(wrestlerName);
                     break;
@@ -1451,6 +1603,8 @@ void MainWindow::on_saveTeamButton_clicked()
     populateTeamList();
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
 }
+
+
 
 
 
