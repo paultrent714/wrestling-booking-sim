@@ -82,11 +82,13 @@ private slots:
 
     void on_TeamsTab_clicked();
 
-    void on_nextWeekButton_clicked();
+    void on_nextWeekButton_clicked();       // finishes week after player views show results
 
-    void on_teamCheckBox_toggled(bool checked);
+    void on_teamCheckBox_toggled(bool checked);     // toggles whether a match is a tag match
 
-    void on_InjuredTab_clicked();
+    void on_InjuredTab_clicked();      // goes to page to see injured list
+
+    void on_darkModeCheckBox_stateChanged(int arg1);    // changes dark mode when game loads/user checks it
 
 private:
     Ui::MainWindow *ui;
@@ -128,6 +130,9 @@ private:
     void updateSaveTeamButton();        // Allows team attributes to be saved if there are 2 or more comboboxes with wrestlers
     void updateWrestlerTeamSelection();             // Updates wrestlers able to be chosen for a team
 
+    void applyTheme();          // changes labels and widgets created in .ui file to dark/light mode
+
+
     GameDataManager* dataManager;
 
     QList<Wrestler> m_playerRoster;
@@ -154,6 +159,10 @@ private:
     // Tracks money over the past n weeks
     QList<int> m_moneyHistory;
     QList<int> m_fanHistory;
+
+    bool m_darkMode = false;    // Whether user is using dark mode
+    QColor m_textColor;         // Default color of text
+    QColor m_backgroundColor;   // Default color of background
 
     QFont m_materialFont;       // Where the symbols are being retrieved from
 

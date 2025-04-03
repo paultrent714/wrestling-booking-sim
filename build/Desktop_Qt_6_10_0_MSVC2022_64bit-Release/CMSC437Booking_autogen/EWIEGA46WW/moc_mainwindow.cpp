@@ -68,7 +68,9 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_TeamsTab_clicked",
         "on_nextWeekButton_clicked",
         "on_teamCheckBox_toggled",
-        "on_InjuredTab_clicked"
+        "on_InjuredTab_clicked",
+        "on_darkModeCheckBox_stateChanged",
+        "arg1"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -134,6 +136,10 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         }}),
         // Slot 'on_InjuredTab_clicked'
         QtMocHelpers::SlotData<void()>(30, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_darkModeCheckBox_stateChanged'
+        QtMocHelpers::SlotData<void(int)>(31, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 32 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -185,6 +191,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 25: _t->on_nextWeekButton_clicked(); break;
         case 26: _t->on_teamCheckBox_toggled((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         case 27: _t->on_InjuredTab_clicked(); break;
+        case 28: _t->on_darkModeCheckBox_stateChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         default: ;
         }
     }
@@ -209,14 +216,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 28)
+        if (_id < 29)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 28;
+        _id -= 29;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 28)
+        if (_id < 29)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 28;
+        _id -= 29;
     }
     return _id;
 }

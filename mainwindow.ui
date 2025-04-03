@@ -54,7 +54,7 @@
        <string notr="true">background-color: rgb(30, 30, 30);</string>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>11</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -392,7 +392,7 @@ font: 18pt &quot;Segoe UI&quot;;</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop">
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="yourPromotionLabel">
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);
 font: 24pt &quot;Segoe UI&quot;;</string>
@@ -446,7 +446,7 @@ color: rgb(170, 0, 0);</string>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="rosterMenuLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -615,7 +615,7 @@ font: 22pt &quot;Segoe UI&quot;;</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_12">
         <item alignment="Qt::AlignmentFlag::AlignHCenter">
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="teamListLabel">
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);
 font: 24pt &quot;Segoe UI&quot;;</string>
@@ -658,7 +658,7 @@ font: 24pt &quot;Segoe UI&quot;;</string>
         <item>
          <widget class="QPushButton" name="newTeamButton">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(19, 76, 19);
+           <string notr="true">background-color: rgb(0, 59, 0);
 font: 20pt &quot;Segoe UI&quot;;
 color: rgb(255, 255, 255);</string>
           </property>
@@ -675,7 +675,7 @@ color: rgb(255, 255, 255);</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item alignment="Qt::AlignmentFlag::AlignHCenter">
-         <widget class="QLabel" name="label_8">
+         <widget class="QLabel" name="InjuryPageLabel">
           <property name="styleSheet">
            <string notr="true">color: rgb(0, 0, 0);
 font: 24pt &quot;Segoe UI&quot;;</string>
@@ -744,7 +744,7 @@ font: 24pt &quot;Segoe UI&quot;;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="teamNameLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -799,7 +799,7 @@ font: 24pt &quot;Segoe UI&quot;;</string>
           <item>
            <widget class="QPushButton" name="addToTeamButton">
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(20, 79, 20);
+             <string notr="true">background-color: rgb(0, 59, 0);
 font: 20pt &quot;Segoe UI&quot;;
 color: rgb(255, 255, 255);</string>
             </property>
@@ -811,7 +811,7 @@ color: rgb(255, 255, 255);</string>
           <item>
            <widget class="QPushButton" name="saveTeamButton">
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(21, 84, 21);
+             <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
 font: 20pt &quot;Segoe UI&quot;;</string>
             </property>
@@ -908,8 +908,8 @@ font: 20pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>16</height>
+             <width>752</width>
+             <height>386</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -1284,17 +1284,6 @@ font: 18pt &quot;Segoe UI&quot;;</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="0" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-           <widget class="QLabel" name="staminaLabel">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-font: 18pt &quot;Segoe UI&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Stamina:</string>
-            </property>
-           </widget>
-          </item>
           <item row="3" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
            <widget class="QLabel" name="charismaLabel">
             <property name="styleSheet">
@@ -1303,6 +1292,17 @@ font: 18pt &quot;Segoe UI&quot;;</string>
             </property>
             <property name="text">
              <string>Charisma:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
+           <widget class="QLabel" name="staminaLabel">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Stamina:</string>
             </property>
            </widget>
           </item>
@@ -1430,6 +1430,29 @@ font: 36pt ;</string>
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="formLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>10</y>
+          <width>221</width>
+          <height>281</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="darkModeCheckBox">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 0, 0);
+font: 16pt &quot;Segoe UI&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Dark Mode</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
       <widget class="QWidget" name="Show_Card">
        <property name="sizePolicy">
@@ -1445,7 +1468,7 @@ font: 36pt ;</string>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="showCardLabel">
             <property name="styleSheet">
              <string notr="true">color: rgb(0, 0, 0);
 font: 22pt &quot;Segoe UI&quot;;
@@ -1474,8 +1497,8 @@ font: 22pt &quot;Segoe UI&quot;;
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>16</height>
+             <width>752</width>
+             <height>381</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_2">
@@ -1707,7 +1730,7 @@ font: 22pt &quot;Segoe UI&quot;;</string>
                 </sizepolicy>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(00, 80, 00);
+                <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
 font: 18pt &quot;Segoe UI&quot;;</string>
                </property>
@@ -1729,8 +1752,8 @@ font: 18pt &quot;Segoe UI&quot;;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>21</width>
-               <height>16</height>
+               <width>471</width>
+               <height>429</height>
               </rect>
              </property>
              <widget class="QScrollBar" name="verticalScrollBar_4">
@@ -1739,7 +1762,7 @@ font: 18pt &quot;Segoe UI&quot;;</string>
                 <x>460</x>
                 <y>0</y>
                 <width>16</width>
-                <height>381</height>
+                <height>431</height>
                </rect>
               </property>
               <property name="orientation">
@@ -1779,7 +1802,7 @@ font: 18pt &quot;Segoe UI&quot;;</string>
            <item row="0" column="2" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="matchTypeLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -1920,7 +1943,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
            <item row="1" column="2" rowspan="2" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_9">
              <item>
-              <widget class="QLabel" name="label_4">
+              <widget class="QLabel" name="winnerLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                  <horstretch>0</horstretch>

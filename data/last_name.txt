@@ -222,6 +222,7 @@ Knight
 Knightly
 Knox
 Kong
+Kruger
 Lamar
 Lamb
 Lambeau
@@ -427,6 +428,7 @@ Ventura
 Vice
 Vick
 Von Erich
+Vorhees
 Walker
 Waller
 Waltrip

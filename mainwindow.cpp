@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->sortByAttributesCB->addItems({"Name", "Popularity", "Stamina",
                                       "Age", "Salary", "Role", "Gender", "Charisma"});
 }
-
 MainWindow::~MainWindow()
 {
     dataManager->closeDatabase();
@@ -139,26 +138,7 @@ void MainWindow::loadMaterialFont()
         m_materialFont = QFont(fontFamilies.first());
         m_materialFont.setPointSize(36);  // Adjust size as needed
     }
-
-
-
-
-
-    // !!!!! Delete the rest of the function when you're done debugging!!!!!!!
-
-    // Adds icon to save button (for debugging and because button wont change
-    ui->userSave->setFont(m_materialFont);
-    // Construct the button text with HTML containing two different fonts
-    QString saveButtonText = QString(
-                                 "<span style='font-family: Material Symbols Rounded 36pt; font-size: 18px;'>%1</span>"
-                                 "<span style='font-family: Arial; font-size: 16px;'> Save</span>"
-                                 ).arg(QChar(0xeb60));  // 0xeb60 is the Unicode for the save icon
-
-    // Set the button's text with the formatted HTML
-    ui->userSave->setText(saveButtonText);
-
 }
-
 
 // Loading and creating roster
 void MainWindow::on_StartNew_clicked()
@@ -438,6 +418,91 @@ void MainWindow::on_finalizeBooking_clicked()
     populateResultsList();  // shows matches and their results
 
 }
+void MainWindow::populateResultsList() {
+    QList<match>& matches = m_currentShow.getMatchesEdit();
+
+    QWidget *container = new QWidget;
+    QVBoxLayout *layout = new QVBoxLayout(container);
+
+    for (match& m : matches) {
+        QVBoxLayout *matchLayout = new QVBoxLayout;
+
+        // Match Type
+        QLabel *matchTypeLabel = new QLabel(m.getMatchType());
+        matchTypeLabel->setStyleSheet(QString("font-weight: bold; color: %1;")
+                                          .arg(m_textColor.name()));
+        matchLayout->addWidget(matchTypeLabel);
+
+        // Get participants and determine teams
+        QList<Wrestler*> participants = m.getParticipants();
+        int teamSize = std::ceil(participants.size() / 2.0);
+
+        QList<Wrestler*> team1 = participants.mid(0, teamSize);
+        QList<Wrestler*> team2 = participants.mid(teamSize, participants.size() - teamSize);
+
+        // Determine if it's a team match and the winning team
+        bool isTeamMatch = participants.size() > 2;
+        bool firstTeamWins = isTeamMatch && team1.contains(m.getWinner());
+        QList<Wrestler*> winningTeam = firstTeamWins ? team1 : team2;
+
+        // Display team participants in a compact format
+        QString team1Text, team2Text;
+        for (Wrestler* wrestler : team1) {
+            if (!team1Text.isEmpty()) team1Text += ", ";
+            team1Text += wrestler->getName();
+        }
+        for (Wrestler* wrestler : team2) {
+            if (!team2Text.isEmpty()) team2Text += ", ";
+            team2Text += wrestler->getName();
+        }
+
+        QLabel *team1Label = new QLabel(team1Text);
+        QLabel *team2Label = new QLabel(team2Text);
+        team1Label->setStyleSheet(QString("color: %1")
+                                      .arg(m_textColor.name()));
+        team2Label->setStyleSheet(QString("color: %1")
+                                      .arg(m_textColor.name()));
+
+        matchLayout->addWidget(team1Label);
+
+        if (isTeamMatch) {
+            QLabel *spacer = new QLabel(" ");
+            matchLayout->addWidget(spacer);
+            matchLayout->addWidget(team2Label);
+        }
+
+        // Winner Label
+        QLabel *winnerLabel;
+        if (isTeamMatch) {
+            QString winnerText = "<b>Winning Team:</b> ";
+            for (Wrestler* wrestler : winningTeam) {
+                if (!winnerText.endsWith(": ")) winnerText += ", ";
+                winnerText += wrestler->getName();
+            }
+            winnerLabel = new QLabel(winnerText);
+        } else {
+            winnerLabel = new QLabel("<b>Winner:</b> " + m.getWinner()->getName());
+        }
+        winnerLabel->setStyleSheet(QString("color: %1")
+                                       .arg(m_textColor.name()));
+        matchLayout->addWidget(winnerLabel);
+
+        // Rating Label
+        QLabel *ratingLabel = new QLabel("⭐ " + QString::number(m.getRating(), 'f', 1));
+        ratingLabel->setStyleSheet(QString("color: %1")
+                                       .arg(m_textColor.name()));
+        matchLayout->addWidget(ratingLabel);
+
+        // Add match layout to the main layout
+        layout->addLayout(matchLayout);
+    }
+
+    container->setLayout(layout);
+    ui->matchResults->setWidget(container);  // Assign to the results scroll area
+    ui->matchResults->setWidgetResizable(true);
+}
+
+/*
 void MainWindow::populateResultsList(){
     QList<match>& matches = m_currentShow.getMatchesEdit();
 
@@ -452,19 +517,23 @@ void MainWindow::populateResultsList(){
         // Match type
         QLabel *matchTypeLabel = new QLabel(m.getMatchType());
         matchTypeLabel->setStyleSheet("color: black;");
+        matchTypeLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
 
         // Participants list
         QString participantsList;
         for (Wrestler* wrestler : m.getParticipants()) {
             if (wrestler) {
                 if (!participantsList.isEmpty()) {
-                    participantsList += ", ";
+                    participantsList += "\n ";
                 }
                 participantsList += wrestler->getName();
             }
         }
         QLabel *participantsLabel = new QLabel(participantsList);
         participantsLabel->setStyleSheet("color: black;");
+
+
 
         // Winner label
         QLabel *winnerLabel = new QLabel("Winner: " + m.getWinner()->getName());
@@ -487,6 +556,7 @@ void MainWindow::populateResultsList(){
     ui->matchResults->setWidget(container);  // Assign to the results scroll area
     ui->matchResults->setWidgetResizable(true);
 }
+*/
 
 void MainWindow::updateDashboardLabels(){
     ui->fansDisplay->setText("Fans: " + QString::number(m_fans));
@@ -506,7 +576,8 @@ void MainWindow::populateWrestlerList(const QList<Wrestler> &wrestlers) {
     QLabel *roleLabel = new QLabel("Role");
 
     // Set bold style for legend
-    QString legendStyle = "font-weight: bold; text-decoration: underline; color: black;";
+    QString legendStyle = QString("font-weight: bold; text-decoration: underline; color: %1;")
+                              .arg(m_textColor.name());
     popularityLabel->setStyleSheet(legendStyle);
     nameLabel->setStyleSheet(legendStyle);
     ageLabel->setStyleSheet(legendStyle);
@@ -524,10 +595,13 @@ void MainWindow::populateWrestlerList(const QList<Wrestler> &wrestlers) {
 
         // Popularity Label
         QLabel *popularityValue = new QLabel(QString::number(wrestler.getPopularity()));
+        popularityValue->setStyleSheet(QString("color: %1")
+                                            .arg(m_textColor.name()));
 
         // Create a QPushButton for the wrestler's name (but make it look like a label)
         QPushButton *nameButton = new QPushButton(wrestler.getName());
 
+        if (!m_darkMode){
         // Style the button to make it look like clickable text (without background)
         nameButton->setStyleSheet("QPushButton {"
                                   "border: none;"
@@ -536,9 +610,22 @@ void MainWindow::populateWrestlerList(const QList<Wrestler> &wrestlers) {
                                   "color: blue;"
                                   "font-size: 16px;"
                                   "}");
+        }
+        // Style the text to be more visible on dark background
+        else{
+            nameButton->setStyleSheet("QPushButton {"
+                                      "border: none;"
+                                      "background: transparent;"
+                                      "text-align: left;"
+                                      "color: #A7C7FF;"
+                                      "font-size: 16px;"
+                                      "}");
+        }
         nameButton->setCursor(Qt::PointingHandCursor); // Set the cursor to hand when hovering
 
         QLabel *ageValue = new QLabel(QString::number(wrestler.getAge()));
+        ageValue->setStyleSheet(QString("color: %1")
+                                    .arg(m_textColor.name()));
 
         // Role Label (0 = neutral, 1 = villain, 2 = hero)
         QLabel *roleValue = new QLabel;
@@ -547,6 +634,8 @@ void MainWindow::populateWrestlerList(const QList<Wrestler> &wrestlers) {
             case 2: roleValue->setText("Hero"); break;
             default: roleValue->setText("Neutral"); break;
         }
+        roleValue->setStyleSheet(QString("color: %1")
+                                     .arg(m_textColor.name()));
 
         // Connect the button to a slot that updates the wrestler details
         connect(nameButton, &QPushButton::clicked, this, [this, wrestler]() {
@@ -603,7 +692,8 @@ void MainWindow::updateWrestlerDetails(const Wrestler &wrestler) {
     ui->genderLabel->setText("Gender: " + genderText);
 
     if (wrestler.getInjury() <= 0) {
-       ui->injuredLabel->setStyleSheet("background: white; color: white;");
+       ui->injuredLabel->setStyleSheet(QString("color: %1; background-color: %2")
+                                            .arg(m_textColor.name(),m_backgroundColor.name()));
     }
     else{
         //ui->injuredLabel->setFont(m_materialFont);
@@ -634,7 +724,8 @@ void MainWindow::populateInjuredWrestlersList(const QList<Wrestler> &wrestlers) 
     QLabel *ageLabel = new QLabel("Age");
 
     // Set bold and underlined style for the legend
-    QString legendStyle = "font-weight: bold; text-decoration: underline; color: black;";
+    QString legendStyle = QString("font-weight: bold; text-decoration: underline; color: %1;")
+                              .arg(m_textColor.name());
     popularityLabel->setStyleSheet(legendStyle);
     nameLabel->setStyleSheet(legendStyle);
     injuryLabel->setStyleSheet(legendStyle);
@@ -655,7 +746,8 @@ void MainWindow::populateInjuredWrestlersList(const QList<Wrestler> &wrestlers) 
 
             // Popularity Label
             QLabel *popularityValue = new QLabel(QString::number(wrestler.getPopularity()));
-            popularityValue->setStyleSheet("color: black;");
+            popularityValue->setStyleSheet(QString("color: %1")
+                                               .arg(m_textColor.name()));
 
             // Name Button with Injury Icon
             QPushButton *nameButton = new QPushButton(wrestler.getName());
@@ -671,11 +763,13 @@ void MainWindow::populateInjuredWrestlersList(const QList<Wrestler> &wrestlers) 
             nameButton->setCursor(Qt::PointingHandCursor);
             // Weeks Injured Label
             QLabel *injuryValue = new QLabel(QString::number(wrestler.getInjury()));
-            injuryValue->setStyleSheet("color: black;");
+            injuryValue->setStyleSheet(QString("color: %1")
+                                           .arg(m_textColor.name()));
 
             // Age Label
             QLabel *ageValue = new QLabel(QString::number(wrestler.getAge()));
-            ageValue->setStyleSheet("color: black;");
+            ageValue->setStyleSheet(QString("color: %1")
+                                        .arg(m_textColor.name()));
 
             // Connect the button to update wrestler details
             connect(nameButton, &QPushButton::clicked, this, [this, wrestler]() {
@@ -798,7 +892,7 @@ void MainWindow::openEditMatchPage(match& m, int index)
         // Remove button style is visible
         removeButton->setStyleSheet(
             "background-color: #D32F2F; color: white; font-size: 16px; padding: 4px 8px; border-radius: 5px;"
-        );
+            );
 
         // Add the ComboBox and Remove button to the layout
         QGridLayout* wrestlerLayout = qobject_cast<QGridLayout*>(ui->participantLayout->layout());
@@ -822,6 +916,7 @@ void MainWindow::openEditMatchPage(match& m, int index)
     // Set checkboxes for whether tag/ championship match is scheduled
     ui->champCheckBox->setChecked(m.isChampionship());
     ui->teamCheckBox->setChecked(m.isTeam());
+    updateMatchWrestlerSelection();
 }
 void MainWindow::on_addMatchButton_clicked()
 {
@@ -972,6 +1067,8 @@ void MainWindow::updateMatchWrestlerSelection() {
     if (!layout) return;
 
     m_currentMatch->clearParticipants();
+
+    // Loop through each block to find and set valid participants in the match
     for (int i = 0; i < layout->count(); ++i) {
         QComboBox* comboBox = qobject_cast<QComboBox*>(layout->itemAt(i)->widget());
         if (comboBox) {
@@ -988,6 +1085,57 @@ void MainWindow::updateMatchWrestlerSelection() {
         }
     }
 
+    // Disconnect the signal to avoid recursion when updating the combo boxes
+    for (int i = 0; i < layout->count(); ++i) {
+        QComboBox* comboBox = qobject_cast<QComboBox*>(layout->itemAt(i)->widget());
+        if (comboBox) {
+            disconnect(comboBox, &QComboBox::currentIndexChanged, this, &MainWindow::updateMatchWrestlerSelection);
+        }
+    }
+    // Loop through each combo box in layout to set valid participants
+    for (int i = 0; i < layout->count(); ++i) {
+        QComboBox* comboBox = qobject_cast<QComboBox*>(layout->itemAt(i)->widget());
+        if (comboBox) {
+            QString currentSelection = comboBox->currentText();  // Save the current selection
+            bool isSelectedWrestlerValid = false;
+
+            // Clear the combo box first
+            comboBox->clear();
+
+            // First, add currently selected wrestler back if it is valid and not injured
+            for (Wrestler& wrestler : m_playerRoster) {
+                if (wrestler.getName() == currentSelection && wrestler.getInjury() <= 0) {
+                    comboBox->addItem(wrestler.getName());
+                    selectedWrestlers.insert(wrestler.getName());
+                    isSelectedWrestlerValid = true;
+                    break;  // No need to continue if selected wrestler already added
+                }
+            }
+            // Add wrestlers who are not already selected and are not injured
+            for (Wrestler& wrestler : m_playerRoster) {
+                if (selectedWrestlers.find(wrestler.getName()) == selectedWrestlers.end() && wrestler.getInjury() <= 0) {
+                    comboBox->addItem(wrestler.getName());
+                }
+            }
+
+            // If the previously selected wrestler was valid, restore it as the current selection
+            if (isSelectedWrestlerValid) {
+                comboBox->setCurrentText(currentSelection);  // Restore the previous selection
+            } else {
+                comboBox->setCurrentIndex(0);  // Set to default option
+            }
+            // Update the selected wrestlers set
+            selectedWrestlers.insert(currentSelection);
+        }
+    }
+    // Reconnect the signal after the update is done
+    for (int i = 0; i < layout->count(); ++i) {
+        QComboBox* comboBox = qobject_cast<QComboBox*>(layout->itemAt(i)->widget());
+        if (comboBox) {
+            connect(comboBox, &QComboBox::currentIndexChanged, this, &MainWindow::updateMatchWrestlerSelection);
+        }
+    }
+
     // Update the winnerComboBox
     ui->winnerComboBox->clear();
     // Add the "Random" option to the winnerComboBox
@@ -995,6 +1143,24 @@ void MainWindow::updateMatchWrestlerSelection() {
 
     for (Wrestler* wrestler : m_currentMatch->getParticipants()) {
         ui->winnerComboBox->addItem(wrestler->getName());
+    }
+    // Set the winner's combo box index to match winner's position in participants list
+    Wrestler* winner = m_currentMatch->getWinner();
+    if (winner) {
+        int winnerIndex = -1;
+        const QList<Wrestler*>& participants = m_currentMatch->getParticipants();
+
+        // Find the winner's index in the participants list
+        for (int i = 0; i < participants.size(); ++i) {
+            if (participants[i]->getName() == winner->getName()) {
+                winnerIndex = i;
+                break;
+            }
+        }
+        // If winner was found, set comboBox index to winner's position (plus 1 for "Random" option)
+        if (winnerIndex != -1) {
+            ui->winnerComboBox->setCurrentIndex(winnerIndex + 1);
+        }
     }
 
     // Updates layout if tag team match
@@ -1055,10 +1221,20 @@ void MainWindow::updateTeamMatchLayout(bool isTeamMatch) {
 
     // Apply color split style
     if (isTeamMatch) {
-        ui->participantLayout->setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
-            "stop:0 #A3C6FF, stop:0.49 #A3C6FF, stop:0.50 #FFB3B3, stop:1 #FFB3B3);"
-            );
+        // Check if dark mode is active
+        if (m_darkMode) {
+            // Darker colors for dark mode
+            ui->participantLayout->setStyleSheet(
+                "background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
+                "stop:0 #7B9FFF, stop:0.49 #7B9FFF, stop:0.50 #FF7F7F, stop:1 #FF7F7F);"
+                );
+        } else {
+            // Lighter colors for light mode
+            ui->participantLayout->setStyleSheet(
+                "background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, "
+                "stop:0 #A3C6FF, stop:0.49 #A3C6FF, stop:0.50 #FFB3B3, stop:1 #FFB3B3);"
+                );
+        }
     } else { ui->participantLayout->setStyleSheet(""); }
 
     // Remove any existing spacer
@@ -1097,7 +1273,6 @@ void MainWindow::clearTeamMatchSpacer() {
         m_spacerItem = nullptr;
     }
 }
-
 
 //For champions page
 void MainWindow::setUpChampionSelection() {
@@ -1254,7 +1429,8 @@ void MainWindow::populateTeamList()
 {
     QWidget* container = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(container);
-    container->setStyleSheet("background-color: #f0f0f0; color: black;");
+    container->setStyleSheet(QString("color: %1; background-color: %2")
+                                 .arg(m_textColor.name(), m_backgroundColor.name()));
 
     for (int i = 0; i < m_teams.size(); ++i) {
         team& team = m_teams[i];
@@ -1262,7 +1438,8 @@ void MainWindow::populateTeamList()
         QHBoxLayout* hLayout = new QHBoxLayout;
         QLabel* teamNameLabel = new QLabel(team.getTeamName());
 
-        teamNameLabel->setStyleSheet("color: black; font-size: 20px;");
+        teamNameLabel->setStyleSheet(QString("color: %1; font-size: 20px;")
+                                         .arg(m_textColor.name()));
         teamNameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
         // Display members
@@ -1604,10 +1781,66 @@ void MainWindow::on_saveTeamButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
 }
 
+// Settings and Preferences
+void MainWindow::on_darkModeCheckBox_stateChanged(int arg1)
+{
+    m_darkMode = !m_darkMode;
 
+    if (arg1 == Qt::Checked) {
+        m_textColor = Qt::white;
+        m_backgroundColor = Qt::black;
+    } else {
+        m_textColor = Qt::black;
+        m_backgroundColor = Qt::white;
+    }
+    applyTheme();  // Update UI elements with the new colors
+}
+void MainWindow::applyTheme(){
+    // List of StackedWidget pages to exclude from background updates
+    QList<QWidget*> excludedPages = { ui->useCustomRosterPage, ui->LandingPage, ui->newFilePage };
 
+    // Iterate through all widgets inside the stacked widget
+    for (QWidget* widget : ui->stackedWidget->findChildren<QWidget*>()) {
+        // Skip buttons, combo boxes, scroll areas, excluded pages, and widgets that should be neither black or white
+        if (qobject_cast<QPushButton*>(widget) ||
+            qobject_cast<QComboBox*>(widget) ||
+            qobject_cast<QScrollArea*>(widget) ||
+            excludedPages.contains(widget) ||
+            widget == ui->participantLayout) {
+            continue;
+        }
 
+        // Get the current font of the widget
+        QFont widgetFont = widget->font();
 
+        //  For labels, change the text color, not background
+        if (qobject_cast<QLabel*>(widget)) {
+            // Skip specific labels
+            if (widget->objectName() == "injuredLabel") {
+                continue; // Skip this label
+            }
+            widget->setStyleSheet(QString("color: %1;").arg(m_textColor.name()));
+        }
+        else if (qobject_cast<QFrame*>(widget)){
+            // Set background color to m_textColor so it still shows up on screen
+            widget->setStyleSheet(QString("background-color: %1;")
+                                      .arg(m_textColor.name()));
+            }
+        else {
+            // Apply both background and text color updates to other widgets
+            widget->setStyleSheet(QString("background-color: %1; color: %2;")
+                                      .arg(m_backgroundColor.name(), m_textColor.name()));
+        }
+        // Restore the original font after updating the style
+        widget->setFont(widgetFont);
+    }
 
-
+    // Handle LineEdits separately to show they are interactable
+    for (QLineEdit* lineEdit : ui->stackedWidget->findChildren<QLineEdit*>()) {
+        if (lineEdit->objectName() != "excludeTheme") {
+            lineEdit->setStyleSheet(QString("background-color: %1; color: %2; border: 1px solid gray; padding: 3px;")
+                                        .arg(m_backgroundColor.name(), m_textColor.name()));
+        }
+    }
+}
 
