@@ -102,11 +102,23 @@ endif()
 if(NOT EXISTS ${ICONS_DIR})
     file(MAKE_DIRECTORY ${ICONS_DIR})
 endif()
+
+# Remove existing files and directories in the target folders
+file(REMOVE_RECURSE ${FONTS_DIR}/*)
+file(REMOVE_RECURSE ${DB_DIR}/*)
+file(REMOVE_RECURSE ${DATA_DIR}/*)
+file(REMOVE_RECURSE ${ICONS_DIR}/*)
+
 # Copy entire directories (fonts, saveFiles, data, icons) to the build directory
 file(COPY ${CMAKE_SOURCE_DIR}/fonts/ DESTINATION ${FONTS_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/saveFiles/ DESTINATION ${DB_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/data/ DESTINATION ${DATA_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/icons/ DESTINATION ${ICONS_DIR})
+
+# Print messages for debugging purposes
+message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
+
 
 # Print messages for debugging purposes
 message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")

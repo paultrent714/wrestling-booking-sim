@@ -424,6 +424,13 @@ void MainWindow::populateResultsList() {
     QWidget *container = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout(container);
 
+    // Path to championship title image (ensure this path is correct)
+    QPixmap titlePixmap("icons/myBasicTitle.png"); // Championship title image
+
+    if (titlePixmap.isNull()) {
+        qWarning() << "Championship title image not found!";
+    }
+
     for (match& m : matches) {
         QVBoxLayout *matchLayout = new QVBoxLayout;
 
@@ -433,65 +440,97 @@ void MainWindow::populateResultsList() {
                                           .arg(m_textColor.name()));
         matchLayout->addWidget(matchTypeLabel);
 
-        // Get participants and determine teams
+        // Get participants and determine teams if it's a tag match
         QList<Wrestler*> participants = m.getParticipants();
-        int teamSize = std::ceil(participants.size() / 2.0);
+        bool isTeamMatch = m.isTeam();
 
-        QList<Wrestler*> team1 = participants.mid(0, teamSize);
-        QList<Wrestler*> team2 = participants.mid(teamSize, participants.size() - teamSize);
+        QString participantText;
 
-        // Determine if it's a team match and the winning team
-        bool isTeamMatch = participants.size() > 2;
-        bool firstTeamWins = isTeamMatch && team1.contains(m.getWinner());
-        QList<Wrestler*> winningTeam = firstTeamWins ? team1 : team2;
-
-        // Display team participants in a compact format
-        QString team1Text, team2Text;
-        for (Wrestler* wrestler : team1) {
-            if (!team1Text.isEmpty()) team1Text += ", ";
-            team1Text += wrestler->getName();
-        }
-        for (Wrestler* wrestler : team2) {
-            if (!team2Text.isEmpty()) team2Text += ", ";
-            team2Text += wrestler->getName();
-        }
-
-        QLabel *team1Label = new QLabel(team1Text);
-        QLabel *team2Label = new QLabel(team2Text);
-        team1Label->setStyleSheet(QString("color: %1")
-                                      .arg(m_textColor.name()));
-        team2Label->setStyleSheet(QString("color: %1")
-                                      .arg(m_textColor.name()));
-
-        matchLayout->addWidget(team1Label);
-
+        // If it's a tag match, we format participants in teams
         if (isTeamMatch) {
+            int teamSize = std::ceil(participants.size() / 2.0);
+            QList<Wrestler*> team1 = participants.mid(0, teamSize);
+            QList<Wrestler*> team2 = participants.mid(teamSize, participants.size() - teamSize);
+
+            // Display team participants in a compact format
+            QString team1Text, team2Text;
+            for (Wrestler* wrestler : team1) {
+                if (!team1Text.isEmpty()) team1Text += ", ";
+                team1Text += wrestler->getName();
+            }
+            for (Wrestler* wrestler : team2) {
+                if (!team2Text.isEmpty()) team2Text += ", ";
+                team2Text += wrestler->getName();
+            }
+
+            QLabel *team1Label = new QLabel(team1Text);
+            QLabel *team2Label = new QLabel(team2Text);
+            team1Label->setStyleSheet(QString("color: %1")
+                                          .arg(m_textColor.name()));
+            team2Label->setStyleSheet(QString("color: %1")
+                                          .arg(m_textColor.name()));
+
+            matchLayout->addWidget(team1Label);
+
             QLabel *spacer = new QLabel(" ");
             matchLayout->addWidget(spacer);
             matchLayout->addWidget(team2Label);
-        }
 
-        // Winner Label
-        QLabel *winnerLabel;
-        if (isTeamMatch) {
+            // Determine the winning team
+            bool firstTeamWins = team1.contains(m.getWinner());
+            QList<Wrestler*> winningTeam = firstTeamWins ? team1 : team2;
+
+            // Winner Label for team matches
             QString winnerText = "<b>Winning Team:</b> ";
             for (Wrestler* wrestler : winningTeam) {
                 if (!winnerText.endsWith(": ")) winnerText += ", ";
                 winnerText += wrestler->getName();
             }
-            winnerLabel = new QLabel(winnerText);
+            QLabel *winnerLabel = new QLabel(winnerText);
+            winnerLabel->setStyleSheet(QString("color: %1")
+                                           .arg(m_textColor.name()));
+            matchLayout->addWidget(winnerLabel);
         } else {
-            winnerLabel = new QLabel("<b>Winner:</b> " + m.getWinner()->getName());
-        }
-        winnerLabel->setStyleSheet(QString("color: %1")
-                                       .arg(m_textColor.name()));
-        matchLayout->addWidget(winnerLabel);
+            // display the winner in a default way
+            QStringList participantNames;
+            for (Wrestler* wrestler : participants) {
+                participantNames.append(wrestler->getName());
+            }
+            participantText = participantNames.join(", ");
 
-        // Rating Label
-        QLabel *ratingLabel = new QLabel("⭐ " + QString::number(m.getRating(), 'f', 1));
+            QLabel *singleMatchLabel = new QLabel(participantText);
+            singleMatchLabel->setStyleSheet(QString("color: %1")
+                                                .arg(m_textColor.name()));
+            matchLayout->addWidget(singleMatchLabel);
+
+            // Winner Label for single matches
+            QLabel *winnerLabel = new QLabel("<b>Winner:</b> " + m.getWinner()->getName());
+            winnerLabel->setStyleSheet(QString("color: %1")
+                                           .arg(m_textColor.name()));
+            matchLayout->addWidget(winnerLabel);
+        }
+
+
+        // Display championship title for title matches
+        if (m.isChampionship()) {
+            QLabel *champNewLabel = new QLabel;
+            champNewLabel->setPixmap(titlePixmap.scaled(30, 30, Qt::KeepAspectRatio));
+            matchLayout->addWidget(champNewLabel);
+        }
+
+        // Rating Label (with star symbol)
+        QLabel *ratingLabel = new QLabel(QString("<span style='color: #cc9900; font-size: 16px;'>\u2605</span> %1")
+                                             .arg(QString::number(m.getRating(), 'f', 1)));
         ratingLabel->setStyleSheet(QString("color: %1")
                                        .arg(m_textColor.name()));
         matchLayout->addWidget(ratingLabel);
+
+        // Add a visual divider (horizontal line)
+        QFrame *line = new QFrame();
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        line->setStyleSheet(QString("background-color: %1; height: 2px;").arg(m_textColor.name()));
+        matchLayout->addWidget(line);
 
         // Add match layout to the main layout
         layout->addLayout(matchLayout);
@@ -501,7 +540,6 @@ void MainWindow::populateResultsList() {
     ui->matchResults->setWidget(container);  // Assign to the results scroll area
     ui->matchResults->setWidgetResizable(true);
 }
-
 /*
 void MainWindow::populateResultsList(){
     QList<match>& matches = m_currentShow.getMatchesEdit();

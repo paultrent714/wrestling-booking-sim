@@ -128,18 +128,18 @@ public:
     QWidget *ChampionshipPage;
     QVBoxLayout *verticalLayout_11;
     QGridLayout *gridLayout_8;
-    QLabel *womenChampLabel;
-    QLabel *worldChampLabel;
     QComboBox *womenChampComboBox;
-    QLabel *tagChampLabel;
-    QComboBox *teamComboBox;
-    QComboBox *tagChampComboBox2;
-    QFrame *line;
-    QComboBox *worldChampComboBox;
     QVBoxLayout *verticalLayout_6;
     QRadioButton *teamNameRadio;
     QRadioButton *individualRadioButton;
+    QLabel *womenChampLabel;
+    QComboBox *worldChampComboBox;
+    QLabel *tagChampLabel;
     QComboBox *tagChampComboBox1;
+    QComboBox *teamComboBox;
+    QComboBox *tagChampComboBox2;
+    QFrame *line;
+    QLabel *worldChampLabel;
     QFrame *line_2;
     QWidget *wrestlerStats;
     QVBoxLayout *verticalLayout_5;
@@ -602,7 +602,7 @@ public:
         tagTeamScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName("scrollAreaWidgetContents_2");
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 752, 377));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 80, 16));
         verticalScrollBar_3 = new QScrollBar(scrollAreaWidgetContents_2);
         verticalScrollBar_3->setObjectName("verticalScrollBar_3");
         verticalScrollBar_3->setGeometry(QRect(730, 0, 20, 321));
@@ -638,7 +638,7 @@ public:
         injuryScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_4 = new QWidget();
         scrollAreaWidgetContents_4->setObjectName("scrollAreaWidgetContents_4");
-        scrollAreaWidgetContents_4->setGeometry(QRect(0, 0, 752, 427));
+        scrollAreaWidgetContents_4->setGeometry(QRect(0, 0, 80, 16));
         scrollAreaWidgetContents_4->setStyleSheet(QString::fromUtf8("background-color: rgb(203, 203, 203);"));
         verticalScrollBar_5 = new QScrollBar(scrollAreaWidgetContents_4);
         verticalScrollBar_5->setObjectName("verticalScrollBar_5");
@@ -770,7 +770,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 752, 386));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 80, 16));
         verticalScrollBar = new QScrollBar(scrollAreaWidgetContents);
         verticalScrollBar->setObjectName("verticalScrollBar");
         verticalScrollBar->setGeometry(QRect(750, 0, 16, 381));
@@ -789,20 +789,6 @@ public:
         verticalLayout_11->setObjectName("verticalLayout_11");
         gridLayout_8 = new QGridLayout();
         gridLayout_8->setObjectName("gridLayout_8");
-        womenChampLabel = new QLabel(ChampionshipPage);
-        womenChampLabel->setObjectName("womenChampLabel");
-        womenChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(womenChampLabel, 6, 0, 1, 1);
-
-        worldChampLabel = new QLabel(ChampionshipPage);
-        worldChampLabel->setObjectName("worldChampLabel");
-        worldChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(worldChampLabel, 0, 0, 1, 1);
-
         womenChampComboBox = new QComboBox(ChampionshipPage);
         womenChampComboBox->setObjectName("womenChampComboBox");
         womenChampComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
@@ -810,12 +796,50 @@ public:
 
         gridLayout_8->addWidget(womenChampComboBox, 6, 1, 1, 1);
 
+        verticalLayout_6 = new QVBoxLayout();
+        verticalLayout_6->setObjectName("verticalLayout_6");
+        teamNameRadio = new QRadioButton(ChampionshipPage);
+        teamNameRadio->setObjectName("teamNameRadio");
+        teamNameRadio->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        verticalLayout_6->addWidget(teamNameRadio);
+
+        individualRadioButton = new QRadioButton(ChampionshipPage);
+        individualRadioButton->setObjectName("individualRadioButton");
+        individualRadioButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        verticalLayout_6->addWidget(individualRadioButton);
+
+
+        gridLayout_8->addLayout(verticalLayout_6, 2, 2, 1, 1);
+
+        womenChampLabel = new QLabel(ChampionshipPage);
+        womenChampLabel->setObjectName("womenChampLabel");
+        womenChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(womenChampLabel, 6, 0, 1, 1);
+
+        worldChampComboBox = new QComboBox(ChampionshipPage);
+        worldChampComboBox->setObjectName("worldChampComboBox");
+        worldChampComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(worldChampComboBox, 0, 1, 1, 1);
+
         tagChampLabel = new QLabel(ChampionshipPage);
         tagChampLabel->setObjectName("tagChampLabel");
         tagChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);"));
 
         gridLayout_8->addWidget(tagChampLabel, 2, 0, 1, 1);
+
+        tagChampComboBox1 = new QComboBox(ChampionshipPage);
+        tagChampComboBox1->setObjectName("tagChampComboBox1");
+        tagChampComboBox1->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(tagChampComboBox1, 3, 1, 1, 1);
 
         teamComboBox = new QComboBox(ChampionshipPage);
         teamComboBox->setObjectName("teamComboBox");
@@ -841,36 +865,12 @@ public:
 
         gridLayout_8->addWidget(line, 4, 0, 1, 3);
 
-        worldChampComboBox = new QComboBox(ChampionshipPage);
-        worldChampComboBox->setObjectName("worldChampComboBox");
-        worldChampComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
+        worldChampLabel = new QLabel(ChampionshipPage);
+        worldChampLabel->setObjectName("worldChampLabel");
+        worldChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);"));
 
-        gridLayout_8->addWidget(worldChampComboBox, 0, 1, 1, 1);
-
-        verticalLayout_6 = new QVBoxLayout();
-        verticalLayout_6->setObjectName("verticalLayout_6");
-        teamNameRadio = new QRadioButton(ChampionshipPage);
-        teamNameRadio->setObjectName("teamNameRadio");
-        teamNameRadio->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
-
-        verticalLayout_6->addWidget(teamNameRadio);
-
-        individualRadioButton = new QRadioButton(ChampionshipPage);
-        individualRadioButton->setObjectName("individualRadioButton");
-        individualRadioButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
-
-        verticalLayout_6->addWidget(individualRadioButton);
-
-
-        gridLayout_8->addLayout(verticalLayout_6, 2, 2, 1, 1);
-
-        tagChampComboBox1 = new QComboBox(ChampionshipPage);
-        tagChampComboBox1->setObjectName("tagChampComboBox1");
-        tagChampComboBox1->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(tagChampComboBox1, 3, 1, 1, 1);
+        gridLayout_8->addWidget(worldChampLabel, 0, 0, 1, 1);
 
         line_2 = new QFrame(ChampionshipPage);
         line_2->setObjectName("line_2");
@@ -1131,7 +1131,7 @@ public:
         matchScrollArea->setWidgetResizable(true);
         widget = new QWidget();
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(0, 0, 752, 381));
+        widget->setGeometry(QRect(0, 0, 80, 16));
         verticalScrollBar_2 = new QScrollBar(widget);
         verticalScrollBar_2->setObjectName("verticalScrollBar_2");
         verticalScrollBar_2->setGeometry(QRect(750, 0, 16, 381));
@@ -1280,7 +1280,7 @@ public:
         matchResults->setWidgetResizable(true);
         scrollAreaWidgetContents_3 = new QWidget();
         scrollAreaWidgetContents_3->setObjectName("scrollAreaWidgetContents_3");
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 471, 429));
+        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 35, 16));
         verticalScrollBar_4 = new QScrollBar(scrollAreaWidgetContents_3);
         verticalScrollBar_4->setObjectName("verticalScrollBar_4");
         verticalScrollBar_4->setGeometry(QRect(460, 0, 16, 431));
@@ -1592,7 +1592,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(11);
+        stackedWidget->setCurrentIndex(10);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1630,11 +1630,11 @@ public:
         rosterLabel->setText(QCoreApplication::translate("MainWindow", "Your Roster", nullptr));
         sortByLabel->setText(QCoreApplication::translate("MainWindow", "Sort by:", nullptr));
         RosterDescendingSort->setText(QCoreApplication::translate("MainWindow", "Desending Order", nullptr));
-        womenChampLabel->setText(QCoreApplication::translate("MainWindow", "Women's Championship", nullptr));
-        worldChampLabel->setText(QCoreApplication::translate("MainWindow", "World Champion: ", nullptr));
-        tagChampLabel->setText(QCoreApplication::translate("MainWindow", "Tag Team Championship", nullptr));
         teamNameRadio->setText(QCoreApplication::translate("MainWindow", "Select Champions by Team Name", nullptr));
         individualRadioButton->setText(QCoreApplication::translate("MainWindow", "Select Champions by Individuals", nullptr));
+        womenChampLabel->setText(QCoreApplication::translate("MainWindow", "Women's Championship", nullptr));
+        tagChampLabel->setText(QCoreApplication::translate("MainWindow", "Tag Team Championship", nullptr));
+        worldChampLabel->setText(QCoreApplication::translate("MainWindow", "World Champion: ", nullptr));
         nameLabel->setText(QString());
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "Edit Name", nullptr));
         genderLabel->setText(QCoreApplication::translate("MainWindow", "Division:", nullptr));
