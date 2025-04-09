@@ -45,6 +45,7 @@ public:
     int getRole() const { return m_role; }
     int getHealth() const { return m_health; }
     int getInjury() const { return m_injury; }
+    int getWeeks() const {return m_weeksRemaining; }
 
     // Setters
     void setName(const QString& n);
@@ -64,8 +65,11 @@ public:
     void setRole(int r) { m_role = r; }
     void setHealth( int h) { m_health = h; }
     void setInjury(int i) {m_injury = i; }
+    void setWeeks(int w) {m_weeksRemaining = w;}
 
     void recoverHealth(int amount) { setHealth(m_health + amount); } // Called at week's end
+    void recoverInjury() { m_injury--; }    // decreases injury time when week ends
+    void decWeeks() { m_weeksRemaining--; } // decreases weeks on contract
 
     // member function to display wrestler info (for debugging)
     void displayInfo() const {
@@ -81,7 +85,8 @@ public:
                  << m_charisma
                  << m_stamina
                  << m_salary
-                 << m_role;
+                 << m_role
+                 << m_weeksRemaining;
     }
 
 private:
@@ -97,6 +102,7 @@ private:
     int m_role;   // 1 for bad, 2 for good, 0 for neutral
     int m_health;   // Affects odds/ duration of injury
     int m_injury;   // Duration of wrestler's injury
+    int m_weeksRemaining;   // Duration of contract remaining
 
     QString generateRandomName(std::mt19937& gen);
     QStringList loadNamesFromFile(const QString& filename);

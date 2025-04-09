@@ -23,7 +23,7 @@ public:
     void addWrestler(Wrestler* wrestler);// Add a wrestler to the match
     void removeWrestler(int index); // Removes wrestler from match
 
-    void setParticipants(QList<Wrestler*> wrestlerList) { m_participants = wrestlerList;}
+    void setParticipants(QList<Wrestler*> &wrestlerList) { m_participants = wrestlerList;}
     void setMatchRating(float rating) {m_rating = rating; }
     void setMatchType(QString type) { m_matchType = type; }
     void setWinner(Wrestler* winner) { m_winner = winner; }    // Decide a winner (random or user-defined)
@@ -50,8 +50,8 @@ public:
     int getFinances() const { return m_finances; }
 
     bool isValidMatch() const;  // Method to check if match is valid (correct number of wrestlers)
-    void calculateHealthLoss ( Wrestler& wrestler) ;    // calculates health lost by wrestler in a match
-    void determineInjuryDuration ( Wrestler& wrestler);
+    void calculateHealthLoss ( Wrestler* wrestler) ;    // calculates health lost by wrestler in a match
+    void determineInjuryDuration ( Wrestler* wrestler);
 
     int matchTypeDamage(); // determines base health loss of a match type
 

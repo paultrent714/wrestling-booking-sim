@@ -19,10 +19,7 @@ void championship::setChampions( const QList<Wrestler*>& champions ){
     // Ensure only valid wrestlers are added
     for (Wrestler* champ : champions) {
         if (champ) {  // Check if not nullptr
-            qDebug() << "Setting champ: " << champ->getName();
             m_champions.append(champ);
-        } else {
-            qDebug() << "Vacant championship slot detected.";
         }
     }
 
@@ -46,7 +43,6 @@ bool championship::isValidChampions(QList<Wrestler*> champions)  {
 
 Wrestler* championship::getChampion() {
     if (m_champions.isEmpty()) {
-        qDebug() << "No champion set!";
         return nullptr;
     }
     return m_champions[0];

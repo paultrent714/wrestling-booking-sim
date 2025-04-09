@@ -13,6 +13,7 @@ Wrestler::Wrestler(){
     std::uniform_int_distribution<> genderDist(0, 1);
 
     std::uniform_int_distribution<> healthDist(40,99); // Don't want them to start at constant or low health
+    std::uniform_int_distribution<> weeksDist(1, 52);
 
     this->m_gender = genderDist(gen);
     this->m_name = generateRandomName(gen).trimmed();
@@ -39,6 +40,7 @@ Wrestler::Wrestler(){
     this->m_role = roleDist(gen);
     this->m_health = healthDist(gen);
     this->m_injury = 0;     // Don't start injured
+    this->m_weeksRemaining = weeksDist(gen);
 }
 Wrestler::Wrestler(int id) {
     // Member variables (attributes)
@@ -52,6 +54,7 @@ Wrestler::Wrestler(int id) {
     std::uniform_int_distribution<> genderDist(0, 1);
 
     std::uniform_int_distribution<> healthDist(40, 99); // Don't want them to start at constant or low health
+    std::uniform_int_distribution<> weeksDist(1, 52);
 
     this->m_id = id;
     this->m_gender = genderDist(gen);
@@ -79,6 +82,7 @@ Wrestler::Wrestler(int id) {
     this->m_role = roleDist(gen);
     this->m_health = healthDist(gen);
     this->m_injury = 0;     // Don't start injured
+    this->m_weeksRemaining = weeksDist(gen);
 }
 
 void Wrestler::setName(const QString& n) {

@@ -30,7 +30,7 @@ void GameDataManager::initializeDatabase() {
                "potential INTEGER, powerhouse INTEGER, brawler INTEGER, "
                "highFlyer INTEGER, technician INTEGER, mma INTEGER, "
                "charisma INTEGER, stamina INTEGER, salary INTEGER, role INTEGER, "
-               "health INTEGER, injury INTEGER);");
+               "health INTEGER, injury INTEGER, weeksOnContract INTEGER);");
 
 
 
@@ -111,9 +111,9 @@ void GameDataManager::saveWrestlers( QList<Wrestler> &wrestlers) {
 
     for (const Wrestler &wrestler : wrestlers) {
         query.prepare("INSERT INTO Wrestlers (name, gender, popularity, age, potential, powerhouse, brawler, "
-                      "highFlyer, technician, mma, charisma, stamina, salary, role, health, injury) "
+                      "highFlyer, technician, mma, charisma, stamina, salary, role, health, injury, weeksOnContract) "
                       "VALUES (:name, :gender, :popularity, :age, :potential, :powerhouse, :brawler, "
-                      ":highFlyer, :technician, :mma, :charisma, :stamina, :salary, :role, :health, :injury)");
+                      ":highFlyer, :technician, :mma, :charisma, :stamina, :salary, :role, :health, :injury, :weeksOnContract)");
 
         query.bindValue(":name", wrestler.getName());
         query.bindValue(":gender", wrestler.getGender());
@@ -131,7 +131,7 @@ void GameDataManager::saveWrestlers( QList<Wrestler> &wrestlers) {
         query.bindValue(":role", wrestler.getRole());
         query.bindValue(":health", wrestler.getHealth());
         query.bindValue(":injury", wrestler.getInjury());
-
+        query.bindValue(":weeksOnContract", wrestler.getWeeks());
         query.exec();
     }
 }
@@ -373,7 +373,7 @@ void GameDataManager::loadWrestlers() {
             wrestler.setRole(query.value("role").toInt());
             wrestler.setHealth(query.value("health").toInt());
             wrestler.setInjury(query.value("injury").toInt());
-
+            wrestler.setWeeks(query.value("weeksOnContract").toInt());
             m_wrestlers.append(wrestler);
         }
     } else {

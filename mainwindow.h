@@ -72,7 +72,7 @@ private slots:
     void on_RosterDisplayTab_clicked();     // displays members of roster
     void on_addToMatch_clicked();           // adds wrestler to match
     void on_addMatchButton_clicked();       // adds match to show
-    void on_saveMatchDetails_clicked();     // saves match details
+    void on_backFromEditMatch_clicked();     // for when user is done editing match
     void on_ChampionTab_clicked();          // shows championships
     void on_teamNameRadio_toggled(bool checked);            // on champ page, whether to select tag champ by team name
     void on_individualRadioButton_toggled(bool checked);    // on champ page, whether to select tag champ by individuals
@@ -90,6 +90,10 @@ private slots:
 
     void on_darkModeCheckBox_stateChanged(int arg1);    // changes dark mode when game loads/user checks it
 
+    void on_homeButton_clicked();
+
+    void on_editSaveNameButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -104,9 +108,9 @@ private:
     void updateDashboardLabels();                   // update dashboard labels in the GUI
 
 
-    void populateWrestlerList(const QList<Wrestler> &wrestlers);        // Adds wrestlers and important info to scoll widget
-    void updateWrestlerDetails(const Wrestler &wrestler);               // Shows all info to player about a wrestler
-    void populateInjuredWrestlersList(const QList<Wrestler> &wrestlers);    // Shows wrestlers who are injured and for how long
+    void populateWrestlerList( QList<Wrestler> &wrestlers);        // Adds wrestlers and important info to scoll widget
+    void updateWrestlerDetails( Wrestler &wrestler);               // Shows all info to player about a wrestler
+    void populateInjuredWrestlersList( QList<Wrestler> &wrestlers);    // Shows wrestlers who are injured and for how long
 
     void populateMatchList( );                          // Shows matches that have been added to show
     void openEditMatchPage(match &m, int index);        // Edit match
@@ -122,6 +126,7 @@ private:
     void onManualTagChampsSelected();               // select and update tag champs by selecting individuals
     void onWorldChampSelected(int index);           // Select and update world champ
     void onWomenChampSelected(int index);           // Select and update women's champ
+    bool isChampion(const Wrestler& w);       // Returns whether given wrestler is a champion
 
     void populateTeamList();                        // Shows all teams
     void openEditTeamPage(team& team);              // opens page to show specific team
@@ -131,6 +136,7 @@ private:
     void updateWrestlerTeamSelection();             // Updates wrestlers able to be chosen for a team
 
     void applyTheme();          // changes labels and widgets created in .ui file to dark/light mode
+    void clearData();           // for clearing game data and going to landing page
 
 
     GameDataManager* dataManager;

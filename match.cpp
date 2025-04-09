@@ -154,19 +154,19 @@ void match::applyTitleChange(championship* championship)
     }
 }
 
-void match::calculateHealthLoss( Wrestler& wrestler)  {
+void match::calculateHealthLoss( Wrestler* wrestler)  {
     int baseDamage = matchTypeDamage();  // Function that returns damage based on match type
-    int staminaFactor = std::max(1, 100 - wrestler.getStamina());  // Higher stamina = less damage
+    int staminaFactor = std::max(1, 100 - wrestler->getStamina());  // Higher stamina = less damage
 
     int healthLoss = (baseDamage * staminaFactor) / 100; // Scale based on stamina
     healthLoss = std::clamp(healthLoss, 1, 50); // Ensures at least 1 health lost, max 50
 
-    int newHealth = std::max(0, wrestler.getHealth() - healthLoss);  // Prevent negative health
-    wrestler.setHealth(newHealth);
+    int newHealth = std::max(0, wrestler->getHealth() - healthLoss);  // Prevent negative health
+    wrestler->setHealth(newHealth);
 }
 
-void match::determineInjuryDuration(Wrestler& wrestler) {
-    int health = wrestler.getHealth();
+void match::determineInjuryDuration(Wrestler* wrestler) {
+    int health = wrestler->getHealth();
 
     // Calculate normalized factor: 0 when health is 100, 1 when health is 0.
     double normalized = (100 - health) / 100.0;
@@ -187,7 +187,7 @@ void match::determineInjuryDuration(Wrestler& wrestler) {
         int randomOffset = (rand() % 3) - 1;
         int injuryDuration = std::clamp(baseDuration + randomOffset, 1, 12);
 
-        wrestler.setInjury(injuryDuration);
+        wrestler->setInjury(injuryDuration);
     }
 }
 
