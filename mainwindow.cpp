@@ -81,6 +81,15 @@ void MainWindow::on_RosterDisplayTab_clicked()
     ui->stackedWidget->setCurrentWidget(ui->viewRoster);
     populateWrestlerList(m_playerRoster);
 }
+void MainWindow::on_rosterBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
+}
+void MainWindow::on_backFromWrestler_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->viewRoster);
+    populateWrestlerList(m_playerRoster);
+}
 void MainWindow::on_backToLanding_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
@@ -91,16 +100,30 @@ void MainWindow::on_InjuredTab_clicked()
     populateInjuredWrestlersList(m_playerRoster);
 
 }
+void MainWindow::on_InjuredBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
+}
 void MainWindow::on_ChampionTab_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->ChampionshipPage);
     setUpChampionSelection();
 }
+void MainWindow::on_champBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
+}
+
 void MainWindow::on_TeamsTab_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
     populateTeamList();
 }
+void MainWindow::on_teamsBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
+}
+
 void MainWindow::on_nextWeekButton_clicked()
 {
     m_currentWeek++;
@@ -742,6 +765,7 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
     ui->wrestlerNamelineEdit->setStyleSheet(QString("color: %1;")
                                       .arg(m_textColor.name()));
 
+    disconnect(ui->wrestlerNamelineEdit, nullptr, nullptr, nullptr); // disconnect all slots
 
     // Connect the 'editingFinished' signal to update the name
     connect(ui->wrestlerNamelineEdit, &QLineEdit::editingFinished, this, [this, wrestler]() {
@@ -761,6 +785,7 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
     ui->populatiryLabel->setText("Popularity: " + QString::number(wrestler->getPopularity()));
     ui->charismaLabel->setText("Charisma: " + QString::number(wrestler->getCharisma()));
     ui->staminaLabel->setText("Stamina: " + QString::number(wrestler->getStamina()));
+    ui->healthLabel->setText("Health: " + QString::number(wrestler->getHealth()));
 
     ui->salaryLabel->setText("Salary: $" + QString::number(wrestler->getSalary()));
 
@@ -794,6 +819,50 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
         ui->injuredLabel->setText(injured);
         ui->injuredLabel->adjustSize(); // Supposed to remove the weird red empty space above the text
     }
+
+    QString grade;
+    QString color;
+
+    int potential = wrestler->getPotential();
+
+    // Determine grade and color
+    if (potential >= 475) {
+        grade = "A+";
+        color = "#006400"; // Dark Green
+    } else if (potential >= 450) {
+        grade = "A";
+        color = "#006400";
+    } else if (potential >= 400) {
+        grade = "B+";
+        color = "#32CD32"; // Light Green
+    } else if (potential >= 375) {
+        grade = "B";
+        color = "#32CD32";
+    } else if (potential >= 325) {
+        grade = "C+";
+        color = "#FFD700"; // Gold
+    } else if (potential >= 300) {
+        grade = "C";
+        color = "#FFD700";
+    } else if (potential >= 250) {
+        grade = "D+";
+        color = "#FFA500"; // Orange
+    } else if (potential >= 225) {
+        grade = "D";
+        color = "#FFA500";
+    } else if (potential >= 125) {
+        grade = "E";
+        color = "#FF0000"; // Red
+    } else {
+        grade = "F";
+        color = "#8B0000"; // Dark Red
+    }
+
+    // Set the plain text and stylesheet color
+    ui->potentialValueLabel->setText(grade);
+    ui->potentialValueLabel->setStyleSheet(QString(
+                                               "QLabel { color: %1; font-weight: bold; font-size: 58pt; }"
+                                               ).arg(color));
 }
 void MainWindow::on_editSaveNameButton_clicked()
 {
@@ -2135,17 +2204,11 @@ void MainWindow::sortWrestlers() {
 
     populateWrestlerList(m_playerRoster);
 }
-
-
-
 void MainWindow::on_RosterDescendingSort_toggled(bool checked)
 {
     sortWrestlers();
 }
-
-
 void MainWindow::on_sortByAttributesCB_currentTextChanged(const QString &arg1)
 {
     sortWrestlers();
 }
-

@@ -98,6 +98,16 @@ private slots:
 
     void on_sortByAttributesCB_currentTextChanged(const QString &arg1);
 
+    void on_InjuredBackButton_clicked();
+
+    void on_champBackButton_clicked();
+
+    void on_teamsBackButton_clicked();
+
+    void on_rosterBackButton_clicked();
+
+    void on_backFromWrestler_clicked();
+
 private:
     Ui::MainWindow *ui;
 
