@@ -54,7 +54,7 @@
        <string notr="true">background-color: rgb(30, 30, 30);</string>
       </property>
       <property name="currentIndex">
-       <number>11</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -574,7 +574,7 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QPushButton" name="ScoutTalentTab">
+           <widget class="QPushButton" name="ScoutTalentButton">
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
@@ -717,8 +717,8 @@ font: 24pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>378</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_3">
@@ -827,7 +827,7 @@ font: 24pt &quot;Segoe UI&quot;;</string>
              <x>0</x>
              <y>0</y>
              <width>752</width>
-             <height>428</height>
+             <height>435</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1141,8 +1141,8 @@ QCheckBox:hover::indicator {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>383</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -1701,7 +1701,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
             <widget class="QWidget" name="widget_4" native="true">
              <layout class="QHBoxLayout" name="horizontalLayout_14">
               <item>
-               <widget class="QPushButton" name="resignButton_2">
+               <widget class="QPushButton" name="signButton">
                 <property name="cursor">
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
@@ -1715,7 +1715,7 @@ font: 16pt &quot;Segoe UI&quot;;</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="resignButton_3">
+               <widget class="QPushButton" name="declineSignButton">
                 <property name="cursor">
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
@@ -1937,8 +1937,8 @@ font: 22pt &quot;Segoe UI&quot;;
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>384</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_2">
@@ -2208,8 +2208,8 @@ font: 18pt &quot;Segoe UI&quot;;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>471</width>
-               <height>432</height>
+               <width>21</width>
+               <height>16</height>
               </rect>
              </property>
              <widget class="QScrollBar" name="verticalScrollBar_4">

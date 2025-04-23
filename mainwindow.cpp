@@ -863,6 +863,23 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
     ui->potentialValueLabel->setStyleSheet(QString(
                                                "QLabel { color: %1; font-weight: bold; font-size: 58pt; }"
                                                ).arg(color));
+
+    // if wrestler is not on roster
+    if (wrestler->getWeeks() <= 0) {
+        disconnect(ui->signButton, nullptr, nullptr, nullptr);  // ensure the button is not connected to anything
+        ui->signButton->show();
+        ui->declineSignButton->show();
+        ui->resignButton->hide();   // button to add weeks to contract
+
+        connect(ui->signButton, &QPushButton::clicked, this, &MainWindow::signNewRecruit);
+        connect(ui->declineSignButton, &QPushButton::clicked, this, &MainWindow::declineSign);
+    }
+    else{
+        ui->signButton->hide();
+        ui->declineSignButton->hide();
+        ui->resignButton->show();
+    }
+
 }
 void MainWindow::on_editSaveNameButton_clicked()
 {
@@ -2077,7 +2094,6 @@ void MainWindow::on_darkModeCheckBox_stateChanged(int arg1)
     applyTheme();  // Update UI elements with the new colors
     QApplication::restoreOverrideCursor();  // Return cursors to normal
 }
-
 void MainWindow::applyTheme(){
     // List of StackedWidget pages to exclude from background updates
     QList<QWidget*> excludedPages = { ui->useCustomRosterPage, ui->LandingPage, ui->newFilePage };
@@ -2135,8 +2151,6 @@ void MainWindow::applyTheme(){
         }
     }
 }
-
-
 void MainWindow::clearData(){
 
     if (dataManager) {
@@ -2173,7 +2187,6 @@ void MainWindow::clearData(){
 
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
 }
-
 
 void MainWindow::sortWrestlers() {
     QString selectedSort = ui->sortByAttributesCB->currentText();
@@ -2212,3 +2225,45 @@ void MainWindow::on_sortByAttributesCB_currentTextChanged(const QString &arg1)
 {
     sortWrestlers();
 }
+
+void MainWindow::on_ScoutTalentButton_clicked()
+{
+    scoutNewRecruit();  // function for getting young wrestlers
+}
+void MainWindow::scoutNewRecruit(){
+    // either generates a new recruit, or shows recruit user scouted but didn't yet decline/sign
+    if (!m_scoutedWrestler) {
+        m_scoutedWrestler = new Wrestler();
+        m_scoutedWrestler->setWeeks(0);
+
+        // Sets the age to be younger than random generator in constructor
+        std::uniform_int_distribution<> ageDist(18, 28);
+        int randomAge = ageDist(RandomUtils::getGenerator());
+        m_scoutedWrestler->setAge(randomAge);
+    }
+
+    updateWrestlerDetails(m_scoutedWrestler);
+    ui->stackedWidget->setCurrentWidget(ui->wrestlerStats);
+}
+
+void MainWindow::signNewRecruit(){
+    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
+
+    m_playerRoster.append(m_scoutedWrestler);
+    m_scoutedWrestler->setWeeks(10); // random number of matches
+
+    QMessageBox::information(this, "Wrestler Signed", m_scoutedWrestler->getName() + " has been signed to your roster!");
+    // updates buttons/contract info
+    updateWrestlerDetails(m_scoutedWrestler);
+
+    m_scoutedWrestler = nullptr;
+}
+void MainWindow::declineSign(){
+    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
+
+    delete m_scoutedWrestler;
+    m_scoutedWrestler = nullptr;
+
+    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
+}
+

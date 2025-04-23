@@ -108,6 +108,8 @@ private slots:
 
     void on_backFromWrestler_clicked();
 
+    void on_ScoutTalentButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -154,10 +156,17 @@ private:
 
     void sortWrestlers();
 
+    void scoutNewRecruit();     // used for viewing info about m_scoutedWrestler
+    void signNewRecruit();    // signs scouted wrestler
+    void declineSign();       // deletes new recruit wrestler object
+
+
     GameDataManager* dataManager;
 
     QList<Wrestler*> m_playerRoster;
     int m_lastUsedID;           // Last created wrestler ID
+
+    Wrestler* m_scoutedWrestler = nullptr;
 
     championship m_world;
     championship m_tag;

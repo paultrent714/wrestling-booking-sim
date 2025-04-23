@@ -83,7 +83,7 @@ public:
     QPushButton *TeamsTab;
     QPushButton *ChampionTab;
     QPushButton *FeudsTab;
-    QPushButton *ScoutTalentTab;
+    QPushButton *ScoutTalentButton;
     QPushButton *InjuredTab;
     QSpacerItem *verticalSpacer_2;
     QHBoxLayout *horizontalLayout_5;
@@ -184,8 +184,8 @@ public:
     QPushButton *resignButton;
     QWidget *widget_4;
     QHBoxLayout *horizontalLayout_14;
-    QPushButton *resignButton_2;
-    QPushButton *resignButton_3;
+    QPushButton *signButton;
+    QPushButton *declineSignButton;
     QLabel *salaryLabel;
     QFrame *line_5;
     QWidget *Settings_Page;
@@ -579,14 +579,14 @@ public:
 
         gridLayout_2->addWidget(FeudsTab, 1, 2, 1, 1);
 
-        ScoutTalentTab = new QPushButton(Roster_Page);
-        ScoutTalentTab->setObjectName("ScoutTalentTab");
-        ScoutTalentTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-        ScoutTalentTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
+        ScoutTalentButton = new QPushButton(Roster_Page);
+        ScoutTalentButton->setObjectName("ScoutTalentButton");
+        ScoutTalentButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        ScoutTalentButton->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "font: 20pt \"Segoe UI\";\n"
 "color: rgb(255, 255, 255);"));
 
-        gridLayout_2->addWidget(ScoutTalentTab, 1, 1, 1, 1);
+        gridLayout_2->addWidget(ScoutTalentButton, 1, 1, 1, 1);
 
         InjuredTab = new QPushButton(Roster_Page);
         InjuredTab->setObjectName("InjuredTab");
@@ -658,7 +658,7 @@ public:
         tagTeamScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName("scrollAreaWidgetContents_2");
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 752, 378));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar_3 = new QScrollBar(scrollAreaWidgetContents_2);
         verticalScrollBar_3->setObjectName("verticalScrollBar_3");
         verticalScrollBar_3->setGeometry(QRect(730, 0, 20, 321));
@@ -715,7 +715,7 @@ public:
         injuryScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_4 = new QWidget();
         scrollAreaWidgetContents_4->setObjectName("scrollAreaWidgetContents_4");
-        scrollAreaWidgetContents_4->setGeometry(QRect(0, 0, 752, 428));
+        scrollAreaWidgetContents_4->setGeometry(QRect(0, 0, 752, 435));
         scrollAreaWidgetContents_4->setStyleSheet(QString::fromUtf8(""));
         verticalScrollBar_5 = new QScrollBar(scrollAreaWidgetContents_4);
         verticalScrollBar_5->setObjectName("verticalScrollBar_5");
@@ -919,7 +919,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 752, 383));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar = new QScrollBar(scrollAreaWidgetContents);
         verticalScrollBar->setObjectName("verticalScrollBar");
         verticalScrollBar->setGeometry(QRect(750, 0, 16, 381));
@@ -1277,22 +1277,22 @@ public:
         widget_4->setObjectName("widget_4");
         horizontalLayout_14 = new QHBoxLayout(widget_4);
         horizontalLayout_14->setObjectName("horizontalLayout_14");
-        resignButton_2 = new QPushButton(widget_4);
-        resignButton_2->setObjectName("resignButton_2");
-        resignButton_2->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-        resignButton_2->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+        signButton = new QPushButton(widget_4);
+        signButton->setObjectName("signButton");
+        signButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        signButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
-        horizontalLayout_14->addWidget(resignButton_2);
+        horizontalLayout_14->addWidget(signButton);
 
-        resignButton_3 = new QPushButton(widget_4);
-        resignButton_3->setObjectName("resignButton_3");
-        resignButton_3->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
-        resignButton_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
+        declineSignButton = new QPushButton(widget_4);
+        declineSignButton->setObjectName("declineSignButton");
+        declineSignButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        declineSignButton->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "background-color: rgb(200, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
-        horizontalLayout_14->addWidget(resignButton_3);
+        horizontalLayout_14->addWidget(declineSignButton);
 
 
         gridLayout_12->addWidget(widget_4, 1, 4, 1, 1);
@@ -1419,7 +1419,7 @@ public:
         matchScrollArea->setWidgetResizable(true);
         widget = new QWidget();
         widget->setObjectName("widget");
-        widget->setGeometry(QRect(0, 0, 752, 384));
+        widget->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar_2 = new QScrollBar(widget);
         verticalScrollBar_2->setObjectName("verticalScrollBar_2");
         verticalScrollBar_2->setGeometry(QRect(750, 0, 16, 381));
@@ -1575,7 +1575,7 @@ public:
         matchResults->setWidgetResizable(true);
         scrollAreaWidgetContents_3 = new QWidget();
         scrollAreaWidgetContents_3->setObjectName("scrollAreaWidgetContents_3");
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 471, 432));
+        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 21, 16));
         verticalScrollBar_4 = new QScrollBar(scrollAreaWidgetContents_3);
         verticalScrollBar_4->setObjectName("verticalScrollBar_4");
         verticalScrollBar_4->setGeometry(QRect(460, 0, 16, 431));
@@ -1909,7 +1909,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(11);
+        stackedWidget->setCurrentIndex(5);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1935,7 +1935,7 @@ public:
         TeamsTab->setText(QCoreApplication::translate("MainWindow", "Teams", nullptr));
         ChampionTab->setText(QCoreApplication::translate("MainWindow", "Champions", nullptr));
         FeudsTab->setText(QCoreApplication::translate("MainWindow", "Feuds", nullptr));
-        ScoutTalentTab->setText(QCoreApplication::translate("MainWindow", "Scout Talent", nullptr));
+        ScoutTalentButton->setText(QCoreApplication::translate("MainWindow", "Scout Talent", nullptr));
         InjuredTab->setText(QCoreApplication::translate("MainWindow", "Injured List", nullptr));
         RosterDisplayTab->setText(QCoreApplication::translate("MainWindow", "View Roster", nullptr));
         teamsBackButton->setText(QCoreApplication::translate("MainWindow", "Back", nullptr));
@@ -1976,8 +1976,8 @@ public:
         potentialValueLabel->setText(QCoreApplication::translate("MainWindow", "A", nullptr));
         potentialLabel->setText(QCoreApplication::translate("MainWindow", "Potential:", nullptr));
         resignButton->setText(QCoreApplication::translate("MainWindow", "Resign", nullptr));
-        resignButton_2->setText(QCoreApplication::translate("MainWindow", "Accept", nullptr));
-        resignButton_3->setText(QCoreApplication::translate("MainWindow", "Decline", nullptr));
+        signButton->setText(QCoreApplication::translate("MainWindow", "Accept", nullptr));
+        declineSignButton->setText(QCoreApplication::translate("MainWindow", "Decline", nullptr));
         salaryLabel->setText(QCoreApplication::translate("MainWindow", "Salary:", nullptr));
         darkModeCheckBox->setText(QCoreApplication::translate("MainWindow", "Dark Mode", nullptr));
         homeButton->setText(QString());

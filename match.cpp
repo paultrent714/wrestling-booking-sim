@@ -123,15 +123,15 @@ void match::applyTitleChange(championship* championship)
     else if (championship->getChampions().size() == 2) {
         // If the match is a tag match and has at least one tag team champion in the participants list
         if (m_teams && m_participants.size() == 4) {  // Example for tag team match, check if there are 4 participants
-            bool isChampionInMatch = false;
+            int isChampionInMatch = 0;
             for (auto& champ : championship->getChampions()) {
                 if (m_participants.contains(champ)) {
-                    isChampionInMatch = true;
-                    break;
+                    isChampionInMatch++;    // make sure all champs are in match
+                    if (isChampionInMatch >=2 ) { break; }
                 }
             }
 
-            if (isChampionInMatch) {
+            if (isChampionInMatch >= 2) {
                 // If the winner is in one of the teams, set the team as the new champions
                 int winnerIndex = m_participants.indexOf(m_winner);
                 QList<Wrestler*> tagChampions;
