@@ -48,7 +48,7 @@ public:
     ~MainWindow();
 
 
-    QVector<Wrestler> getPlayerRoster() const { return m_playerRoster; }
+    QVector<Wrestler*> getPlayerRoster() const { return m_playerRoster; }
     QVector<int> getMoneyHistory() const { return m_moneyHistory; }
     QVector<int> getFanHistory() const { return m_fanHistory; }
     int getCurrentWeek() const { return m_currentWeek; }
@@ -94,6 +94,10 @@ private slots:
 
     void on_editSaveNameButton_clicked();
 
+    void on_RosterDescendingSort_toggled(bool checked);
+
+    void on_sortByAttributesCB_currentTextChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
 
@@ -108,9 +112,9 @@ private:
     void updateDashboardLabels();                   // update dashboard labels in the GUI
 
 
-    void populateWrestlerList( QList<Wrestler> &wrestlers);        // Adds wrestlers and important info to scoll widget
-    void updateWrestlerDetails( Wrestler &wrestler);               // Shows all info to player about a wrestler
-    void populateInjuredWrestlersList( QList<Wrestler> &wrestlers);    // Shows wrestlers who are injured and for how long
+    void populateWrestlerList( QList<Wrestler*> &wrestlers);        // Adds wrestlers and important info to scoll widget
+    void updateWrestlerDetails( Wrestler* wrestler);               // Shows all info to player about a wrestler
+    void populateInjuredWrestlersList( QList<Wrestler*> &wrestlers);    // Shows wrestlers who are injured and for how long
 
     void populateMatchList( );                          // Shows matches that have been added to show
     void openEditMatchPage(match &m, int index);        // Edit match
@@ -126,7 +130,7 @@ private:
     void onManualTagChampsSelected();               // select and update tag champs by selecting individuals
     void onWorldChampSelected(int index);           // Select and update world champ
     void onWomenChampSelected(int index);           // Select and update women's champ
-    bool isChampion(const Wrestler& w);       // Returns whether given wrestler is a champion
+    bool isChampion( Wrestler* w);       // Returns whether given wrestler is a champion
 
     void populateTeamList();                        // Shows all teams
     void openEditTeamPage(team& team);              // opens page to show specific team
@@ -138,10 +142,11 @@ private:
     void applyTheme();          // changes labels and widgets created in .ui file to dark/light mode
     void clearData();           // for clearing game data and going to landing page
 
+    void sortWrestlers();
 
     GameDataManager* dataManager;
 
-    QList<Wrestler> m_playerRoster;
+    QList<Wrestler*> m_playerRoster;
     int m_lastUsedID;           // Last created wrestler ID
 
     championship m_world;
@@ -171,6 +176,16 @@ private:
     QColor m_backgroundColor;   // Default color of background
 
     QFont m_materialFont;       // Where the symbols are being retrieved from
+
+    //Default style for combo boxes
+    QString m_comboBoxStyle =
+        "QComboBox { background: #f0f0f0; border: 1px solid #888; padding: 4px; border-radius: 4px; color: black; }"
+        "QComboBox::drop-down { width: 20px; border-left: 1px solid #888; background: #d3d3d3; }"
+        "QComboBox::down-arrow { image: url(:/icons/down-arrow.png); width: 12px; height: 12px; }"
+        "QComboBox QAbstractItemView { background: #f0f0f0; selection-background-color: #0078D7; color: black; border: 1px solid #888; }"
+        "QComboBox QAbstractItemView::item { background-color: #f0f0f0; color: black; }";  // Ensure the item background color is consistent
+    ;
+
 
     // QChars for icons used in program
     const QChar saveIcon = QChar(0xe161);

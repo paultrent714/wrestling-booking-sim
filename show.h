@@ -28,7 +28,7 @@ public:
     void calculateCosts();  // Calculate costs for show
     void calculateFanImpact(int totalFans);   // Calculate the total fan impact
 
-    void setShowRating(int rating) { showRating = rating;}
+    void setShowRating(float rating) { showRating = rating;}
     void setTotalCosts(int costs) { totalCosts = costs; }
     void setTotalRevenue(int revenue) { totalRevenue = revenue; }
     void setShowProfit(int profit) {showProfit = profit;}
@@ -36,7 +36,7 @@ public:
     void setShowType(int type) { showType = type;}
 
     // Getters for the show data
-    int getShowRating() const { return showRating; }
+    float getShowRating() const { return showRating; }
     int getTotalCosts() const { return totalCosts; }
     int getTotalRevenue() const { return totalRevenue; }
     int getShowProfit() const { return showProfit;}
@@ -49,7 +49,7 @@ public:
 
 private:
     QList<match> matches; // List of matches in the show
-    int showRating;     // Average rating for the show
+    float showRating;     // Average rating for the show
     int totalRevenue;
     int totalCosts;     // Costs associated with the show
     int showProfit;     // Revenue - costs

@@ -76,7 +76,6 @@ void GameDataManager::initializeDatabase() {
 
 }
 
-
 bool GameDataManager::openDatabase()
 {
     if (!db.isOpen()) {
@@ -100,7 +99,7 @@ void GameDataManager::closeDatabase()
 }
 
 // Save Wrestlers
-void GameDataManager::saveWrestlers( QList<Wrestler> &wrestlers) {
+void GameDataManager::saveWrestlers( QList<Wrestler*> &wrestlers) {
     QSqlQuery query;
 
     query.exec("DELETE FROM Wrestlers"); // Clear existing data before saving
@@ -109,29 +108,29 @@ void GameDataManager::saveWrestlers( QList<Wrestler> &wrestlers) {
     query.exec("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Wrestlers'");
 
 
-    for (const Wrestler &wrestler : wrestlers) {
+    for ( Wrestler* wrestler : wrestlers) {
         query.prepare("INSERT INTO Wrestlers (name, gender, popularity, age, potential, powerhouse, brawler, "
                       "highFlyer, technician, mma, charisma, stamina, salary, role, health, injury, weeksOnContract) "
                       "VALUES (:name, :gender, :popularity, :age, :potential, :powerhouse, :brawler, "
                       ":highFlyer, :technician, :mma, :charisma, :stamina, :salary, :role, :health, :injury, :weeksOnContract)");
 
-        query.bindValue(":name", wrestler.getName());
-        query.bindValue(":gender", wrestler.getGender());
-        query.bindValue(":popularity", wrestler.getPopularity());
-        query.bindValue(":age", wrestler.getAge());
-        query.bindValue(":potential", wrestler.getPotential());
-        query.bindValue(":powerhouse", wrestler.getPowerhouse());
-        query.bindValue(":brawler", wrestler.getBrawler());
-        query.bindValue(":highFlyer", wrestler.getHighFlyer());
-        query.bindValue(":technician", wrestler.getTechnician());
-        query.bindValue(":mma", wrestler.getMMA());
-        query.bindValue(":charisma", wrestler.getCharisma());
-        query.bindValue(":stamina", wrestler.getStamina());
-        query.bindValue(":salary", wrestler.getSalary());
-        query.bindValue(":role", wrestler.getRole());
-        query.bindValue(":health", wrestler.getHealth());
-        query.bindValue(":injury", wrestler.getInjury());
-        query.bindValue(":weeksOnContract", wrestler.getWeeks());
+        query.bindValue(":name", wrestler->getName());
+        query.bindValue(":gender", wrestler->getGender());
+        query.bindValue(":popularity", wrestler->getPopularity());
+        query.bindValue(":age", wrestler->getAge());
+        query.bindValue(":potential", wrestler->getPotential());
+        query.bindValue(":powerhouse", wrestler->getPowerhouse());
+        query.bindValue(":brawler", wrestler->getBrawler());
+        query.bindValue(":highFlyer", wrestler->getHighFlyer());
+        query.bindValue(":technician", wrestler->getTechnician());
+        query.bindValue(":mma", wrestler->getMMA());
+        query.bindValue(":charisma", wrestler->getCharisma());
+        query.bindValue(":stamina", wrestler->getStamina());
+        query.bindValue(":salary", wrestler->getSalary());
+        query.bindValue(":role", wrestler->getRole());
+        query.bindValue(":health", wrestler->getHealth());
+        query.bindValue(":injury", wrestler->getInjury());
+        query.bindValue(":weeksOnContract", wrestler->getWeeks());
         query.exec();
     }
 }
@@ -355,25 +354,26 @@ void GameDataManager::loadWrestlers() {
 
     if (query.exec()) {
         while (query.next()) {
-            Wrestler wrestler;
-            wrestler.setID(query.value("id").toInt());
-            wrestler.setName(query.value("name").toString());
-            wrestler.setGender(query.value("gender").toBool());
-            wrestler.setPopularity(query.value("popularity").toInt());
-            wrestler.setAge(query.value("age").toInt());
-            wrestler.setPotential(query.value("potential").toInt());
-            wrestler.setPowerhouse(query.value("powerhouse").toInt());
-            wrestler.setBrawler(query.value("brawler").toInt());
-            wrestler.setHighFlyer(query.value("highFlyer").toInt());
-            wrestler.setTechnician(query.value("technician").toInt());
-            wrestler.setMMA(query.value("mma").toInt());
-            wrestler.setCharisma(query.value("charisma").toInt());
-            wrestler.setStamina(query.value("stamina").toInt());
-            wrestler.setSalary(query.value("salary").toInt());
-            wrestler.setRole(query.value("role").toInt());
-            wrestler.setHealth(query.value("health").toInt());
-            wrestler.setInjury(query.value("injury").toInt());
-            wrestler.setWeeks(query.value("weeksOnContract").toInt());
+            Wrestler* wrestler = new Wrestler(); // Dynamically create a new wrestler object
+            wrestler->setID(query.value("id").toInt());
+            wrestler->setName(query.value("name").toString());
+            wrestler->setGender(query.value("gender").toBool());
+            wrestler->setPopularity(query.value("popularity").toInt());
+            wrestler->setAge(query.value("age").toInt());
+            wrestler->setPotential(query.value("potential").toInt());
+            wrestler->setPowerhouse(query.value("powerhouse").toInt());
+            wrestler->setBrawler(query.value("brawler").toInt());
+            wrestler->setHighFlyer(query.value("highFlyer").toInt());
+            wrestler->setTechnician(query.value("technician").toInt());
+            wrestler->setMMA(query.value("mma").toInt());
+            wrestler->setCharisma(query.value("charisma").toInt());
+            wrestler->setStamina(query.value("stamina").toInt());
+            wrestler->setSalary(query.value("salary").toInt());
+            wrestler->setRole(query.value("role").toInt());
+            wrestler->setHealth(query.value("health").toInt());
+            wrestler->setInjury(query.value("injury").toInt());
+            wrestler->setWeeks(query.value("weeksOnContract").toInt());
+
             m_wrestlers.append(wrestler);
         }
     } else {
@@ -532,9 +532,9 @@ void GameDataManager::loadShow(show &currentShow) {
     }
 }
 Wrestler* GameDataManager::findWrestlerById(int wrestlerId) {
-    for (Wrestler &wrestler : m_wrestlers) {
-        if (wrestler.getID() == wrestlerId) {
-            return &wrestler;
+    for (Wrestler* wrestler : m_wrestlers) {
+        if (wrestler->getID() == wrestlerId) {
+            return wrestler;
         }
     }
     return nullptr;

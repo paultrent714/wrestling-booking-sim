@@ -25,7 +25,7 @@ public:
     void closeDatabase(); // Close the database connection
 
     // Save data
-    void saveWrestlers( QList<Wrestler>& wrestlers);
+    void saveWrestlers( QList<Wrestler*>& wrestlers);
     void saveChampionships( championship& world,  championship& tag,  championship& women);
     void saveTeams( QList<team>& teams);
     void saveGameInfo(int money, int fans, int year, int currentWeek,
@@ -42,13 +42,13 @@ public:
 
     void clearDatabase();
 
-    QList<Wrestler> getWrestlers() { return m_wrestlers;}
+    QList<Wrestler*> getWrestlers() { return m_wrestlers;}
     QList<championship> getChampionships() const { return m_championships; }
 
 private:
     QSqlDatabase db;
 
-    QList<Wrestler> m_wrestlers;
+    QList<Wrestler*> m_wrestlers;
     QList<championship> m_championships;
 
 

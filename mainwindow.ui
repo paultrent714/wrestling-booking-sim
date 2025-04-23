@@ -54,7 +54,7 @@
        <string notr="true">background-color: rgb(30, 30, 30);</string>
       </property>
       <property name="currentIndex">
-       <number>15</number>
+       <number>12</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -89,6 +89,9 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(85, 170, 255);
@@ -134,6 +137,9 @@ font: 36pt &quot;Segoe UI&quot;;</string>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(85, 170, 255);
 color: rgb(0, 0, 0);
@@ -166,6 +172,9 @@ font: 36pt &quot;Segoe UI&quot;;
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(170, 0, 0);
 color: rgb(255, 255, 255);</string>
@@ -182,6 +191,9 @@ color: rgb(255, 255, 255);</string>
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(85, 170, 255);
@@ -201,6 +213,9 @@ font: 30pt &quot;Segoe UI&quot;;</string>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(85, 170, 255);
 color: rgb(0, 0, 0);
@@ -218,6 +233,9 @@ font: 30pt &quot;Segoe UI&quot;;</string>
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(85, 170, 255);
@@ -243,7 +261,7 @@ font: 30pt &quot;Segoe UI&quot;;</string>
            <widget class="QLabel" name="moneyDisplay">
             <property name="styleSheet">
              <string notr="true">color: rgb(0, 0, 0);
-font: 12pt &quot;Segoe UI&quot;;</string>
+</string>
             </property>
             <property name="text">
              <string>Money:</string>
@@ -254,7 +272,7 @@ font: 12pt &quot;Segoe UI&quot;;</string>
            <widget class="QLabel" name="fansDisplay">
             <property name="styleSheet">
              <string notr="true">color: rgb(0, 0, 0);
-font: 12pt &quot;Segoe UI&quot;;</string>
+</string>
             </property>
             <property name="text">
              <string>Fans:</string>
@@ -265,7 +283,7 @@ font: 12pt &quot;Segoe UI&quot;;</string>
            <widget class="QLabel" name="yearDisplay">
             <property name="styleSheet">
              <string notr="true">color: rgb(0, 0, 0);
-font: 12pt &quot;Segoe UI&quot;;</string>
+</string>
             </property>
             <property name="text">
              <string>Year: </string>
@@ -276,7 +294,7 @@ font: 12pt &quot;Segoe UI&quot;;</string>
            <widget class="QLabel" name="WeekDisplay">
             <property name="styleSheet">
              <string notr="true">color: rgb(0, 0, 0);
-font: 12pt &quot;Segoe UI&quot;;</string>
+</string>
             </property>
             <property name="text">
              <string>Week:</string>
@@ -319,6 +337,9 @@ font: 12pt &quot;Segoe UI&quot;;</string>
               <width>250</width>
               <height>250</height>
              </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(255, 255, 127);
@@ -497,6 +518,9 @@ font: 28pt &quot;Segoe UI&quot;;
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: 20pt &quot;Segoe UI&quot;;
 background-color: rgb(0, 59, 0);
@@ -514,6 +538,9 @@ color: rgb(255, 255, 255);</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">font: 20pt &quot;Segoe UI&quot;;
@@ -533,6 +560,9 @@ color: rgb(255, 255, 255);</string>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: 20pt &quot;Segoe UI&quot;;
 background-color: rgb(0, 59, 0);
@@ -545,6 +575,9 @@ color: rgb(255, 255, 255);</string>
           </item>
           <item row="1" column="1">
            <widget class="QPushButton" name="ScoutTalentTab">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(0, 59, 0);
 font: 20pt &quot;Segoe UI&quot;;
@@ -562,6 +595,9 @@ color: rgb(255, 255, 255);</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(0, 59, 0);
@@ -595,6 +631,9 @@ font: 20pt &quot;Segoe UI&quot;;</string>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
            <widget class="QPushButton" name="RosterDisplayTab">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -635,8 +674,8 @@ font: 24pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>377</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_3">
@@ -657,6 +696,9 @@ font: 24pt &quot;Segoe UI&quot;;</string>
         </item>
         <item>
          <widget class="QPushButton" name="newTeamButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 59, 0);
 font: 20pt &quot;Segoe UI&quot;;
@@ -688,7 +730,7 @@ font: 24pt &quot;Segoe UI&quot;;</string>
         <item>
          <widget class="QScrollArea" name="injuryScrollArea">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(203, 203, 203);</string>
+           <string notr="true"/>
           </property>
           <property name="widgetResizable">
            <bool>true</bool>
@@ -698,12 +740,12 @@ font: 24pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>408</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(203, 203, 203);</string>
+            <string notr="true"/>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_5">
             <property name="geometry">
@@ -798,6 +840,9 @@ font: 24pt &quot;Segoe UI&quot;;</string>
          <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
            <widget class="QPushButton" name="addToTeamButton">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(0, 59, 0);
 font: 20pt &quot;Segoe UI&quot;;
@@ -810,6 +855,9 @@ color: rgb(255, 255, 255);</string>
           </item>
           <item>
            <widget class="QPushButton" name="saveTeamButton">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -852,7 +900,8 @@ font: 20pt &quot;Segoe UI&quot;;</string>
            <item>
             <widget class="QLabel" name="sortByLabel">
              <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);</string>
+              <string notr="true">color: rgb(0, 0, 0);
+font: 10pt &quot;Segoe UI&quot;;</string>
              </property>
              <property name="text">
               <string>Sort by:</string>
@@ -866,6 +915,35 @@ font: 20pt &quot;Segoe UI&quot;;</string>
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
+    background: #f0f0f0;
+    border: 1px solid #888;
+    padding: 4px;
+    border-radius: 4px;
+    color: black;
+}
+QComboBox::drop-down {
+    width: 20px;
+    border-left: 1px solid #888;
+    background: #d3d3d3;
+}
+QComboBox::down-arrow {
+    image: url(:/icons/down-arrow.png);
+    width: 12px;
+    height: 12px;
+}
+QComboBox QAbstractItemView {
+    background: #f0f0f0;
+    selection-background-color: #0078D7;
+    color: black;
+    border: 1px solid #888;
+}
+</string>
              </property>
             </widget>
            </item>
@@ -884,8 +962,34 @@ font: 20pt &quot;Segoe UI&quot;;</string>
            </item>
            <item>
             <widget class="QCheckBox" name="RosterDescendingSort">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);</string>
+              <string notr="true">QCheckBox {
+    color: black;
+    font-size: 14px;
+}
+
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #555;
+	border-radius: 8px;     
+    background: #f0f0f0;        
+}
+
+QCheckBox::indicator:checked {
+    background-color: #0078D7;
+    border: 1px solid #0055A4;
+	
+    
+}
+
+QCheckBox:hover::indicator {
+    border: 1px solid #0078D7;   
+}
+</string>
              </property>
              <property name="text">
               <string>Desending Order</string>
@@ -898,7 +1002,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
         <item>
          <widget class="QScrollArea" name="scrollArea">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(203, 203, 203);</string>
+           <string notr="true"/>
           </property>
           <property name="widgetResizable">
            <bool>true</bool>
@@ -909,7 +1013,7 @@ font: 20pt &quot;Segoe UI&quot;;</string>
              <x>0</x>
              <y>0</y>
              <width>752</width>
-             <height>367</height>
+             <height>385</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -943,40 +1047,14 @@ font: 20pt &quot;Segoe UI&quot;;</string>
        <layout class="QVBoxLayout" name="verticalLayout_11">
         <item>
          <layout class="QGridLayout" name="gridLayout_8">
-          <item row="6" column="1">
-           <widget class="QComboBox" name="womenChampComboBox">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(208, 208, 208);
-color: rgb(0, 0, 0);</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <layout class="QVBoxLayout" name="verticalLayout_6">
-            <item>
-             <widget class="QRadioButton" name="teamNameRadio">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Select Champions by Team Name</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="individualRadioButton">
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Select Champions by Individuals</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
           <item row="6" column="0">
            <widget class="QLabel" name="womenChampLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: 20pt &quot;Segoe UI&quot;;
 color: rgb(0, 0, 0);</string>
@@ -988,41 +1066,9 @@ color: rgb(0, 0, 0);</string>
           </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="worldChampComboBox">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(208, 208, 208);
-color: rgb(0, 0, 0);</string>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="tagChampLabel">
-            <property name="styleSheet">
-             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
-color: rgb(0, 0, 0);</string>
-            </property>
-            <property name="text">
-             <string>Tag Team Championship</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QComboBox" name="tagChampComboBox1">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(208, 208, 208);
-color: rgb(0, 0, 0);</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="teamComboBox">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(208, 208, 208);
-color: rgb(0, 0, 0);</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QComboBox" name="tagChampComboBox2">
             <property name="styleSheet">
              <string notr="true">background-color: rgb(208, 208, 208);
 color: rgb(0, 0, 0);</string>
@@ -1047,12 +1093,35 @@ color: rgb(0, 0, 0);</string>
           </item>
           <item row="0" column="0">
            <widget class="QLabel" name="worldChampLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: 20pt &quot;Segoe UI&quot;;
 color: rgb(0, 0, 0);</string>
             </property>
             <property name="text">
              <string>World Champion: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="tagChampLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Tag Team Championship</string>
             </property>
            </widget>
           </item>
@@ -1066,6 +1135,80 @@ color: rgb(0, 0, 0);</string>
             </property>
             <property name="orientation">
              <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QComboBox" name="tagChampComboBox2">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QComboBox" name="womenChampComboBox">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="teamComboBox">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QRadioButton" name="teamNameRadio">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string>Select Champions by Team Name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="individualRadioButton">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string>Select Champions by Individuals</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="tagChampComboBox1">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(208, 208, 208);
+color: rgb(0, 0, 0);</string>
             </property>
            </widget>
           </item>
@@ -1188,6 +1331,9 @@ color: rgb(0, 0, 0);</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">color: rgb(255, 255, 255);
@@ -1329,6 +1475,9 @@ font: 18pt &quot;Segoe UI&quot;;</string>
            </item>
            <item row="0" column="1" alignment="Qt::AlignmentFlag::AlignHCenter">
             <widget class="QPushButton" name="resignButton">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
               <string notr="true">color: rgb(0, 0, 0);
 font: 16pt &quot;Segoe UI&quot;;</string>
@@ -1343,6 +1492,9 @@ font: 16pt &quot;Segoe UI&quot;;</string>
              <layout class="QHBoxLayout" name="horizontalLayout_14">
               <item>
                <widget class="QPushButton" name="resignButton_2">
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color: rgb(0, 0, 0);
 font: 16pt &quot;Segoe UI&quot;;</string>
@@ -1354,6 +1506,9 @@ font: 16pt &quot;Segoe UI&quot;;</string>
               </item>
               <item>
                <widget class="QPushButton" name="resignButton_3">
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">color: rgb(255, 255, 255);
 background-color: rgb(200, 0, 0);
@@ -1387,6 +1542,9 @@ font: 16pt &quot;Segoe UI&quot;;</string>
          <layout class="QGridLayout" name="gridLayout_13">
           <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
            <widget class="QCheckBox" name="darkModeCheckBox">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">QCheckBox {
     color: black;
@@ -1396,6 +1554,7 @@ QCheckBox::indicator {
     width: 16px;  
     height: 16px;  
     border: 1px solid #888;  
+	border-radius: 8px;
     background: white;       
 }
 QCheckBox::indicator:checked {
@@ -1415,6 +1574,9 @@ QCheckBox::indicator:checked {
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(40, 40, 126);
@@ -1456,6 +1618,9 @@ font: 36pt ;</string>
           </item>
           <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
            <widget class="QPushButton" name="userSave">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(40, 40, 126);
 color: rgb(255, 255, 255);
@@ -1528,7 +1693,7 @@ font: 22pt &quot;Segoe UI&quot;;
         <item>
          <widget class="QScrollArea" name="matchScrollArea">
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(203, 203, 203);</string>
+           <string notr="true"/>
           </property>
           <property name="widgetResizable">
            <bool>true</bool>
@@ -1574,6 +1739,9 @@ font: 22pt &quot;Segoe UI&quot;;
               <height>100</height>
              </size>
             </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -1597,6 +1765,9 @@ font: 18pt &quot;Segoe UI&quot;;</string>
               <width>16777215</width>
               <height>100</height>
              </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">background-color: rgb(0, 59, 0);
@@ -1777,6 +1948,9 @@ font: 16pt &quot;Segoe UI&quot;;</string>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -1800,8 +1974,8 @@ font: 18pt &quot;Segoe UI&quot;;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>471</width>
-               <height>410</height>
+               <width>21</width>
+               <height>16</height>
               </rect>
              </property>
              <widget class="QScrollBar" name="verticalScrollBar_4">
@@ -1857,6 +2031,9 @@ font: 18pt &quot;Segoe UI&quot;;</string>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -1871,6 +2048,9 @@ font: 20pt &quot;Segoe UI&quot;;</string>
            </item>
            <item row="4" column="5">
             <widget class="QPushButton" name="backFromEditMatch">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -1902,6 +2082,9 @@ font: 12pt &quot;Segoe UI&quot;;</string>
              </item>
              <item>
               <widget class="QComboBox" name="matchTypeComboBox">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QComboBox {
     background: #f0f0f0;
@@ -1995,6 +2178,9 @@ font: 12pt &quot;Segoe UI&quot;;</string>
              </item>
              <item>
               <widget class="QComboBox" name="winnerComboBox">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QComboBox {
     background: #f0f0f0;
@@ -2051,6 +2237,9 @@ QCheckBox::indicator:unchecked {
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
               <widget class="QCheckBox" name="champCheckBox">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QCheckBox {
     color: black;
@@ -2060,6 +2249,7 @@ QCheckBox::indicator {
     width: 16px;  
     height: 16px;  
     border: 1px solid #888;  
+	border-radius: 8px;
     background: white;       
 }
 QCheckBox::indicator:checked {
@@ -2074,6 +2264,9 @@ QCheckBox::indicator:checked {
              </item>
              <item>
               <widget class="QCheckBox" name="teamCheckBox">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QCheckBox {
     color: black;
@@ -2083,6 +2276,7 @@ QCheckBox::indicator {
     width: 16px;  
     height: 16px;  
     border: 1px solid #888;  
+	border-radius: 8px;
     background: white;       
 }
 QCheckBox::indicator:checked {
@@ -2155,6 +2349,9 @@ QCheckBox::indicator:checked {
           <height>100</height>
          </size>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -2178,6 +2375,9 @@ font: 22pt &quot;Segoe UI&quot;;</string>
           <width>16777215</width>
           <height>100</height>
          </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(0, 59, 0);
@@ -2203,6 +2403,9 @@ font: 22pt &quot;Segoe UI&quot;;</string>
           <height>100</height>
          </size>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(0, 59, 0);
 color: rgb(255, 255, 255);
@@ -2226,6 +2429,9 @@ font: 22pt &quot;Segoe UI&quot;;</string>
           <width>16777215</width>
           <height>100</height>
          </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(0, 59, 0);

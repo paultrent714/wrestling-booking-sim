@@ -128,19 +128,19 @@ public:
     QWidget *ChampionshipPage;
     QVBoxLayout *verticalLayout_11;
     QGridLayout *gridLayout_8;
+    QLabel *womenChampLabel;
+    QComboBox *worldChampComboBox;
+    QFrame *line;
+    QLabel *worldChampLabel;
+    QLabel *tagChampLabel;
+    QFrame *line_2;
+    QComboBox *tagChampComboBox2;
     QComboBox *womenChampComboBox;
+    QComboBox *teamComboBox;
     QVBoxLayout *verticalLayout_6;
     QRadioButton *teamNameRadio;
     QRadioButton *individualRadioButton;
-    QLabel *womenChampLabel;
-    QComboBox *worldChampComboBox;
-    QLabel *tagChampLabel;
     QComboBox *tagChampComboBox1;
-    QComboBox *teamComboBox;
-    QComboBox *tagChampComboBox2;
-    QFrame *line;
-    QLabel *worldChampLabel;
-    QFrame *line_2;
     QWidget *wrestlerStats;
     QVBoxLayout *verticalLayout_5;
     QGridLayout *gridLayout_4;
@@ -284,6 +284,7 @@ public:
         StartNew->setObjectName("StartNew");
         sizePolicy1.setHeightForWidth(StartNew->sizePolicy().hasHeightForWidth());
         StartNew->setSizePolicy(sizePolicy1);
+        StartNew->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         StartNew->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 170, 255);\n"
 "color: rgb(0, 0, 0);\n"
 "font: 36pt \"Segoe UI\";"));
@@ -302,6 +303,7 @@ public:
         LoadGame->setObjectName("LoadGame");
         sizePolicy1.setHeightForWidth(LoadGame->sizePolicy().hasHeightForWidth());
         LoadGame->setSizePolicy(sizePolicy1);
+        LoadGame->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         LoadGame->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 170, 255);\n"
 "color: rgb(0, 0, 0);\n"
 "font: 36pt \"Segoe UI\";\n"
@@ -326,6 +328,7 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(backToLanding->sizePolicy().hasHeightForWidth());
         backToLanding->setSizePolicy(sizePolicy2);
+        backToLanding->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         backToLanding->setStyleSheet(QString::fromUtf8("background-color: rgb(170, 0, 0);\n"
 "color: rgb(255, 255, 255);"));
 
@@ -335,6 +338,7 @@ public:
         randomRoster->setObjectName("randomRoster");
         sizePolicy2.setHeightForWidth(randomRoster->sizePolicy().hasHeightForWidth());
         randomRoster->setSizePolicy(sizePolicy2);
+        randomRoster->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         randomRoster->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 170, 255);\n"
 "color: rgb(0, 0, 0);\n"
 "font: 30pt \"Segoe UI\";"));
@@ -345,6 +349,7 @@ public:
         customRoster->setObjectName("customRoster");
         sizePolicy2.setHeightForWidth(customRoster->sizePolicy().hasHeightForWidth());
         customRoster->setSizePolicy(sizePolicy2);
+        customRoster->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         customRoster->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 170, 255);\n"
 "color: rgb(0, 0, 0);\n"
 "font: 30pt \"Segoe UI\";"));
@@ -355,6 +360,7 @@ public:
         defaultRoster->setObjectName("defaultRoster");
         sizePolicy2.setHeightForWidth(defaultRoster->sizePolicy().hasHeightForWidth());
         defaultRoster->setSizePolicy(sizePolicy2);
+        defaultRoster->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         defaultRoster->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 170, 255);\n"
 "color: rgb(0, 0, 0);\n"
 "font: 30pt \"Segoe UI\";"));
@@ -375,28 +381,28 @@ public:
         moneyDisplay = new QLabel(Dashboard_Page);
         moneyDisplay->setObjectName("moneyDisplay");
         moneyDisplay->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"font: 12pt \"Segoe UI\";"));
+""));
 
         gridLayout_3->addWidget(moneyDisplay, 0, 0, 1, 1);
 
         fansDisplay = new QLabel(Dashboard_Page);
         fansDisplay->setObjectName("fansDisplay");
         fansDisplay->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"font: 12pt \"Segoe UI\";"));
+""));
 
         gridLayout_3->addWidget(fansDisplay, 1, 0, 1, 1);
 
         yearDisplay = new QLabel(Dashboard_Page);
         yearDisplay->setObjectName("yearDisplay");
         yearDisplay->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"font: 12pt \"Segoe UI\";"));
+""));
 
         gridLayout_3->addWidget(yearDisplay, 0, 1, 1, 1);
 
         WeekDisplay = new QLabel(Dashboard_Page);
         WeekDisplay->setObjectName("WeekDisplay");
         WeekDisplay->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"font: 12pt \"Segoe UI\";"));
+""));
 
         gridLayout_3->addWidget(WeekDisplay, 1, 1, 1, 1);
 
@@ -419,6 +425,7 @@ public:
         sizePolicy3.setHeightForWidth(CardTab->sizePolicy().hasHeightForWidth());
         CardTab->setSizePolicy(sizePolicy3);
         CardTab->setMaximumSize(QSize(250, 250));
+        CardTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         CardTab->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 127);\n"
 "border: 3px solid black;\n"
 "border-radius: 5px;\n"
@@ -520,6 +527,7 @@ public:
         sizePolicy4.setVerticalStretch(0);
         sizePolicy4.setHeightForWidth(TeamsTab->sizePolicy().hasHeightForWidth());
         TeamsTab->setSizePolicy(sizePolicy4);
+        TeamsTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         TeamsTab->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
 "background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);"));
@@ -533,6 +541,7 @@ public:
         sizePolicy5.setVerticalStretch(0);
         sizePolicy5.setHeightForWidth(ChampionTab->sizePolicy().hasHeightForWidth());
         ChampionTab->setSizePolicy(sizePolicy5);
+        ChampionTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         ChampionTab->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
 "background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);"));
@@ -546,6 +555,7 @@ public:
         sizePolicy6.setVerticalStretch(0);
         sizePolicy6.setHeightForWidth(FeudsTab->sizePolicy().hasHeightForWidth());
         FeudsTab->setSizePolicy(sizePolicy6);
+        FeudsTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         FeudsTab->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
 "background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);"));
@@ -554,6 +564,7 @@ public:
 
         ScoutTalentTab = new QPushButton(Roster_Page);
         ScoutTalentTab->setObjectName("ScoutTalentTab");
+        ScoutTalentTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         ScoutTalentTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "font: 20pt \"Segoe UI\";\n"
 "color: rgb(255, 255, 255);"));
@@ -564,6 +575,7 @@ public:
         InjuredTab->setObjectName("InjuredTab");
         sizePolicy5.setHeightForWidth(InjuredTab->sizePolicy().hasHeightForWidth());
         InjuredTab->setSizePolicy(sizePolicy5);
+        InjuredTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         InjuredTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 20pt \"Segoe UI\";"));
@@ -581,6 +593,7 @@ public:
         horizontalLayout_5->setObjectName("horizontalLayout_5");
         RosterDisplayTab = new QPushButton(Roster_Page);
         RosterDisplayTab->setObjectName("RosterDisplayTab");
+        RosterDisplayTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         RosterDisplayTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 22pt \"Segoe UI\";"));
@@ -608,7 +621,7 @@ public:
         tagTeamScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName("scrollAreaWidgetContents_2");
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 752, 377));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 66, 16));
         verticalScrollBar_3 = new QScrollBar(scrollAreaWidgetContents_2);
         verticalScrollBar_3->setObjectName("verticalScrollBar_3");
         verticalScrollBar_3->setGeometry(QRect(730, 0, 20, 321));
@@ -619,6 +632,7 @@ public:
 
         newTeamButton = new QPushButton(tagTeamPage);
         newTeamButton->setObjectName("newTeamButton");
+        newTeamButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         newTeamButton->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "font: 20pt \"Segoe UI\";\n"
 "color: rgb(255, 255, 255);"));
@@ -640,12 +654,12 @@ public:
 
         injuryScrollArea = new QScrollArea(InjuredList);
         injuryScrollArea->setObjectName("injuryScrollArea");
-        injuryScrollArea->setStyleSheet(QString::fromUtf8("background-color: rgb(203, 203, 203);"));
+        injuryScrollArea->setStyleSheet(QString::fromUtf8(""));
         injuryScrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents_4 = new QWidget();
         scrollAreaWidgetContents_4->setObjectName("scrollAreaWidgetContents_4");
-        scrollAreaWidgetContents_4->setGeometry(QRect(0, 0, 752, 408));
-        scrollAreaWidgetContents_4->setStyleSheet(QString::fromUtf8("background-color: rgb(203, 203, 203);"));
+        scrollAreaWidgetContents_4->setGeometry(QRect(0, 0, 66, 16));
+        scrollAreaWidgetContents_4->setStyleSheet(QString::fromUtf8(""));
         verticalScrollBar_5 = new QScrollBar(scrollAreaWidgetContents_4);
         verticalScrollBar_5->setObjectName("verticalScrollBar_5");
         verticalScrollBar_5->setGeometry(QRect(740, 0, 16, 431));
@@ -705,6 +719,7 @@ public:
         horizontalLayout_11->setObjectName("horizontalLayout_11");
         addToTeamButton = new QPushButton(editTeamPage);
         addToTeamButton->setObjectName("addToTeamButton");
+        addToTeamButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         addToTeamButton->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "font: 20pt \"Segoe UI\";\n"
 "color: rgb(255, 255, 255);"));
@@ -713,6 +728,7 @@ public:
 
         saveTeamButton = new QPushButton(editTeamPage);
         saveTeamButton->setObjectName("saveTeamButton");
+        saveTeamButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         saveTeamButton->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 20pt \"Segoe UI\";"));
@@ -743,7 +759,8 @@ public:
         horizontalLayout_12->setObjectName("horizontalLayout_12");
         sortByLabel = new QLabel(widget_2);
         sortByLabel->setObjectName("sortByLabel");
-        sortByLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+        sortByLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
+"font: 10pt \"Segoe UI\";"));
 
         horizontalLayout_12->addWidget(sortByLabel);
 
@@ -754,6 +771,31 @@ public:
         sizePolicy8.setVerticalStretch(0);
         sizePolicy8.setHeightForWidth(sortByAttributesCB->sizePolicy().hasHeightForWidth());
         sortByAttributesCB->setSizePolicy(sizePolicy8);
+        sortByAttributesCB->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        sortByAttributesCB->setStyleSheet(QString::fromUtf8("QComboBox {\n"
+"    background: #f0f0f0;\n"
+"    border: 1px solid #888;\n"
+"    padding: 4px;\n"
+"    border-radius: 4px;\n"
+"    color: black;\n"
+"}\n"
+"QComboBox::drop-down {\n"
+"    width: 20px;\n"
+"    border-left: 1px solid #888;\n"
+"    background: #d3d3d3;\n"
+"}\n"
+"QComboBox::down-arrow {\n"
+"    image: url(:/icons/down-arrow.png);\n"
+"    width: 12px;\n"
+"    height: 12px;\n"
+"}\n"
+"QComboBox QAbstractItemView {\n"
+"    background: #f0f0f0;\n"
+"    selection-background-color: #0078D7;\n"
+"    color: black;\n"
+"    border: 1px solid #888;\n"
+"}\n"
+""));
 
         horizontalLayout_12->addWidget(sortByAttributesCB);
 
@@ -763,7 +805,31 @@ public:
 
         RosterDescendingSort = new QCheckBox(widget_2);
         RosterDescendingSort->setObjectName("RosterDescendingSort");
-        RosterDescendingSort->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+        RosterDescendingSort->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        RosterDescendingSort->setStyleSheet(QString::fromUtf8("QCheckBox {\n"
+"    color: black;\n"
+"    font-size: 14px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator {\n"
+"    width: 16px;\n"
+"    height: 16px;\n"
+"    border: 1px solid #555;\n"
+"	border-radius: 8px;     \n"
+"    background: #f0f0f0;        \n"
+"}\n"
+"\n"
+"QCheckBox::indicator:checked {\n"
+"    background-color: #0078D7;\n"
+"    border: 1px solid #0055A4;\n"
+"	\n"
+"    \n"
+"}\n"
+"\n"
+"QCheckBox:hover::indicator {\n"
+"    border: 1px solid #0078D7;   \n"
+"}\n"
+""));
 
         horizontalLayout_12->addWidget(RosterDescendingSort);
 
@@ -772,11 +838,11 @@ public:
 
         scrollArea = new QScrollArea(viewRoster);
         scrollArea->setObjectName("scrollArea");
-        scrollArea->setStyleSheet(QString::fromUtf8("background-color: rgb(203, 203, 203);"));
+        scrollArea->setStyleSheet(QString::fromUtf8(""));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 752, 367));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 752, 385));
         verticalScrollBar = new QScrollBar(scrollAreaWidgetContents);
         verticalScrollBar->setObjectName("verticalScrollBar");
         verticalScrollBar->setGeometry(QRect(750, 0, 16, 381));
@@ -795,32 +861,13 @@ public:
         verticalLayout_11->setObjectName("verticalLayout_11");
         gridLayout_8 = new QGridLayout();
         gridLayout_8->setObjectName("gridLayout_8");
-        womenChampComboBox = new QComboBox(ChampionshipPage);
-        womenChampComboBox->setObjectName("womenChampComboBox");
-        womenChampComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(womenChampComboBox, 6, 1, 1, 1);
-
-        verticalLayout_6 = new QVBoxLayout();
-        verticalLayout_6->setObjectName("verticalLayout_6");
-        teamNameRadio = new QRadioButton(ChampionshipPage);
-        teamNameRadio->setObjectName("teamNameRadio");
-        teamNameRadio->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
-
-        verticalLayout_6->addWidget(teamNameRadio);
-
-        individualRadioButton = new QRadioButton(ChampionshipPage);
-        individualRadioButton->setObjectName("individualRadioButton");
-        individualRadioButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
-
-        verticalLayout_6->addWidget(individualRadioButton);
-
-
-        gridLayout_8->addLayout(verticalLayout_6, 2, 2, 1, 1);
-
         womenChampLabel = new QLabel(ChampionshipPage);
         womenChampLabel->setObjectName("womenChampLabel");
+        QSizePolicy sizePolicy9(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Expanding);
+        sizePolicy9.setHorizontalStretch(0);
+        sizePolicy9.setVerticalStretch(0);
+        sizePolicy9.setHeightForWidth(womenChampLabel->sizePolicy().hasHeightForWidth());
+        womenChampLabel->setSizePolicy(sizePolicy9);
         womenChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);"));
 
@@ -828,38 +875,11 @@ public:
 
         worldChampComboBox = new QComboBox(ChampionshipPage);
         worldChampComboBox->setObjectName("worldChampComboBox");
+        worldChampComboBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         worldChampComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
 "color: rgb(0, 0, 0);"));
 
         gridLayout_8->addWidget(worldChampComboBox, 0, 1, 1, 1);
-
-        tagChampLabel = new QLabel(ChampionshipPage);
-        tagChampLabel->setObjectName("tagChampLabel");
-        tagChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(tagChampLabel, 2, 0, 1, 1);
-
-        tagChampComboBox1 = new QComboBox(ChampionshipPage);
-        tagChampComboBox1->setObjectName("tagChampComboBox1");
-        tagChampComboBox1->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(tagChampComboBox1, 3, 1, 1, 1);
-
-        teamComboBox = new QComboBox(ChampionshipPage);
-        teamComboBox->setObjectName("teamComboBox");
-        teamComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(teamComboBox, 2, 1, 1, 1);
-
-        tagChampComboBox2 = new QComboBox(ChampionshipPage);
-        tagChampComboBox2->setObjectName("tagChampComboBox2");
-        tagChampComboBox2->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
-"color: rgb(0, 0, 0);"));
-
-        gridLayout_8->addWidget(tagChampComboBox2, 3, 2, 1, 1);
 
         line = new QFrame(ChampionshipPage);
         line->setObjectName("line");
@@ -873,10 +893,21 @@ public:
 
         worldChampLabel = new QLabel(ChampionshipPage);
         worldChampLabel->setObjectName("worldChampLabel");
+        sizePolicy9.setHeightForWidth(worldChampLabel->sizePolicy().hasHeightForWidth());
+        worldChampLabel->setSizePolicy(sizePolicy9);
         worldChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);"));
 
         gridLayout_8->addWidget(worldChampLabel, 0, 0, 1, 1);
+
+        tagChampLabel = new QLabel(ChampionshipPage);
+        tagChampLabel->setObjectName("tagChampLabel");
+        sizePolicy9.setHeightForWidth(tagChampLabel->sizePolicy().hasHeightForWidth());
+        tagChampLabel->setSizePolicy(sizePolicy9);
+        tagChampLabel->setStyleSheet(QString::fromUtf8("font: 20pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(tagChampLabel, 3, 0, 1, 1);
 
         line_2 = new QFrame(ChampionshipPage);
         line_2->setObjectName("line_2");
@@ -886,6 +917,57 @@ public:
         line_2->setFrameShadow(QFrame::Shadow::Sunken);
 
         gridLayout_8->addWidget(line_2, 1, 0, 1, 3);
+
+        tagChampComboBox2 = new QComboBox(ChampionshipPage);
+        tagChampComboBox2->setObjectName("tagChampComboBox2");
+        tagChampComboBox2->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        tagChampComboBox2->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(tagChampComboBox2, 3, 2, 1, 1);
+
+        womenChampComboBox = new QComboBox(ChampionshipPage);
+        womenChampComboBox->setObjectName("womenChampComboBox");
+        womenChampComboBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        womenChampComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(womenChampComboBox, 6, 1, 1, 1);
+
+        teamComboBox = new QComboBox(ChampionshipPage);
+        teamComboBox->setObjectName("teamComboBox");
+        teamComboBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        teamComboBox->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(teamComboBox, 2, 1, 1, 1);
+
+        verticalLayout_6 = new QVBoxLayout();
+        verticalLayout_6->setObjectName("verticalLayout_6");
+        teamNameRadio = new QRadioButton(ChampionshipPage);
+        teamNameRadio->setObjectName("teamNameRadio");
+        teamNameRadio->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        teamNameRadio->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        verticalLayout_6->addWidget(teamNameRadio);
+
+        individualRadioButton = new QRadioButton(ChampionshipPage);
+        individualRadioButton->setObjectName("individualRadioButton");
+        individualRadioButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        individualRadioButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        verticalLayout_6->addWidget(individualRadioButton);
+
+
+        gridLayout_8->addLayout(verticalLayout_6, 2, 2, 1, 1);
+
+        tagChampComboBox1 = new QComboBox(ChampionshipPage);
+        tagChampComboBox1->setObjectName("tagChampComboBox1");
+        tagChampComboBox1->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
+        tagChampComboBox1->setStyleSheet(QString::fromUtf8("background-color: rgb(208, 208, 208);\n"
+"color: rgb(0, 0, 0);"));
+
+        gridLayout_8->addWidget(tagChampComboBox1, 3, 1, 1, 1);
 
 
         verticalLayout_11->addLayout(gridLayout_8);
@@ -900,11 +982,11 @@ public:
         gridLayout_4->setObjectName("gridLayout_4");
         injuredLabel = new QLabel(wrestlerStats);
         injuredLabel->setObjectName("injuredLabel");
-        QSizePolicy sizePolicy9(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
-        sizePolicy9.setHorizontalStretch(0);
-        sizePolicy9.setVerticalStretch(0);
-        sizePolicy9.setHeightForWidth(injuredLabel->sizePolicy().hasHeightForWidth());
-        injuredLabel->setSizePolicy(sizePolicy9);
+        QSizePolicy sizePolicy10(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
+        sizePolicy10.setHorizontalStretch(0);
+        sizePolicy10.setVerticalStretch(0);
+        sizePolicy10.setHeightForWidth(injuredLabel->sizePolicy().hasHeightForWidth());
+        injuredLabel->setSizePolicy(sizePolicy10);
         injuredLabel->setMaximumSize(QSize(16777215, 60));
         injuredLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(200, 0, 0);\n"
 "\n"
@@ -917,8 +999,8 @@ public:
         verticalLayout_3->setObjectName("verticalLayout_3");
         genderLabel = new QLabel(wrestlerStats);
         genderLabel->setObjectName("genderLabel");
-        sizePolicy9.setHeightForWidth(genderLabel->sizePolicy().hasHeightForWidth());
-        genderLabel->setSizePolicy(sizePolicy9);
+        sizePolicy10.setHeightForWidth(genderLabel->sizePolicy().hasHeightForWidth());
+        genderLabel->setSizePolicy(sizePolicy10);
         genderLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -926,8 +1008,8 @@ public:
 
         ageLabel = new QLabel(wrestlerStats);
         ageLabel->setObjectName("ageLabel");
-        sizePolicy9.setHeightForWidth(ageLabel->sizePolicy().hasHeightForWidth());
-        ageLabel->setSizePolicy(sizePolicy9);
+        sizePolicy10.setHeightForWidth(ageLabel->sizePolicy().hasHeightForWidth());
+        ageLabel->setSizePolicy(sizePolicy10);
         ageLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 18pt \"Segoe UI\";"));
 
@@ -935,8 +1017,8 @@ public:
 
         roleLabel = new QLabel(wrestlerStats);
         roleLabel->setObjectName("roleLabel");
-        sizePolicy9.setHeightForWidth(roleLabel->sizePolicy().hasHeightForWidth());
-        roleLabel->setSizePolicy(sizePolicy9);
+        sizePolicy10.setHeightForWidth(roleLabel->sizePolicy().hasHeightForWidth());
+        roleLabel->setSizePolicy(sizePolicy10);
         roleLabel->setStyleSheet(QString::fromUtf8("font: 18pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);"));
 
@@ -954,6 +1036,7 @@ public:
         editSaveNameButton->setEnabled(true);
         sizePolicy2.setHeightForWidth(editSaveNameButton->sizePolicy().hasHeightForWidth());
         editSaveNameButton->setSizePolicy(sizePolicy2);
+        editSaveNameButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         editSaveNameButton->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "background-color: rgb(0, 59, 0);"));
 
@@ -1055,6 +1138,7 @@ public:
 
         resignButton = new QPushButton(widget_3);
         resignButton->setObjectName("resignButton");
+        resignButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         resignButton->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1066,6 +1150,7 @@ public:
         horizontalLayout_14->setObjectName("horizontalLayout_14");
         resignButton_2 = new QPushButton(widget_4);
         resignButton_2->setObjectName("resignButton_2");
+        resignButton_2->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         resignButton_2->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1073,6 +1158,7 @@ public:
 
         resignButton_3 = new QPushButton(widget_4);
         resignButton_3->setObjectName("resignButton_3");
+        resignButton_3->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         resignButton_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "background-color: rgb(200, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
@@ -1097,6 +1183,7 @@ public:
         gridLayout_13->setObjectName("gridLayout_13");
         darkModeCheckBox = new QCheckBox(Settings_Page);
         darkModeCheckBox->setObjectName("darkModeCheckBox");
+        darkModeCheckBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         darkModeCheckBox->setStyleSheet(QString::fromUtf8("QCheckBox {\n"
 "    color: black;\n"
 "    font-size: 16px;\n"
@@ -1105,6 +1192,7 @@ public:
 "    width: 16px;  \n"
 "    height: 16px;  \n"
 "    border: 1px solid #888;  \n"
+"	border-radius: 8px;\n"
 "    background: white;       \n"
 "}\n"
 "QCheckBox::indicator:checked {\n"
@@ -1118,6 +1206,7 @@ public:
         homeButton->setObjectName("homeButton");
         sizePolicy4.setHeightForWidth(homeButton->sizePolicy().hasHeightForWidth());
         homeButton->setSizePolicy(sizePolicy4);
+        homeButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         homeButton->setStyleSheet(QString::fromUtf8("background-color: rgb(40, 40, 126);\n"
 "font: 36pt ;"));
         QIcon icon(QIcon::fromTheme(QString::fromUtf8("user-home")));
@@ -1137,6 +1226,7 @@ public:
 
         userSave = new QPushButton(Settings_Page);
         userSave->setObjectName("userSave");
+        userSave->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         userSave->setStyleSheet(QString::fromUtf8("background-color: rgb(40, 40, 126);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 36pt ;"));
@@ -1177,7 +1267,7 @@ public:
 
         matchScrollArea = new QScrollArea(Show_Card);
         matchScrollArea->setObjectName("matchScrollArea");
-        matchScrollArea->setStyleSheet(QString::fromUtf8("background-color: rgb(203, 203, 203);"));
+        matchScrollArea->setStyleSheet(QString::fromUtf8(""));
         matchScrollArea->setWidgetResizable(true);
         widget = new QWidget();
         widget->setObjectName("widget");
@@ -1197,6 +1287,7 @@ public:
         sizePolicy7.setHeightForWidth(addMatchButton->sizePolicy().hasHeightForWidth());
         addMatchButton->setSizePolicy(sizePolicy7);
         addMatchButton->setMaximumSize(QSize(16777215, 100));
+        addMatchButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         addMatchButton->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 18pt \"Segoe UI\";"));
@@ -1208,6 +1299,7 @@ public:
         sizePolicy7.setHeightForWidth(finalizeBooking->sizePolicy().hasHeightForWidth());
         finalizeBooking->setSizePolicy(sizePolicy7);
         finalizeBooking->setMaximumSize(QSize(16777215, 100));
+        finalizeBooking->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         finalizeBooking->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 18pt \"Segoe UI\";"));
@@ -1234,19 +1326,16 @@ public:
         gridLayout_11->setObjectName("gridLayout_11");
         verticalWidget1 = new QWidget(showResults);
         verticalWidget1->setObjectName("verticalWidget1");
-        QSizePolicy sizePolicy10(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Expanding);
-        sizePolicy10.setHorizontalStretch(0);
-        sizePolicy10.setVerticalStretch(0);
-        sizePolicy10.setHeightForWidth(verticalWidget1->sizePolicy().hasHeightForWidth());
-        verticalWidget1->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(verticalWidget1->sizePolicy().hasHeightForWidth());
+        verticalWidget1->setSizePolicy(sizePolicy9);
         verticalLayout_14 = new QVBoxLayout(verticalWidget1);
         verticalLayout_14->setObjectName("verticalLayout_14");
         showUpdates = new QVBoxLayout();
         showUpdates->setObjectName("showUpdates");
         showRatingLabel = new QLabel(verticalWidget1);
         showRatingLabel->setObjectName("showRatingLabel");
-        sizePolicy10.setHeightForWidth(showRatingLabel->sizePolicy().hasHeightForWidth());
-        showRatingLabel->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(showRatingLabel->sizePolicy().hasHeightForWidth());
+        showRatingLabel->setSizePolicy(sizePolicy9);
         showRatingLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1254,8 +1343,8 @@ public:
 
         fansChangeLabel = new QLabel(verticalWidget1);
         fansChangeLabel->setObjectName("fansChangeLabel");
-        sizePolicy10.setHeightForWidth(fansChangeLabel->sizePolicy().hasHeightForWidth());
-        fansChangeLabel->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(fansChangeLabel->sizePolicy().hasHeightForWidth());
+        fansChangeLabel->setSizePolicy(sizePolicy9);
         fansChangeLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1263,8 +1352,8 @@ public:
 
         resultFanLabel = new QLabel(verticalWidget1);
         resultFanLabel->setObjectName("resultFanLabel");
-        sizePolicy10.setHeightForWidth(resultFanLabel->sizePolicy().hasHeightForWidth());
-        resultFanLabel->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(resultFanLabel->sizePolicy().hasHeightForWidth());
+        resultFanLabel->setSizePolicy(sizePolicy9);
         resultFanLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1279,8 +1368,8 @@ public:
 
         showRevenueLabel = new QLabel(verticalWidget1);
         showRevenueLabel->setObjectName("showRevenueLabel");
-        sizePolicy10.setHeightForWidth(showRevenueLabel->sizePolicy().hasHeightForWidth());
-        showRevenueLabel->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(showRevenueLabel->sizePolicy().hasHeightForWidth());
+        showRevenueLabel->setSizePolicy(sizePolicy9);
         showRevenueLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1288,8 +1377,8 @@ public:
 
         showCostsLabel = new QLabel(verticalWidget1);
         showCostsLabel->setObjectName("showCostsLabel");
-        sizePolicy10.setHeightForWidth(showCostsLabel->sizePolicy().hasHeightForWidth());
-        showCostsLabel->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(showCostsLabel->sizePolicy().hasHeightForWidth());
+        showCostsLabel->setSizePolicy(sizePolicy9);
         showCostsLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1297,8 +1386,8 @@ public:
 
         showProfitLabel = new QLabel(verticalWidget1);
         showProfitLabel->setObjectName("showProfitLabel");
-        sizePolicy10.setHeightForWidth(showProfitLabel->sizePolicy().hasHeightForWidth());
-        showProfitLabel->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(showProfitLabel->sizePolicy().hasHeightForWidth());
+        showProfitLabel->setSizePolicy(sizePolicy9);
         showProfitLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1306,8 +1395,8 @@ public:
 
         resultMoneyLabel = new QLabel(verticalWidget1);
         resultMoneyLabel->setObjectName("resultMoneyLabel");
-        sizePolicy10.setHeightForWidth(resultMoneyLabel->sizePolicy().hasHeightForWidth());
-        resultMoneyLabel->setSizePolicy(sizePolicy10);
+        sizePolicy9.setHeightForWidth(resultMoneyLabel->sizePolicy().hasHeightForWidth());
+        resultMoneyLabel->setSizePolicy(sizePolicy9);
         resultMoneyLabel->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
 "font: 16pt \"Segoe UI\";"));
 
@@ -1323,6 +1412,7 @@ public:
         sizePolicy11.setVerticalStretch(0);
         sizePolicy11.setHeightForWidth(nextWeekButton->sizePolicy().hasHeightForWidth());
         nextWeekButton->setSizePolicy(sizePolicy11);
+        nextWeekButton->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         nextWeekButton->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 18pt \"Segoe UI\";"));
@@ -1337,7 +1427,7 @@ public:
         matchResults->setWidgetResizable(true);
         scrollAreaWidgetContents_3 = new QWidget();
         scrollAreaWidgetContents_3->setObjectName("scrollAreaWidgetContents_3");
-        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 471, 410));
+        scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 21, 16));
         verticalScrollBar_4 = new QScrollBar(scrollAreaWidgetContents_3);
         verticalScrollBar_4->setObjectName("verticalScrollBar_4");
         verticalScrollBar_4->setGeometry(QRect(460, 0, 16, 431));
@@ -1370,6 +1460,7 @@ public:
         addToMatch->setObjectName("addToMatch");
         sizePolicy8.setHeightForWidth(addToMatch->sizePolicy().hasHeightForWidth());
         addToMatch->setSizePolicy(sizePolicy8);
+        addToMatch->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         addToMatch->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 20pt \"Segoe UI\";"));
@@ -1381,6 +1472,7 @@ public:
 
         backFromEditMatch = new QPushButton(matchEditWidget);
         backFromEditMatch->setObjectName("backFromEditMatch");
+        backFromEditMatch->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         backFromEditMatch->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 20pt \"Segoe UI\";"));
@@ -1407,6 +1499,7 @@ public:
         matchTypeComboBox->addItem(QString());
         matchTypeComboBox->addItem(QString());
         matchTypeComboBox->setObjectName("matchTypeComboBox");
+        matchTypeComboBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         matchTypeComboBox->setStyleSheet(QString::fromUtf8("QComboBox {\n"
 "    background: #f0f0f0;\n"
 "    border: 1px solid #888;\n"
@@ -1472,6 +1565,7 @@ public:
 
         winnerComboBox = new QComboBox(matchEditWidget);
         winnerComboBox->setObjectName("winnerComboBox");
+        winnerComboBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         winnerComboBox->setStyleSheet(QString::fromUtf8("QComboBox {\n"
 "    background: #f0f0f0;\n"
 "    border: 1px solid #888;\n"
@@ -1528,6 +1622,7 @@ public:
         verticalLayout_8->setObjectName("verticalLayout_8");
         champCheckBox = new QCheckBox(matchEditWidget);
         champCheckBox->setObjectName("champCheckBox");
+        champCheckBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         champCheckBox->setStyleSheet(QString::fromUtf8("QCheckBox {\n"
 "    color: black;\n"
 "    font-size: 14px;\n"
@@ -1536,6 +1631,7 @@ public:
 "    width: 16px;  \n"
 "    height: 16px;  \n"
 "    border: 1px solid #888;  \n"
+"	border-radius: 8px;\n"
 "    background: white;       \n"
 "}\n"
 "QCheckBox::indicator:checked {\n"
@@ -1547,6 +1643,7 @@ public:
 
         teamCheckBox = new QCheckBox(matchEditWidget);
         teamCheckBox->setObjectName("teamCheckBox");
+        teamCheckBox->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         teamCheckBox->setStyleSheet(QString::fromUtf8("QCheckBox {\n"
 "    color: black;\n"
 "    font-size: 14px;\n"
@@ -1555,6 +1652,7 @@ public:
 "    width: 16px;  \n"
 "    height: 16px;  \n"
 "    border: 1px solid #888;  \n"
+"	border-radius: 8px;\n"
 "    background: white;       \n"
 "}\n"
 "QCheckBox::indicator:checked {\n"
@@ -1603,6 +1701,7 @@ public:
         sizePolicy7.setHeightForWidth(PromotionTab->sizePolicy().hasHeightForWidth());
         PromotionTab->setSizePolicy(sizePolicy7);
         PromotionTab->setMaximumSize(QSize(16777215, 100));
+        PromotionTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         PromotionTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 22pt \"Segoe UI\";"));
@@ -1614,6 +1713,7 @@ public:
         sizePolicy7.setHeightForWidth(DashboardTab->sizePolicy().hasHeightForWidth());
         DashboardTab->setSizePolicy(sizePolicy7);
         DashboardTab->setMaximumSize(QSize(16777215, 100));
+        DashboardTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         DashboardTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 22pt \"Segoe UI\";"));
@@ -1628,6 +1728,7 @@ public:
         sizePolicy13.setHeightForWidth(RosterTab->sizePolicy().hasHeightForWidth());
         RosterTab->setSizePolicy(sizePolicy13);
         RosterTab->setMaximumSize(QSize(16777215, 100));
+        RosterTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         RosterTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "color: rgb(255, 255, 255);\n"
 "font: 22pt \"Segoe UI\";"));
@@ -1639,6 +1740,7 @@ public:
         sizePolicy7.setHeightForWidth(SettingsTab->sizePolicy().hasHeightForWidth());
         SettingsTab->setSizePolicy(sizePolicy7);
         SettingsTab->setMaximumSize(QSize(16777215, 100));
+        SettingsTab->setCursor(QCursor(Qt::CursorShape::PointingHandCursor));
         SettingsTab->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 59, 0);\n"
 "font: 22pt \"Segoe UI\";\n"
 "color: rgb(255, 255, 255);"));
@@ -1659,7 +1761,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(15);
+        stackedWidget->setCurrentIndex(12);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1697,11 +1799,11 @@ public:
         rosterLabel->setText(QCoreApplication::translate("MainWindow", "Your Roster", nullptr));
         sortByLabel->setText(QCoreApplication::translate("MainWindow", "Sort by:", nullptr));
         RosterDescendingSort->setText(QCoreApplication::translate("MainWindow", "Desending Order", nullptr));
+        womenChampLabel->setText(QCoreApplication::translate("MainWindow", "Women's Championship", nullptr));
+        worldChampLabel->setText(QCoreApplication::translate("MainWindow", "World Champion: ", nullptr));
+        tagChampLabel->setText(QCoreApplication::translate("MainWindow", "Tag Team Championship", nullptr));
         teamNameRadio->setText(QCoreApplication::translate("MainWindow", "Select Champions by Team Name", nullptr));
         individualRadioButton->setText(QCoreApplication::translate("MainWindow", "Select Champions by Individuals", nullptr));
-        womenChampLabel->setText(QCoreApplication::translate("MainWindow", "Women's Championship", nullptr));
-        tagChampLabel->setText(QCoreApplication::translate("MainWindow", "Tag Team Championship", nullptr));
-        worldChampLabel->setText(QCoreApplication::translate("MainWindow", "World Champion: ", nullptr));
         injuredLabel->setText(QCoreApplication::translate("MainWindow", "Injured", nullptr));
         genderLabel->setText(QCoreApplication::translate("MainWindow", "Division:", nullptr));
         ageLabel->setText(QCoreApplication::translate("MainWindow", "Age: ", nullptr));
