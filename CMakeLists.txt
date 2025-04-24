@@ -31,8 +31,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         show.h show.cpp
         championship.h championship.cpp
         team.h team.cpp
-
         gamedatamanager.h gamedatamanager.cpp
+        rivalry.h rivalry.cpp
+
 
 
     )

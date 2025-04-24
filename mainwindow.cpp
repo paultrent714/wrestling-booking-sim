@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tagChampComboBox1->setStyleSheet(m_comboBoxStyle);
     ui->tagChampComboBox2->setStyleSheet(m_comboBoxStyle);
     ui->womenChampComboBox->setStyleSheet(m_comboBoxStyle);
+    ui->feudWrestler1ComboBox->setStyleSheet(m_comboBoxStyle);
+    ui->feudWrestler2ComboBox->setStyleSheet(m_comboBoxStyle);
 }
 MainWindow::~MainWindow()
 {
@@ -113,7 +115,6 @@ void MainWindow::on_champBackButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
 }
-
 void MainWindow::on_TeamsTab_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
@@ -210,6 +211,15 @@ void MainWindow::on_StartNew_clicked()
 }
 void MainWindow::on_defaultRoster_clicked()
 {
+    dataManager->loadDefaultRoster("data/default_roster.db");
+    m_playerRoster = dataManager->getWrestlers();
+
+    if (m_playerRoster.size() <= 5) {
+        QMessageBox::warning(this, "Incomplete Data",
+                             "Too few entries in file to be used");
+        return;  // Stop the game loading process
+    }
+
     newGameSetup();
 }
 void MainWindow::on_customRoster_clicked()
@@ -220,9 +230,6 @@ void MainWindow::on_customRoster_clicked()
     if (filePath.isEmpty()) {
         return;  // If no file is selected, return early
     }
-
-    // Call function to load the data
-    loadFromText(filePath);
 
     if (m_playerRoster.size() < 10){
         QMessageBox::information(this, "Information", "There was not enough valid rows that can be loaded.");
@@ -266,8 +273,10 @@ void MainWindow::on_LoadGame_clicked()
     }
     // Load teams and store them in m_teams
     dataManager->loadTeams(m_teams);
+    // Load rivalries
+    dataManager->loadRivalries(m_rivalries);
     // Load game info and store it in m_money, m_fans, m_year, m_currentWeek, etc.
-    dataManager->loadGameInfo(m_money, m_fans, m_year, m_currentWeek, m_moneyHistory, m_fanHistory);
+    dataManager->loadGameInfo(m_money, m_fans, m_year, m_currentWeek, m_moneyHistory, m_fanHistory, m_darkMode);
     // Load the current show and store it in m_currentShow
     dataManager->loadShow(m_currentShow);
 
@@ -277,79 +286,29 @@ void MainWindow::on_LoadGame_clicked()
     ui->PromotionTab->show();
     ui->SettingsTab->show();
 
+    if (m_darkMode) {
+        ui->darkModeCheckBox->setChecked(m_darkMode);
+        m_textColor = Qt::white;
+        m_backgroundColor = Qt::black;
+
+    }
+    applyTheme();
+
     updateDashboardLabels();
 }
 void MainWindow::on_userSave_clicked()
 {
-    // Load game data into member variables using the GameDataManager
-    dataManager->saveWrestlers(m_playerRoster);          // Load wrestlers into m_playerRoster
-    dataManager->saveChampionships(m_world, m_tag, m_women); // Load championships
-    dataManager->saveTeams(m_teams);                      // Load teams
-    dataManager->saveGameInfo(m_money, m_fans, m_year, m_currentWeek, m_moneyHistory, m_fanHistory); // Load game-specific info
-    dataManager->saveShow(m_currentShow);                 // Load current show data
+    // save game data into sqlite using the GameDataManager
+    dataManager->saveWrestlers(m_playerRoster);          // save wrestlers from m_playerRoster
+    dataManager->saveChampionships(m_world, m_tag, m_women); // save championships
+    dataManager->saveTeams(m_teams);                      // save teams
+    dataManager->saveRivalries(m_rivalries);
+    dataManager->saveGameInfo(m_money, m_fans, m_year, m_currentWeek,
+                              m_moneyHistory, m_fanHistory, m_darkMode); // Load game-specific info
+    dataManager->saveShow(m_currentShow);                 // save current show data
 
     // Set the last used ID (assuming it is saved in the database or calculated from the loaded data)
     m_lastUsedID = m_playerRoster.size() + 1;  // or another approach to set the last ID
-}
-void MainWindow::loadFromText(const QString &filePath) {
-    QFile file(filePath);
-
-    // Check if the file can be opened
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Error", "Unable to open the file. Please check the file format.");
-        return;
-    }
-
-    QTextStream in(&file);
-    m_playerRoster.clear();  // Clear existing roster
-
-    int lineCount = 0;
-
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        lineCount++;
-
-        // Skip empty lines
-        if (line.trimmed().isEmpty()) {
-            continue;
-        }
-
-        // Split the line by tabs (or any other delimiter you expect)
-        QStringList fields = line.split(',');  // Use ',' for CSV, or adjust as necessary
-
-        // Ensure the correct number of fields (13 for your case)
-        if (fields.size() != 13) {
-            QMessageBox::warning(this, "Warning", QString("Line %1 has incorrect number of fields. Skipping this line.").arg(lineCount));
-            continue;  // Skip this line if the number of fields is incorrect
-        }
-
-        // Parse the fields
-        QString name = fields[0];
-        bool gender = fields[1].toInt();
-        int popularity = fields[2].toInt();
-        int age = fields[3].toInt();
-        int potential = fields[4].toInt();
-        int powerhouse = fields[5].toInt();
-        int brawler = fields[6].toInt();
-        int highFlyer = fields[7].toInt();
-        int technician = fields[8].toInt();
-        int mma = fields[9].toInt();
-        int charisma = fields[10].toInt();
-        int stamina = fields[11].toInt();
-        int salary = fields[12].toInt();
-        int role = fields[13].toInt();
-
-        // Create a new Wrestler object and add it to the list
-        Wrestler* wrestler = new Wrestler(lineCount, name, gender, popularity, age, potential, powerhouse, brawler, highFlyer, technician,
-                          mma, charisma, stamina, salary, role);
-        m_playerRoster.append(wrestler);
-    }
-
-    file.close();
-
-    if (lineCount == 0) {
-        QMessageBox::warning(this, "Warning", "The file is empty.");
-    }
 }
 
 void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
@@ -650,6 +609,7 @@ void MainWindow::populateResultsList() {
     ui->SettingsTab->hide();
 }
 
+// For displaying and editing wrestlers on roster
 void MainWindow::updateDashboardLabels(){
     ui->fansDisplay->setText("Fans: " + QString::number(m_fans));
     ui->moneyDisplay->setText("Money: $" + QString::number(m_money));
@@ -984,6 +944,87 @@ void MainWindow::populateInjuredWrestlersList( QList<Wrestler*> &wrestlers) {
     //ui->injuryScrollWidgetContent->setLayout(layout);
     ui->injuryScrollArea->setWidget(container);
     ui->injuryScrollArea->setWidgetResizable(true);
+}
+
+// For sorting m_playerRoster
+void MainWindow::sortWrestlers() {
+    QString selectedSort = ui->sortByAttributesCB->currentText();
+    bool descending = ui->RosterDescendingSort->isChecked();
+
+    // Sorting by what are probably the most relevant attributes
+    std::sort(m_playerRoster.begin(), m_playerRoster.end(), [selectedSort, descending](Wrestler* a, Wrestler* b) {
+        if (selectedSort == "Popularity") {
+            return descending ? a->getPopularity() < b->getPopularity() : a->getPopularity() > b->getPopularity();
+        } else if (selectedSort == "Name") {
+            return descending ? a->getName() > b->getName() : a->getName() < b->getName();
+        }  else if (selectedSort == "Health") {
+            return descending ? a->getHealth() < b->getHealth() : a->getHealth() > b->getHealth();
+        } else if (selectedSort == "Age") {
+            return descending ? a->getAge() < b->getAge() : a->getAge() > b->getAge();
+        } else if (selectedSort == "Salary") {
+            return descending ? a->getSalary() < b->getSalary() : a->getSalary() > b->getSalary();
+        } else if (selectedSort == "Role") {
+            return descending ? a->getRole() < b->getRole() : a->getRole() > b->getRole();
+        } else if (selectedSort == "Stamina") {
+            return descending ? a->getStamina() < b->getStamina() : a->getStamina() > b->getStamina();
+        } else if (selectedSort == "Charisma") {
+            return descending ? a->getCharisma() < b->getCharisma() : a->getCharisma() > b->getCharisma();
+        } else if (selectedSort == "Gender") {
+            return descending ? a->getGender() < b->getGender() : a->getGender() > b->getGender();
+        }
+        return false;
+    });
+
+    populateWrestlerList(m_playerRoster);
+}
+void MainWindow::on_RosterDescendingSort_toggled(bool checked)
+{
+    sortWrestlers();
+}
+void MainWindow::on_sortByAttributesCB_currentTextChanged(const QString &arg1)
+{
+    sortWrestlers();
+}
+
+// For signing new wrestlers
+void MainWindow::on_ScoutTalentButton_clicked()
+{
+    scoutNewRecruit();  // function for getting young wrestlers
+}
+void MainWindow::scoutNewRecruit(){
+    // either generates a new recruit, or shows recruit user scouted but didn't yet decline/sign
+    if (!m_scoutedWrestler) {
+        m_scoutedWrestler = new Wrestler();
+        m_scoutedWrestler->setWeeks(0);
+
+        // Sets the age to be younger than random generator in constructor
+        std::uniform_int_distribution<> ageDist(18, 28);
+        int randomAge = ageDist(RandomUtils::getGenerator());
+        m_scoutedWrestler->setAge(randomAge);
+    }
+
+    updateWrestlerDetails(m_scoutedWrestler);
+    ui->stackedWidget->setCurrentWidget(ui->wrestlerStats);
+}
+void MainWindow::signNewRecruit(){
+    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
+
+    m_playerRoster.append(m_scoutedWrestler);
+    m_scoutedWrestler->setWeeks(10); // random number of matches
+
+    QMessageBox::information(this, "Wrestler Signed", m_scoutedWrestler->getName() + " has been signed to your roster!");
+    // updates buttons/contract info
+    updateWrestlerDetails(m_scoutedWrestler);
+
+    m_scoutedWrestler = nullptr;
+}
+void MainWindow::declineSign(){
+    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
+
+    delete m_scoutedWrestler;
+    m_scoutedWrestler = nullptr;
+
+    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
 }
 
 // Functions that show list of matches on show and edit matches
@@ -1693,7 +1734,6 @@ bool MainWindow::isChampion( Wrestler* w)  {
 
     return false;
 }
-
 // radio buttons for whether to select tag champs by tag team or individuals
 void MainWindow::on_teamNameRadio_toggled(bool checked)
 {
@@ -2078,6 +2118,127 @@ void MainWindow::on_saveTeamButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->tagTeamPage);
 }
 
+// Functions for feuds/rivalries
+void MainWindow::on_FeudsTab_clicked()
+{
+    populateRivalryList();
+}
+void MainWindow::populateRivalryList() {
+    ui->stackedWidget->setCurrentWidget(ui->rivalryPage);
+    ui->newFeudWidget->hide();
+
+    QGridLayout* layout = qobject_cast<QGridLayout*>(ui->feudScrollArea->layout());
+    if (!layout) { return; }
+
+    // Clear previous widgets
+    QLayoutItem* item;
+    while ((item = layout->takeAt(0)) != nullptr) {
+        if (item->widget()) item->widget()->deleteLater();
+        delete item;
+    }
+
+    for (rivalry* rivalry : m_rivalries) {
+        QWidget* rowWidget = new QWidget;
+        QHBoxLayout* rowLayout = new QHBoxLayout(rowWidget);
+
+        QString text = QString("%1 vs %2 (%3 matches left)")
+                           .arg(rivalry->getWrestler1()->getName())
+                           .arg(rivalry->getWrestler2()->getName())
+                           .arg(rivalry->getWeeksLeft());
+
+        QLabel* label = new QLabel(text);
+        label->setStyleSheet(QString("color: %1;").arg(m_textColor.name()));
+
+        rowLayout->addWidget(label);
+
+        rowWidget->setLayout(rowLayout);
+        layout->addWidget(rowWidget);
+    }
+}
+void MainWindow::on_createFeudButton_clicked()
+{
+    ui->newFeudWidget->show();
+    populateRivalryComboBoxes();
+}
+void MainWindow::on_startFeudButton_clicked()
+{
+    saveNewRivalry();
+}
+void MainWindow::saveNewRivalry() {
+    int indexA = ui->feudWrestler1ComboBox->currentIndex();
+    int indexB = ui->feudWrestler2ComboBox->currentIndex();
+
+    populateRivalryComboBoxes();
+
+    if (indexA < 0 || indexB < 0) {
+        QMessageBox::warning(this, "Error", "Please select two wrestlers.");
+        return;
+    }
+
+    Wrestler* a = m_availableRivalryWrestlers[indexA];
+    Wrestler* b = m_availableRivalryWrestlers[indexB];
+
+    if (a == b) {
+        QMessageBox::warning(this, "Error", "A wrestler cannot feud with themselves.");
+        return;
+    }
+
+    if (isDuplicateRivalry(a, b)) {
+        QMessageBox::warning(this, "Error", "This rivalry already exists.");
+        return;
+    }
+
+    m_rivalries.append(new rivalry(a, b));  // fixed to use `new`
+
+    populateRivalryList(); // to refresh the rivalry display
+
+}
+void MainWindow::populateRivalryComboBoxes() {
+    QList<Wrestler*> available = getAvailableWrestlersForRivalry();
+    m_availableRivalryWrestlers = available;
+
+    ui->feudWrestler1ComboBox->clear();
+    ui->feudWrestler2ComboBox->clear();
+
+    for (Wrestler* w : available) {
+        ui->feudWrestler1ComboBox->addItem(w->getName(), QVariant::fromValue(w));
+        ui->feudWrestler2ComboBox->addItem(w->getName(), QVariant::fromValue(w));
+    }
+}
+QList<Wrestler*> MainWindow::getAvailableWrestlersForRivalry() const {
+    QList<Wrestler*> available;
+
+    for (Wrestler* wrestler : m_playerRoster) {
+        bool inActiveRivalry = false;
+
+        // Checks that wrestler is either not in a rivalry or is in a rivalry cooldown
+        for (rivalry* rivalry : m_rivalries) {
+            if (rivalry->getStatus() >= 2 &&
+                (rivalry->getWrestler1()->getID() == wrestler->getID()
+                 || rivalry->getWrestler2()->getID() == wrestler->getID())) {
+
+
+                inActiveRivalry = true;
+                break;
+            }
+        }
+
+        if (!inActiveRivalry)
+            available.append(wrestler);
+    }
+
+    return available;
+}
+bool MainWindow::isDuplicateRivalry(Wrestler* a, Wrestler* b) {
+    for (const rivalry* r : m_rivalries) {
+        if ((r->getWrestler1() == a && r->getWrestler2() == b) ||
+            (r->getWrestler1() == b && r->getWrestler2() == a)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Settings and Preferences
 void MainWindow::on_darkModeCheckBox_stateChanged(int arg1)
 {
@@ -2188,82 +2349,4 @@ void MainWindow::clearData(){
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
 }
 
-void MainWindow::sortWrestlers() {
-    QString selectedSort = ui->sortByAttributesCB->currentText();
-    bool descending = ui->RosterDescendingSort->isChecked();
-
-    std::sort(m_playerRoster.begin(), m_playerRoster.end(), [selectedSort, descending](Wrestler* a, Wrestler* b) {
-        if (selectedSort == "Popularity") {
-            return descending ? a->getPopularity() < b->getPopularity() : a->getPopularity() > b->getPopularity();
-        } else if (selectedSort == "Name") {
-            return descending ? a->getName() > b->getName() : a->getName() < b->getName();
-        }  else if (selectedSort == "Health") {
-            return descending ? a->getHealth() < b->getHealth() : a->getHealth() > b->getHealth();
-        } else if (selectedSort == "Age") {
-            return descending ? a->getAge() < b->getAge() : a->getAge() > b->getAge();
-        } else if (selectedSort == "Salary") {
-            return descending ? a->getSalary() < b->getSalary() : a->getSalary() > b->getSalary();
-        } else if (selectedSort == "Role") {
-            return descending ? a->getRole() < b->getRole() : a->getRole() > b->getRole();
-        } else if (selectedSort == "Stamina") {
-            return descending ? a->getStamina() < b->getStamina() : a->getStamina() > b->getStamina();
-        } else if (selectedSort == "Charisma") {
-            return descending ? a->getCharisma() < b->getCharisma() : a->getCharisma() > b->getCharisma();
-        } else if (selectedSort == "Gender") {
-            return descending ? a->getGender() < b->getGender() : a->getGender() > b->getGender();
-        }
-        return false;
-    });
-
-    populateWrestlerList(m_playerRoster);
-}
-void MainWindow::on_RosterDescendingSort_toggled(bool checked)
-{
-    sortWrestlers();
-}
-void MainWindow::on_sortByAttributesCB_currentTextChanged(const QString &arg1)
-{
-    sortWrestlers();
-}
-
-void MainWindow::on_ScoutTalentButton_clicked()
-{
-    scoutNewRecruit();  // function for getting young wrestlers
-}
-void MainWindow::scoutNewRecruit(){
-    // either generates a new recruit, or shows recruit user scouted but didn't yet decline/sign
-    if (!m_scoutedWrestler) {
-        m_scoutedWrestler = new Wrestler();
-        m_scoutedWrestler->setWeeks(0);
-
-        // Sets the age to be younger than random generator in constructor
-        std::uniform_int_distribution<> ageDist(18, 28);
-        int randomAge = ageDist(RandomUtils::getGenerator());
-        m_scoutedWrestler->setAge(randomAge);
-    }
-
-    updateWrestlerDetails(m_scoutedWrestler);
-    ui->stackedWidget->setCurrentWidget(ui->wrestlerStats);
-}
-
-void MainWindow::signNewRecruit(){
-    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
-
-    m_playerRoster.append(m_scoutedWrestler);
-    m_scoutedWrestler->setWeeks(10); // random number of matches
-
-    QMessageBox::information(this, "Wrestler Signed", m_scoutedWrestler->getName() + " has been signed to your roster!");
-    // updates buttons/contract info
-    updateWrestlerDetails(m_scoutedWrestler);
-
-    m_scoutedWrestler = nullptr;
-}
-void MainWindow::declineSign(){
-    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
-
-    delete m_scoutedWrestler;
-    m_scoutedWrestler = nullptr;
-
-    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
-}
 

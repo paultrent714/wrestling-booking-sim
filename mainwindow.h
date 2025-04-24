@@ -7,6 +7,7 @@
 #include "team.h"
 #include "championship.h"
 #include "gamedatamanager.h"
+#include "rivalry.h"
 
 #include <QMainWindow>
 #include <QSqlDatabase>  // Include this for database connection
@@ -79,43 +80,34 @@ private slots:
     void on_addToTeamButton_clicked();      //adds wrestler to team
     void on_newTeamButton_clicked();        // creates new team
     void on_saveTeamButton_clicked();       // saves team attributes
-
     void on_TeamsTab_clicked();
-
     void on_nextWeekButton_clicked();       // finishes week after player views show results
-
     void on_teamCheckBox_toggled(bool checked);     // toggles whether a match is a tag match
-
     void on_InjuredTab_clicked();      // goes to page to see injured list
-
     void on_darkModeCheckBox_stateChanged(int arg1);    // changes dark mode when game loads/user checks it
-
     void on_homeButton_clicked();
-
     void on_editSaveNameButton_clicked();
-
     void on_RosterDescendingSort_toggled(bool checked);
-
     void on_sortByAttributesCB_currentTextChanged(const QString &arg1);
-
     void on_InjuredBackButton_clicked();
-
     void on_champBackButton_clicked();
-
     void on_teamsBackButton_clicked();
-
     void on_rosterBackButton_clicked();
-
     void on_backFromWrestler_clicked();
-
     void on_ScoutTalentButton_clicked();
+
+    void on_FeudsTab_clicked();
+
+    void on_createFeudButton_clicked();
+
+    void on_startFeudButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 
     void loadMaterialFont();
 
-    void loadFromText(const QString &filePath);                                 // Load data from a text file
+                                   // Load data from a text file
     void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
     void newGameSetup();                                // sets all values to what they would be for creating a new save file
 
@@ -157,8 +149,16 @@ private:
     void sortWrestlers();
 
     void scoutNewRecruit();     // used for viewing info about m_scoutedWrestler
-    void signNewRecruit();    // signs scouted wrestler
-    void declineSign();       // deletes new recruit wrestler object
+    void signNewRecruit();      // signs scouted wrestler
+    void declineSign();         // deletes new recruit wrestler object
+
+    void populateRivalryList(); // displays current rivalries
+    void saveNewRivalry();      // saves rivalry created by user
+    void populateRivalryComboBoxes();   // updates combo boxes for creating a new rivalry with available wrestlers
+    QList<Wrestler*> getAvailableWrestlersForRivalry() const;   // returns list of wrestlers not part of active rivalry
+    bool isDuplicateRivalry(Wrestler* a, Wrestler* b);      // checks whether the rivalry already exists
+
+
 
 
     GameDataManager* dataManager;
@@ -175,6 +175,9 @@ private:
     QList<team> m_teams;
     team* m_currentTeam;
     int m_currentTeamIndex;
+
+    QList<rivalry*> m_rivalries;
+    QList<Wrestler*> m_availableRivalryWrestlers;   // list of wrestlers not part of an active rivalry
 
     int m_money;
     int m_fans;

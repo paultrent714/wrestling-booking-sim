@@ -2,14 +2,19 @@
 
 GameDataManager::GameDataManager() {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("game_data.db");
+
+    // Create or reference the "saveFiles" directory relative to the executable
+    QString saveFolder = QDir::currentPath() + "/saveFiles";
+    QDir().mkpath(saveFolder);  // Ensure the directory exists
+
+    QString dbPath = saveFolder + "/game_data.db";
+    db.setDatabaseName(dbPath);
 
     if (!db.open()) {
         qDebug() << "Error: Unable to open database -" << db.lastError().text();
     } else {
         qDebug() << "Database opened successfully.";
     }
-
     initializeDatabase();
 }
 
@@ -23,7 +28,6 @@ void GameDataManager::initializeDatabase() {
     QSqlQuery query;
 
     // Wrestler Table
-
     query.exec("CREATE TABLE IF NOT EXISTS Wrestlers ("
                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                "name TEXT, gender INTEGER, popularity INTEGER, age INTEGER, "
@@ -52,10 +56,20 @@ void GameDataManager::initializeDatabase() {
                "wrestler_id INTEGER, "
                "FOREIGN KEY(team_id) REFERENCES Teams(id) ON DELETE CASCADE, "
                "FOREIGN KEY(wrestler_id) REFERENCES Wrestlers(id) ON DELETE CASCADE);");
+
+    // Rivalry Table ( table for rivalries)
+    query.exec("CREATE TABLE IF NOT EXISTS Rivalries ("
+               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+               "wrestler1_id INTEGER, wrestler2_id INTEGER, "
+               "bonusWeeks INTEGER, penaltyWeeks INTEGER, "
+               "status INTEGER,"
+               "FOREIGN KEY(wrestler1_id) REFERENCES Wrestlers(id), "
+               "FOREIGN KEY(wrestler2_id) REFERENCES Wrestlers(id));");
+
     // Game Info Table
     query.exec("CREATE TABLE IF NOT EXISTS GameInfo ("
                "id INTEGER PRIMARY KEY, money INTEGER, fans INTEGER, year INTEGER, currentWeek INTEGER, "
-               "moneyHistory TEXT, fanHistory TEXT);");
+               "moneyHistory TEXT, fanHistory TEXT, darkMode BOOLEAN DEFAULT 0);");
 
     // Show Table
     query.exec("CREATE TABLE IF NOT EXISTS Show ("
@@ -226,9 +240,54 @@ void GameDataManager::saveTeams(QList<team>& teams) {
     qDebug() << "Teams and team members saved successfully.";
 }
 
+// Save Rivalries
+void GameDataManager::saveRivalries(QList<rivalry*>& rivalries) {
+    if (rivalries.isEmpty()) {
+        qDebug() << "No rivalries to save.";
+        return;
+    }
+
+    QSqlQuery query;
+
+    // Start a transaction
+    if (!query.exec("BEGIN TRANSACTION")) {
+        qDebug() << "Error starting transaction: " << query.lastError().text();
+        return;
+    }
+
+    // Clear existing rivalries
+    query.exec("DELETE FROM Rivalries");
+
+    // Insert rivalries
+    for (rivalry* rivalry : rivalries) {
+        query.prepare("INSERT INTO Rivalries (wrestler1_id, wrestler2_id, bonusWeeks, penaltyWeeks, status) "
+                      "VALUES (:wrestler1_id, :wrestler2_id, :bonusWeeks, :penaltyWeeks, :status)");
+        query.bindValue(":wrestler1_id", rivalry->getWrestler1()->getID());  // Get wrestler ID using getId()
+        query.bindValue(":wrestler2_id", rivalry->getWrestler2()->getID());  // Get wrestler ID using getId()
+        query.bindValue(":bonusWeeks", rivalry->getWeeksLeft());  // The bonus weeks for the rivalry
+        query.bindValue(":penaltyWeeks", rivalry->getPenaltyWeeksLeft());  // The penalty weeks for the rivalry
+        query.bindValue(":status", rivalry->getStatus());  // Status of the rivalry
+
+        if (!query.exec()) {
+            qDebug() << "Error inserting rivalry: " << query.lastError().text();
+            query.exec("ROLLBACK");
+            return;
+        }
+    }
+
+    // Commit the transaction
+    if (!query.exec("COMMIT")) {
+        qDebug() << "Error committing transaction: " << query.lastError().text();
+        query.exec("ROLLBACK");
+        return;
+    }
+
+    qDebug() << "Rivalries saved successfully.";
+}
+
 // Save Game Info
 void GameDataManager::saveGameInfo(int money, int fans, int year, int currentWeek,
-                                   QList<int> &moneyHistory, QList<int> &fanHistory) {
+                                   QList<int> &moneyHistory, QList<int> &fanHistory, bool darkMode) {
 
     // Ensure database connection is open
     QSqlDatabase db = QSqlDatabase::database();
@@ -264,15 +323,15 @@ void GameDataManager::saveGameInfo(int money, int fans, int year, int currentWee
     }
 
     // Prepare and execute the insert query
-    query.prepare("INSERT INTO GameInfo (money, fans, year, currentWeek, moneyHistory, fanHistory) "
-                  "VALUES (:money, :fans, :year, :currentWeek, :moneyHistory, :fanHistory)");
+    query.prepare("INSERT INTO GameInfo (money, fans, year, currentWeek, moneyHistory, fanHistory, darkMode) "
+                  "VALUES (:money, :fans, :year, :currentWeek, :moneyHistory, :fanHistory, :darkMode)");
     query.bindValue(":money", money);
     query.bindValue(":fans", fans);
     query.bindValue(":year", year);
     query.bindValue(":currentWeek", currentWeek);
     query.bindValue(":moneyHistory", moneyHistStr);
     query.bindValue(":fanHistory", fanHistStr);
-
+    query.bindValue(":darkMode", darkMode);
     if (!query.exec()) {
         qDebug() << "Error executing insert query: " << query.lastError().text();
         return;  // Exit if insert fails
@@ -379,7 +438,6 @@ void GameDataManager::loadWrestlers() {
     } else {
         qDebug() << "Error loading wrestlers: " << query.lastError().text();
     }
-     qDebug() << "Total wrestlers loaded:" << m_wrestlers.size();
 }
 void GameDataManager::loadChampionships() {
     QSqlQuery query("SELECT * FROM Championships");
@@ -435,21 +493,81 @@ void GameDataManager::loadChampionships() {
 }
 
 void GameDataManager::loadTeams(QList<team> &teams) {
+    teams.clear(); // Always good to clear before loading
     QSqlQuery query("SELECT * FROM Teams");
 
-    if (query.exec()) {
-        while (query.next()) {
-            team t;
-            t.setTeamName(query.value("team_name").toString());
-            teams.append(t);
+    if (!query.exec()) {
+        qDebug() << "Error loading teams:" << query.lastError().text();
+        return;
+    }
+
+    while (query.next()) {
+        team t;
+        int teamId = query.value("id").toInt();
+        QString teamName = query.value("team_name").toString();
+        t.setTeamName(teamName);
+
+        QSqlQuery queryMembers;
+        queryMembers.prepare("SELECT wrestler_id FROM TeamMembers WHERE team_id = :teamId");
+        queryMembers.bindValue(":teamId", teamId);
+
+        if (queryMembers.exec()) {
+            int memberCount = 0;
+            while (queryMembers.next()) {
+                int wrestlerId = queryMembers.value("wrestler_id").toInt();
+
+                Wrestler* w = findWrestlerById(wrestlerId);
+                if (w) {
+                    t.addMember(w);
+                    memberCount++;
+                }
+            }
+        } else {
+            qDebug() << "Error loading team members:" << queryMembers.lastError().text();
         }
-    } else {
-        qDebug() << "Error loading teams: " << query.lastError().text();
+
+        teams.append(t);
     }
 }
 
+
+void GameDataManager::loadRivalries(QList<rivalry*>& rivalries) {
+    // Clean up any existing rivalries first
+    for (rivalry* r : rivalries) {
+        delete r;
+    }
+    rivalries.clear();
+
+    QSqlQuery query("SELECT * FROM Rivalries");
+
+    if (query.exec()) {
+        while (query.next()) {
+            int wrestler1Id = query.value("wrestler1_id").toInt();
+            int wrestler2Id = query.value("wrestler2_id").toInt();
+            int bonusWeeks = query.value("bonusWeeks").toInt();
+            int penaltyWeeks = query.value("penaltyWeeks").toInt();
+            int status = query.value("status").toInt();
+
+            Wrestler* wrestler1 = findWrestlerById(wrestler1Id);
+            Wrestler* wrestler2 = findWrestlerById(wrestler2Id);
+
+            if (wrestler1 && wrestler2) {
+                rivalry* newRivalry = new rivalry(wrestler1, wrestler2, bonusWeeks, penaltyWeeks);
+                newRivalry->setStatus(status);
+                rivalries.append(newRivalry);  // Append pointer, not dereferenced object
+            } else {
+                qDebug() << "Error: Could not find wrestlers for rivalry.";
+            }
+        }
+    } else {
+        qDebug() << "Error loading rivalries: " << query.lastError().text();
+    }
+}
+
+
 void GameDataManager::loadGameInfo(int &money, int &fans, int &year, int &currentWeek,
-                                   QList<int> &moneyHistory, QList<int> &fanHistory) {
+                                   QList<int> &moneyHistory, QList<int> &fanHistory,
+                                   bool &darkMode) {
     QSqlQuery query("SELECT * FROM GameInfo WHERE id = 1");
 
     if (query.exec() && query.next()) {
@@ -469,6 +587,8 @@ void GameDataManager::loadGameInfo(int &money, int &fans, int &year, int &curren
         for (const QString &str : fanHistStrList) {
             fanHistory.append(str.toInt());
         }
+        // Load Dark mode settings
+        darkMode = query.value("darkMode").toBool();
     } else {
         qDebug() << "Error loading game info: " << query.lastError().text();
     }
@@ -538,6 +658,57 @@ Wrestler* GameDataManager::findWrestlerById(int wrestlerId) {
         }
     }
     return nullptr;
+}
+
+void GameDataManager::loadDefaultRoster( const QString& defaultDbPath) {
+    QString connName = "defaultRosterConn";
+
+    QSqlDatabase defaultDb = QSqlDatabase::addDatabase("QSQLITE", connName);
+    defaultDb.setDatabaseName(defaultDbPath);
+
+    if (!defaultDb.open()) {
+        qDebug() << "Failed to open default roster DB:" << defaultDb.lastError().text();
+        return;
+    }
+    //qDebug() << "Attempting to open default DB at:" << QFileInfo(defaultDbPath).absoluteFilePath();
+
+    loadDefaultWrestlers(defaultDb); // Load using this connection
+
+    defaultDb.close();
+    QSqlDatabase::removeDatabase(connName); // Clean up!
+}
+void GameDataManager::loadDefaultWrestlers(QSqlDatabase db) {
+    m_wrestlers.clear(); // Ensure list is empty before loading
+    QSqlQuery query(db); // Use the passed-in database
+
+    if (query.exec("SELECT * FROM Wrestlers")) {
+        while (query.next()) {
+            Wrestler* wrestler = new Wrestler();
+            wrestler->setName(query.value("name").toString());
+            wrestler->setGender(query.value("gender").toBool());
+            wrestler->setPopularity(query.value("popularity").toInt());
+            wrestler->setAge(query.value("age").toInt());
+            wrestler->setPotential(query.value("potential").toInt());
+            wrestler->setPowerhouse(query.value("powerhouse").toInt());
+            wrestler->setBrawler(query.value("brawler").toInt());
+            wrestler->setHighFlyer(query.value("highFlyer").toInt());
+            wrestler->setTechnician(query.value("technician").toInt());
+            wrestler->setMMA(query.value("mma").toInt());
+            wrestler->setCharisma(query.value("charisma").toInt());
+            wrestler->setStamina(query.value("stamina").toInt());
+            wrestler->setSalary(query.value("salary").toInt());
+            wrestler->setRole(query.value("role").toInt());
+            wrestler->setHealth(query.value("health").toInt());
+            wrestler->setInjury(query.value("injury").toInt());
+            wrestler->setWeeks(query.value("weeksOnContract").toInt());
+
+            m_wrestlers.append(wrestler);
+        }
+    } else {
+        qDebug() << "Error loading wrestlers: " << query.lastError().text();
+    }
+
+    qDebug() << "Total wrestlers loaded:" << m_wrestlers.size();
 }
 
 
