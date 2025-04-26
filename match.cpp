@@ -191,12 +191,87 @@ void match::determineInjuryDuration(Wrestler* wrestler) {
     }
 }
 
-int  match::matchTypeDamage(){
+int match::matchTypeDamage(){
     if (m_matchType == "Steel Cage") { return 15;}
     else if (m_matchType == "Ladder") { return 20; }
     else if (m_matchType == "Battle Royal") { return 25; }
     else if (m_matchType == "Squash") { return 5; }
     else { return 10; } // standard or wierd invalid match type
 }
+
+void match::applyAttributeGains() {
+    for (Wrestler* w : m_participants) {
+        if (!w) continue;
+
+        QMap<QString, int> changes;
+
+        auto tryGain = [&](const QString& label, int current, std::function<void(int)> setter) {
+            int gain = calculateAttributeGain(current, w->getPotential());
+            if (gain > 0) {
+                setter(current + gain);
+                changes[label] = gain;
+            }
+        };
+
+        tryGain("Powerhouse", w->getPowerhouse(), [&](int value) { w->setPowerhouse(value); });
+        tryGain("Brawler", w->getBrawler(), [&](int value) { w->setBrawler(value); });
+        tryGain("High Flyer", w->getHighFlyer(), [&](int value) { w->setHighFlyer(value); });
+        tryGain("Technician", w->getTechnician(), [&](int value) { w->setTechnician(value); });
+        tryGain("MMA", w->getMMA(), [&](int value) { w->setMMA(value); });
+
+        int popGain = calculatePopularityGain(w);
+        if (popGain > 0) {
+            w->setPopularity(w->getPopularity() + popGain);
+            changes["Popularity"] = popGain;
+        }
+
+        if (!changes.isEmpty()) {
+            m_attributeChanges[w] = changes;
+        }
+    }
+}
+
+int match::calculateAttributeGain(int current, int potential) {
+    if (current >= potential) return 0;
+
+    float distanceRatio = static_cast<float>(potential - current) / potential; // Closer to 0 = near cap
+    std::uniform_real_distribution<float> randDist(0.0f, 1.0f);
+    float roll = randDist(RandomUtils::getGenerator());
+
+    // Apply diminishing returns
+    float gainChance = distanceRatio * 0.5f;  // Max 50% chance to gain
+
+    if (roll < gainChance) {
+        // Determine how much to gain
+        std::uniform_real_distribution<float> gainRollDist(0.0f, 1.0f);
+        float gainRoll = gainRollDist(RandomUtils::getGenerator());
+
+        if (gainRoll < 0.9f) return 1;  // 90% of gains are +1
+        else if (gainRoll < 0.98f) return 2; // 8% chance for +2
+        else return 3; // 2% chance for +3
+    }
+
+    return 0;
+}
+
+
+int match::calculatePopularityGain(Wrestler* w) {
+    std::uniform_real_distribution<float> randDist(-0.5f, 0.5f);
+    float randomBoost = randDist(RandomUtils::getGenerator());
+
+    float rawGain = (m_rating * 1.5f) + randomBoost;  // Average between 0 and ~7.5
+
+    if (rawGain < 0) rawGain = 0;
+    if (w->getPopularity() >= 100) return 0;
+
+    int gain = static_cast<int>(rawGain);
+    if (w->getPopularity() + gain > 100) gain = 100 - w->getPopularity();
+
+    return gain;
+}
+
+
+
+
 
 

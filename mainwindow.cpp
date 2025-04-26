@@ -33,6 +33,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->teamNameRadio->hide();
     ui->individualRadioButton->hide();
     ui->teamComboBox->hide();
+    ui->customRoster->hide();
+    ui->ppvLabel1->hide();
+
+    ui->skip26WeeksButton->hide();
 
     // Apply style to combo boxes
     ui->sortByAttributesCB->setStyleSheet(m_comboBoxStyle);
@@ -124,6 +128,15 @@ void MainWindow::on_teamsBackButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
 }
+void MainWindow::on_FeudsTab_clicked()
+{
+    populateRivalryList();
+}
+void MainWindow::on_rivalryBackButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
+}
+
 
 void MainWindow::on_nextWeekButton_clicked()
 {
@@ -288,8 +301,9 @@ void MainWindow::on_LoadGame_clicked()
 
     if (m_darkMode) {
         ui->darkModeCheckBox->setChecked(m_darkMode);
-        m_textColor = Qt::white;
-        m_backgroundColor = Qt::black;
+        m_textColor = QColor("#F5F5F5");
+        m_backgroundColor = QColor("#1E1E1E");
+        m_darkMode = 1; // ensures dark mode is on
 
     }
     applyTheme();
@@ -312,6 +326,16 @@ void MainWindow::on_userSave_clicked()
 }
 
 void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
+    if (QLayout* layout = chartWidget->layout()) {
+        QLayoutItem* item;
+        while ((item = layout->takeAt(0)) != nullptr) {
+            if (QWidget* w = item->widget()) {
+                delete w; // deletes QChartView
+            }
+            delete item;
+        }
+    }
+
     QLineSeries *series = new QLineSeries();
 
     // Compute actual weeks stored in the values list
@@ -327,7 +351,7 @@ void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("Last 5 Weeks");
+    chart->setTitle("Change over 5 Weeks");
 
     // Configure X-Axis (Weeks)
     QValueAxis *axisX = new QValueAxis();
@@ -337,6 +361,11 @@ void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
     axisX->setTickCount(values.size());
     axisX->setTitleText("Weeks");
     axisX->setLabelFormat("%d");  // Ensure integer labels
+    axisX->setLabelsBrush(QBrush(m_textColor));
+    axisX->setTitleBrush(QBrush(m_textColor));
+    axisX->setGridLineColor(m_textColor);
+    axisX->setLinePenColor(m_textColor);
+
     chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
 
@@ -345,6 +374,11 @@ void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
     int maxValue = values.isEmpty() ? 1 : std::max(1, *std::max_element(values.begin(), values.end()));
     axisY->setRange(0, 1.1 * maxValue);
     axisY->setTitleText(values == m_fanHistory ? "Fans" : "Money");
+    axisY->setLabelsBrush(QBrush(m_textColor));
+    axisY->setTitleBrush(QBrush(m_textColor));
+    axisY->setGridLineColor(m_textColor);
+    axisY->setLinePenColor(m_textColor);
+
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
 
@@ -425,6 +459,9 @@ void MainWindow::on_finalizeBooking_clicked()
     m_currentShow.calculateCosts();
     m_currentShow.calculateFanImpact(m_fans);
     m_currentShow.calculateShowRevenue(m_fans);
+
+    // Updates contract segments
+    m_currentShow.advanceContract();
 
     // updates fans and money values
     m_money += m_currentShow.getTotalRevenue() - m_currentShow.getTotalCosts();
@@ -553,6 +590,34 @@ void MainWindow::populateResultsList() {
                                        .arg(m_textColor.name()));
         matchLayout->addWidget(ratingLabel);
 
+        m.applyAttributeGains();    // See if any stats change
+        // Display attribute changes for all participants
+        for (Wrestler* wrestler : m.getParticipants()) {
+            if (m.getAttributeChanges().contains(wrestler)) {
+                QMap<QString, int> changes = m.getAttributeChanges()[wrestler];
+                QString changeText = QString("%1: ").arg(wrestler->getName());
+
+                // Iterate through each attribute change and append to the changeText
+                for (auto it = changes.begin(); it != changes.end(); ++it) {
+                    QString label = it.key();
+                    int change = it.value();
+
+                    // Append each attribute change to the text
+                    changeText += QString("%1 +%2, ").arg(label).arg(change);
+                }
+
+                // Remove the trailing comma and space
+                if (changeText.endsWith(", ")) {
+                    changeText.chop(2);
+                }
+
+                // Create a QLabel to display the changes
+                QLabel *changeLabel = new QLabel(changeText);
+                changeLabel->setStyleSheet(QString("color: %1; font-size: 16px;").arg(m_textColor.name()));
+                matchLayout->addWidget(changeLabel);
+            }
+        }
+
         // Shows who got injured in a match
         bool hasInjuries = false;
         for (Wrestler* w : participants) {
@@ -560,7 +625,7 @@ void MainWindow::populateResultsList() {
                 hasInjuries = true;
                 break;
             }
-        }
+            }
         if (hasInjuries) {
             QLabel *injuryHeader = new QLabel("<b>Injuries:</b>");
             matchLayout->addWidget(injuryHeader);
@@ -747,9 +812,9 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
     ui->staminaLabel->setText("Stamina: " + QString::number(wrestler->getStamina()));
     ui->healthLabel->setText("Health: " + QString::number(wrestler->getHealth()));
 
-    ui->salaryLabel->setText("Salary: $" + QString::number(wrestler->getSalary()));
+    ui->salaryLabel->setText("Salary: $" + QString::number(wrestler->getCurrentSalary()));
 
-    ui->matchesRemainingLabel->setText("Matches Remaining: " +QString::number(wrestler->getWeeks()));
+    ui->matchesRemainingLabel->setText("Matches Remaining: " +QString::number(wrestler->getTotalMatchesRemaining()));
 
     QString roleText;
     switch (wrestler->getRole()) {
@@ -825,11 +890,16 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
                                                ).arg(color));
 
     // if wrestler is not on roster
-    if (wrestler->getWeeks() <= 0) {
+    if (wrestler->getTotalMatchesRemaining() <= 0) {
         disconnect(ui->signButton, nullptr, nullptr, nullptr);  // ensure the button is not connected to anything
         ui->signButton->show();
         ui->declineSignButton->show();
-        ui->resignButton->hide();   // button to add weeks to contract
+
+        // hides extension related objects
+        ui->extensionWidget->hide();
+
+        ui->salaryLabel->hide();
+        ui->matchesRemainingLabel->hide();
 
         connect(ui->signButton, &QPushButton::clicked, this, &MainWindow::signNewRecruit);
         connect(ui->declineSignButton, &QPushButton::clicked, this, &MainWindow::declineSign);
@@ -837,9 +907,26 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
     else{
         ui->signButton->hide();
         ui->declineSignButton->hide();
-        ui->resignButton->show();
-    }
 
+        ui->extensionSalaryLabel->show();
+        ui->extensionWidget->show();
+        ui->salaryLabel->show();
+        ui->matchesRemainingLabel->show();
+
+
+        ui->extensionSalaryLabel->setText("Projected Salary per Match: $" + QString::number(wrestler->calcSalary()));
+
+        ui->extendContractSpinBox->setValue(5); // default 5 matches
+        ui->extendContractSpinBox->setMinimum(1);
+        ui->extendContractSpinBox->setMaximum(52);
+
+        disconnect(ui->resignButton, nullptr, nullptr, nullptr); // safety
+        connect(ui->resignButton, &QPushButton::clicked, this, [this, wrestler]() {
+            int matches = ui->extendContractSpinBox->value();
+            wrestler->signContract(matches); // Adds a new segment
+            updateWrestlerDetails(wrestler); // Refresh everything
+        });
+    }
 }
 void MainWindow::on_editSaveNameButton_clicked()
 {
@@ -876,8 +963,9 @@ void MainWindow::populateInjuredWrestlersList( QList<Wrestler*> &wrestlers) {
     QLabel *ageLabel = new QLabel("Age");
 
     // Set bold and underlined style for the legend
-    QString legendStyle = QString("font-weight: bold; text-decoration: underline; color: %1;")
+    QString legendStyle = QString("font-weight: bold; text-decoration: underline; color: %1; font-size: 18px;")
                               .arg(m_textColor.name());
+
     popularityLabel->setStyleSheet(legendStyle);
     nameLabel->setStyleSheet(legendStyle);
     injuryLabel->setStyleSheet(legendStyle);
@@ -1010,7 +1098,11 @@ void MainWindow::signNewRecruit(){
     if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
 
     m_playerRoster.append(m_scoutedWrestler);
-    m_scoutedWrestler->setWeeks(10); // random number of matches
+
+    int matches = 10; // Always 10 matches for simplicity
+    int salaryPerMatch = m_scoutedWrestler->calcSalary();
+    ContractSegment initialSegment{matches, salaryPerMatch};
+    m_scoutedWrestler->addContractSegment(initialSegment);
 
     QMessageBox::information(this, "Wrestler Signed", m_scoutedWrestler->getName() + " has been signed to your roster!");
     // updates buttons/contract info
@@ -1680,7 +1772,12 @@ void MainWindow::onManualTagChampsSelected() {
     Wrestler* wrestler1 = data1.value<Wrestler*>();
     Wrestler* wrestler2 = data2.value<Wrestler*>();
 
-    if (!wrestler1 || !wrestler2) return;   // Ensure 2 are selected
+    // if user chooses 2 vacant championships
+    if (!wrestler1 && !wrestler2){
+        m_tag.setChampions({});
+        return;
+    }
+
 
     m_tag.setChampions( {wrestler1, wrestler2});
 }
@@ -2119,10 +2216,7 @@ void MainWindow::on_saveTeamButton_clicked()
 }
 
 // Functions for feuds/rivalries
-void MainWindow::on_FeudsTab_clicked()
-{
-    populateRivalryList();
-}
+
 void MainWindow::populateRivalryList() {
     ui->stackedWidget->setCurrentWidget(ui->rivalryPage);
     ui->newFeudWidget->hide();
@@ -2246,18 +2340,18 @@ void MainWindow::on_darkModeCheckBox_stateChanged(int arg1)
     m_darkMode = !m_darkMode;
 
     if (arg1 == Qt::Checked) {
-        m_textColor = Qt::white;
-        m_backgroundColor = Qt::black;
+        m_textColor = QColor("#F5F5F5") ;
+        m_backgroundColor = QColor("#1E1E1E");
     } else {
-        m_textColor = Qt::black;
-        m_backgroundColor = Qt::white;
+        m_textColor = QColor("#1E1E1E");
+        m_backgroundColor =  QColor("#F5F5F5") ;
     }
     applyTheme();  // Update UI elements with the new colors
     QApplication::restoreOverrideCursor();  // Return cursors to normal
 }
 void MainWindow::applyTheme(){
     // List of StackedWidget pages to exclude from background updates
-    QList<QWidget*> excludedPages = { ui->useCustomRosterPage, ui->LandingPage, ui->newFilePage };
+    QList<QWidget*> excludedPages = { ui->useCustomRosterPage, ui->LandingPage, ui->newFilePage , ui->verticalWidget};
 
     // Iterate through all widgets inside the stacked widget
     for (QWidget* widget : ui->stackedWidget->findChildren<QWidget*>()) {
@@ -2265,6 +2359,7 @@ void MainWindow::applyTheme(){
         if (qobject_cast<QPushButton*>(widget) ||
             qobject_cast<QComboBox*>(widget) ||
             qobject_cast<QScrollArea*>(widget) ||
+            qobject_cast<QScrollBar*>(widget) ||
             excludedPages.contains(widget) ||
             widget == ui->participantLayout) {
             continue;
@@ -2311,6 +2406,42 @@ void MainWindow::applyTheme(){
                                         .arg(m_backgroundColor.name(), m_textColor.name()));
         }
     }
+    applyScrollBarStyle();
+}
+void MainWindow::applyScrollBarStyle()
+{
+    for (QScrollBar* scrollBar : ui->stackedWidget->findChildren<QScrollBar*>()) {
+        scrollBar->setStyleSheet(R"(
+            QScrollBar:vertical {
+                background: #E0E0E0;
+                width: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #909090;
+                min-height: 20px;
+                border-radius: 4px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                background: none;
+                height: 0px;
+            }
+            QScrollBar:horizontal {
+                background: #E0E0E0;
+                height: 14px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #909090;
+                min-width: 20px;
+                border-radius: 4px;
+            }
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                background: none;
+                width: 0px;
+            }
+        )");
+    }
 }
 void MainWindow::clearData(){
 
@@ -2348,5 +2479,7 @@ void MainWindow::clearData(){
 
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
 }
+
+
 
 

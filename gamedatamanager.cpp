@@ -36,7 +36,13 @@ void GameDataManager::initializeDatabase() {
                "charisma INTEGER, stamina INTEGER, salary INTEGER, role INTEGER, "
                "health INTEGER, injury INTEGER, weeksOnContract INTEGER);");
 
-
+    // ContractSegments Table (for wrestler contracts)
+    query.exec("CREATE TABLE IF NOT EXISTS Contracts ("
+               "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+               "wrestler_id INTEGER, "
+               "matchesRemaining INTEGER, "
+               "salaryPerMatch INTEGER, "
+               "FOREIGN KEY(wrestler_id) REFERENCES Wrestlers(id) ON DELETE CASCADE);");
 
     // Championship Table
     query.exec("CREATE TABLE IF NOT EXISTS Championships ("
@@ -113,20 +119,22 @@ void GameDataManager::closeDatabase()
 }
 
 // Save Wrestlers
-void GameDataManager::saveWrestlers( QList<Wrestler*> &wrestlers) {
+void GameDataManager::saveWrestlers(QList<Wrestler*> &wrestlers) {
     QSqlQuery query;
 
-    query.exec("DELETE FROM Wrestlers"); // Clear existing data before saving
+    // Clear Wrestlers and Contracts tables
+    query.exec("DELETE FROM Wrestlers");
+    query.exec("DELETE FROM Contracts");
 
-    // Reset the auto-increment counter
+    // Reset auto-increment counters
     query.exec("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Wrestlers'");
+    query.exec("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Contracts'");
 
-
-    for ( Wrestler* wrestler : wrestlers) {
+    for (Wrestler* wrestler : wrestlers) {
         query.prepare("INSERT INTO Wrestlers (name, gender, popularity, age, potential, powerhouse, brawler, "
-                      "highFlyer, technician, mma, charisma, stamina, salary, role, health, injury, weeksOnContract) "
+                      "highFlyer, technician, mma, charisma, stamina, role, health, injury) "
                       "VALUES (:name, :gender, :popularity, :age, :potential, :powerhouse, :brawler, "
-                      ":highFlyer, :technician, :mma, :charisma, :stamina, :salary, :role, :health, :injury, :weeksOnContract)");
+                      ":highFlyer, :technician, :mma, :charisma, :stamina, :role, :health, :injury)");
 
         query.bindValue(":name", wrestler->getName());
         query.bindValue(":gender", wrestler->getGender());
@@ -140,14 +148,27 @@ void GameDataManager::saveWrestlers( QList<Wrestler*> &wrestlers) {
         query.bindValue(":mma", wrestler->getMMA());
         query.bindValue(":charisma", wrestler->getCharisma());
         query.bindValue(":stamina", wrestler->getStamina());
-        query.bindValue(":salary", wrestler->getSalary());
         query.bindValue(":role", wrestler->getRole());
         query.bindValue(":health", wrestler->getHealth());
         query.bindValue(":injury", wrestler->getInjury());
-        query.bindValue(":weeksOnContract", wrestler->getWeeks());
         query.exec();
+
+        int wrestlerId = query.lastInsertId().toInt();
+
+        // Now insert contract segments for this wrestler
+        for (const ContractSegment& segment : wrestler->getContractSegments()) {
+            QSqlQuery contractQuery;
+            contractQuery.prepare("INSERT INTO Contracts (wrestler_id, matchesRemaining, salaryPerMatch) "
+                                  "VALUES (:wrestler_id, :matchesRemaining, :salaryPerMatch)");
+            contractQuery.bindValue(":wrestler_id", wrestlerId);
+            contractQuery.bindValue(":matchesRemaining", segment.matchesRemaining);
+            contractQuery.bindValue(":salaryPerMatch", segment.salaryPerMatch);
+            contractQuery.exec();
+        }
     }
 }
+
+// Save Championships
 void GameDataManager::saveChampionships( championship &world,  championship &tag,  championship &women) {
     QSqlQuery query;
 
@@ -408,12 +429,12 @@ void GameDataManager::saveShow(show &currentShow) {
 }
 
 void GameDataManager::loadWrestlers() {
-    m_wrestlers.clear(); // Ensure list is empty before loading
+    m_wrestlers.clear();
     QSqlQuery query("SELECT * FROM Wrestlers");
 
     if (query.exec()) {
         while (query.next()) {
-            Wrestler* wrestler = new Wrestler(); // Dynamically create a new wrestler object
+            Wrestler* wrestler = new Wrestler();
             wrestler->setID(query.value("id").toInt());
             wrestler->setName(query.value("name").toString());
             wrestler->setGender(query.value("gender").toBool());
@@ -427,11 +448,24 @@ void GameDataManager::loadWrestlers() {
             wrestler->setMMA(query.value("mma").toInt());
             wrestler->setCharisma(query.value("charisma").toInt());
             wrestler->setStamina(query.value("stamina").toInt());
-            wrestler->setSalary(query.value("salary").toInt());
             wrestler->setRole(query.value("role").toInt());
             wrestler->setHealth(query.value("health").toInt());
             wrestler->setInjury(query.value("injury").toInt());
-            wrestler->setWeeks(query.value("weeksOnContract").toInt());
+
+            wrestler->clearContractSegments(); // ensure contract segments are cleared
+
+            // Now load contract segments
+            QSqlQuery contractQuery;
+            contractQuery.prepare("SELECT matchesRemaining, salaryPerMatch FROM Contracts WHERE wrestler_id = :wrestler_id");
+            contractQuery.bindValue(":wrestler_id", wrestler->getID());
+            if (contractQuery.exec()) {
+                while (contractQuery.next()) {
+                    ContractSegment segment;
+                    segment.matchesRemaining = contractQuery.value("matchesRemaining").toInt();
+                    segment.salaryPerMatch = contractQuery.value("salaryPerMatch").toInt();
+                    wrestler->addContractSegment(segment); // you should have a method like this
+                }
+            }
 
             m_wrestlers.append(wrestler);
         }
@@ -439,6 +473,7 @@ void GameDataManager::loadWrestlers() {
         qDebug() << "Error loading wrestlers: " << query.lastError().text();
     }
 }
+
 void GameDataManager::loadChampionships() {
     QSqlQuery query("SELECT * FROM Championships");
 

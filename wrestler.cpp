@@ -40,7 +40,7 @@ Wrestler::Wrestler(){
     this->m_role = roleDist(gen);
     this->m_health = healthDist(gen);
     this->m_injury = 0;     // Don't start injured
-    this->m_weeksRemaining = weeksDist(gen);
+    this->m_matchesRemaining = weeksDist(gen);
 }
 Wrestler::Wrestler(int id) {
     // Member variables (attributes)
@@ -54,7 +54,9 @@ Wrestler::Wrestler(int id) {
     std::uniform_int_distribution<> genderDist(0, 1);
 
     std::uniform_int_distribution<> healthDist(40, 99); // Don't want them to start at constant or low health
-    std::uniform_int_distribution<> weeksDist(1, 52);
+
+    std::uniform_int_distribution<> weeksDist(3, 52); // 3 to 52 weeks for initial contract
+
 
     this->m_id = id;
     this->m_gender = genderDist(gen);
@@ -82,7 +84,14 @@ Wrestler::Wrestler(int id) {
     this->m_role = roleDist(gen);
     this->m_health = healthDist(gen);
     this->m_injury = 0;     // Don't start injured
-    this->m_weeksRemaining = weeksDist(gen);
+
+    // Calculate initial contract
+    ContractSegment startingContract;
+    startingContract.matchesRemaining = weeksDist(gen); // Random range between 3 to 52 weeks
+    startingContract.salaryPerMatch = calcSalary();      // Salary based on popularity
+
+    m_contractSegments.append(startingContract);
+
 }
 
 void Wrestler::setName(const QString& n) {
@@ -134,6 +143,7 @@ QStringList Wrestler::loadNamesFromFile(const QString& filename) {
     }
     return names;
 }
+
 int Wrestler::calcSalary() const {
     const int minSalary = 500;   // Base pay per appearance
     const int maxSalary = 50000; // Max pay per appearance
@@ -144,3 +154,28 @@ int Wrestler::calcSalary() const {
     return static_cast<int>(minSalary + scale * (maxSalary - minSalary));
 }
 
+void Wrestler::signContract(int numMatches) {
+    int salary = calcSalary(); // based on current popularity
+    m_contractSegments.append({numMatches, salary});
+}
+
+void Wrestler::useOneMatch() {
+    if (m_contractSegments.isEmpty()) return;
+
+    m_contractSegments.first().matchesRemaining--;
+    if (m_contractSegments.first().matchesRemaining <= 0) {
+        m_contractSegments.removeFirst();
+    }
+}
+
+int Wrestler::getCurrentSalary() const {
+    return m_contractSegments.isEmpty() ? 0 : m_contractSegments.first().salaryPerMatch;
+}
+
+int Wrestler::getTotalMatchesRemaining() const {
+    int total = 0;
+    for (const auto& seg : m_contractSegments) {
+        total += seg.matchesRemaining;
+    }
+    return total;
+}

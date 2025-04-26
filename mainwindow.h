@@ -102,6 +102,8 @@ private slots:
 
     void on_startFeudButton_clicked();
 
+    void on_rivalryBackButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -144,6 +146,7 @@ private:
     void updateWrestlerTeamSelection();             // Updates wrestlers able to be chosen for a team
 
     void applyTheme();          // changes labels and widgets created in .ui file to dark/light mode
+    void applyScrollBarStyle(); // ensures the scroll bars do not change their appearance
     void clearData();           // for clearing game data and going to landing page
 
     void sortWrestlers();

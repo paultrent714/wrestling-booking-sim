@@ -12,6 +12,13 @@
 
 #include "randomUtilities.h"
 
+// ContractSegment struct allows wrestler to extend contract for different amount
+struct ContractSegment {
+    int matchesRemaining;
+    int salaryPerMatch;
+};
+
+
 class Wrestler
 {
 public:
@@ -45,7 +52,11 @@ public:
     int getRole() const { return m_role; }
     int getHealth() const { return m_health; }
     int getInjury() const { return m_injury; }
-    int getWeeks() const {return m_weeksRemaining; }
+    int getWeeks() const {return m_matchesRemaining; }
+    int getTotalMatchesRemaining() const;
+    int getCurrentSalary() const; // Salary for the next match
+    QList<ContractSegment> getContractSegments() const { return m_contractSegments; }
+
 
     // Setters
     void setName(const QString& n);
@@ -65,11 +76,24 @@ public:
     void setRole(int r) { m_role = r; }
     void setHealth( int h) { m_health = h; }
     void setInjury(int i) {m_injury = i; }
-    void setWeeks(int w) {m_weeksRemaining = w;}
+    void setWeeks(int w) {m_matchesRemaining = w;}
+
+    void addContractSegment(const ContractSegment& segment) {
+        m_contractSegments.append(segment);
+    }
+    void clearContractSegments() { m_contractSegments.clear(); }
+
 
     void recoverHealth(int amount) { setHealth(m_health + amount); } // Called at week's end
     void recoverInjury() { m_injury--; }    // decreases injury time when week ends
-    void decWeeks() { m_weeksRemaining--; } // decreases weeks on contract
+
+    int calcSalary() const;         // Calculates pay based on popularity
+
+    void signContract(int numMatches);
+    void useOneMatch(); // Wrestler finishes a match, consumes from contract
+
+    void decMatches() { m_matchesRemaining--; } // decreases weeks on contract
+
 
     // member function to display wrestler info (for debugging)
     void displayInfo() const {
@@ -86,7 +110,7 @@ public:
                  << m_stamina
                  << m_salary
                  << m_role
-                 << m_weeksRemaining;
+                 << m_matchesRemaining;
     }
 
 private:
@@ -102,11 +126,14 @@ private:
     int m_role;   // 1 for bad, 2 for good, 0 for neutral
     int m_health;   // Affects odds/ duration of injury
     int m_injury;   // Duration of wrestler's injury
-    int m_weeksRemaining;   // Duration of contract remaining
+    int m_matchesRemaining;   // Duration of contract remaining
 
     QString generateRandomName(std::mt19937& gen);
     QStringList loadNamesFromFile(const QString& filename);
-    int calcSalary() const;         // Calculates pay based on popularity
+
+
+    QList<ContractSegment> m_contractSegments; // Multiple contracts!
+
 
 };
 

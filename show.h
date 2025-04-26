@@ -46,6 +46,7 @@ public:
 
     bool getShowType() const { return showType; } // Get show type (Weekly or PVP)
 
+    void advanceContract();  // decreases contract length for each wrestler in a match
 
 private:
     QList<match> matches; // List of matches in the show

@@ -78,3 +78,10 @@ void show::calculateFanImpact(int totalFans){
     fanImpact = std::clamp(fanChange, -500, 2000); // Prevent extreme loss/gain
 }
 
+void show::advanceContract(){
+    for (match m: matches){
+        for (Wrestler* wrestler : m.getParticipants()) {
+            wrestler->useOneMatch();
+        }
+    }
+}

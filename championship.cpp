@@ -23,10 +23,7 @@ void championship::setChampions( const QList<Wrestler*>& champions ){
         }
     }
 
-    if (m_champions.isEmpty()) {
-        qDebug() << "Championship is vacant!";
-    } else if (!isValidChampions(m_champions)) {
-        qDebug() << "Invalid champions detected! Championship update aborted.";
+    if (!isValidChampions(m_champions)) {
         m_champions.clear();  // Reset champions if invalid
     }
 }

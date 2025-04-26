@@ -48,6 +48,10 @@ public:
     bool isChampionship() const { return m_championship; }
     bool isTeam() const { return m_teams; }
     int getFinances() const { return m_finances; }
+    QMap<Wrestler*, QMap<QString, int>> getAttributeChanges() const {
+        return m_attributeChanges;
+    }
+
 
     bool isValidMatch() const;  // Method to check if match is valid (correct number of wrestlers)
     void calculateHealthLoss ( Wrestler* wrestler) ;    // calculates health lost by wrestler in a match
@@ -55,10 +59,15 @@ public:
 
     int matchTypeDamage(); // determines base health loss of a match type
 
+    void applyAttributeGains();        // calculates change in attributes for all participants of a match
+    int calculateAttributeGain(int current, int potential);
+    int calculatePopularityGain(Wrestler* w);
 
 private:
     QString m_matchType;
     QList<Wrestler*> m_participants; // Who is competing
+    QMap<Wrestler*, QMap<QString, int>> m_attributeChanges;  // wrestler -> {attributeName -> changeAmount}
+
     bool m_teams; // True if the match has teams
     float m_rating;  // Rating from 0 to 5 stars
     Wrestler* m_winner = NULL; // User can choose who wins
