@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("PWGM");
+
 
     dataManager = new GameDataManager();
     dataManager->openDatabase();
@@ -86,6 +88,9 @@ void MainWindow::on_RosterDisplayTab_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->viewRoster);
     populateWrestlerList(m_playerRoster);
+    // ensures the edit button is the one that is displayed
+    ui->saveNameButton->hide();
+    ui->editNameButton->show();
 }
 void MainWindow::on_rosterBackButton_clicked()
 {
@@ -95,6 +100,9 @@ void MainWindow::on_backFromWrestler_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->viewRoster);
     populateWrestlerList(m_playerRoster);
+    // ensures the edit button is the one that is displayed
+    ui->saveNameButton->hide();
+    ui->editNameButton->show();
 }
 void MainWindow::on_backToLanding_clicked()
 {
@@ -183,7 +191,7 @@ void MainWindow::on_homeButton_clicked()
     ui->SettingsTab->hide();
 }
 
-// Skips 26 weeks; used mainly for debugging
+// Skips 26 weeks; used for debugging
 void MainWindow::on_pushButton_clicked()
 {
     for(int i = 0; i < 26; i++){
@@ -796,7 +804,7 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
     connect(ui->wrestlerNamelineEdit, &QLineEdit::editingFinished, this, [this, wrestler]() {
         wrestler->setName(ui->wrestlerNamelineEdit->text()); // Save the new name when editing ends
         ui->wrestlerNamelineEdit->setReadOnly(true);        // Make it read-only after editing
-        ui->editSaveNameButton->setText("Edit Name");       // Change the button so user knows text box is read only again
+        ui->editNameButton->setText("Edit Name");       // Change the button so user knows text box is read only again
     });
 
     ui->ageLabel->setText("Age: " + QString::number(wrestler->getAge()));
@@ -927,23 +935,24 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
             updateWrestlerDetails(wrestler); // Refresh everything
         });
     }
+
+
 }
-void MainWindow::on_editSaveNameButton_clicked()
+void MainWindow::on_editNameButton_clicked()
 {
-    // Toggle edit mode
-    bool isEditable = ui->wrestlerNamelineEdit->isReadOnly();
-    if (isEditable) {
-        // If it's read-only, make it editable
-        ui->wrestlerNamelineEdit->setReadOnly(false);
-        ui->editSaveNameButton->setText("Save"); // Change button text to Save
-        ui->wrestlerNamelineEdit->setFocus(); // Focus on the QLineEdit for editing
-    } else {
-        // If it's already editable, save the name automatically when they click "Save"
-        ui->wrestlerNamelineEdit->editingFinished(); // Triggers the save
-        ui->editSaveNameButton->setText("Edit Name");
-        ui->wrestlerNamelineEdit->setReadOnly(true);
-    }
+    ui->wrestlerNamelineEdit->setReadOnly(false);
+    ui->wrestlerNamelineEdit->setFocus();
+    ui->editNameButton->hide();
+    ui->saveNameButton->show();
 }
+
+void MainWindow::on_saveNameButton_clicked()
+{
+    ui->wrestlerNamelineEdit->setReadOnly(true);
+    ui->saveNameButton->hide();
+    ui->editNameButton->show();
+}
+
 void MainWindow::populateInjuredWrestlersList( QList<Wrestler*> &wrestlers) {
     QWidget* previousContainer = ui->injuryScrollArea->widget();
     if (previousContainer) {
@@ -2480,6 +2489,14 @@ void MainWindow::clearData(){
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
 }
 
+
+
+
+
+void MainWindow::on_saveButton_clicked()
+{
+
+}
 
 
 

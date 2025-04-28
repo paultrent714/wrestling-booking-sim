@@ -86,7 +86,7 @@ private slots:
     void on_InjuredTab_clicked();      // goes to page to see injured list
     void on_darkModeCheckBox_stateChanged(int arg1);    // changes dark mode when game loads/user checks it
     void on_homeButton_clicked();
-    void on_editSaveNameButton_clicked();
+    void on_editNameButton_clicked();
     void on_RosterDescendingSort_toggled(bool checked);
     void on_sortByAttributesCB_currentTextChanged(const QString &arg1);
     void on_InjuredBackButton_clicked();
@@ -103,6 +103,10 @@ private slots:
     void on_startFeudButton_clicked();
 
     void on_rivalryBackButton_clicked();
+
+    void on_saveButton_clicked();
+
+    void on_saveNameButton_clicked();
 
 private:
     Ui::MainWindow *ui;
