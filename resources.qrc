@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/black_arrow_empty.png</file>
+        <file>icons/black_edit.png</file>
+        <file>icons/checkmark.png</file>
+        <file>icons/green_up_arrow.png</file>
+        <file>icons/healing_red.png</file>
+        <file>icons/healing_white.png</file>
+        <file>icons/myBasicTitle.png</file>
+        <file>icons/red_down_arrow.png</file>
+        <file>icons/white_arrow_filled.png</file>
+        <file>icons/white_edit.png</file>
+        <file>icons/white_gear.png</file>
+    </qresource>
+    <qresource prefix="/saveFiles">
+        <file>saveFiles/game_data.db</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file>data/last_name.txt</file>
+        <file>data/first_name_male.txt</file>
+        <file>data/first_name_female.txt</file>
+        <file>data/default_roster.db</file>
+        <file>data/default_names.txt</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>fonts/MaterialSymbolsRounded_36pt-Regular.ttf</file>
+    </qresource>
+</RCC>

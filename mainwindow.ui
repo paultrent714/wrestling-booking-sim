@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>790</width>
-    <height>671</height>
+    <height>680</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -54,7 +54,7 @@
        <string notr="true">background-color: rgb(30, 30, 30);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>16</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -743,8 +743,8 @@ font: 24pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>434</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_3">
@@ -815,8 +815,8 @@ color: rgb(0, 0, 0);</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>354</width>
-                <height>390</height>
+                <width>28</width>
+                <height>28</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_16">
@@ -1018,8 +1018,8 @@ font: 24pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>484</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1337,8 +1337,8 @@ QCheckBox:hover::indicator {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>752</width>
-             <height>439</height>
+             <width>66</width>
+             <height>16</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -2261,7 +2261,7 @@ font: 22pt &quot;Segoe UI&quot;;
              <x>0</x>
              <y>0</y>
              <width>752</width>
-             <height>440</height>
+             <height>449</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_2">
@@ -2531,8 +2531,8 @@ font: 18pt &quot;Segoe UI&quot;;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>471</width>
-               <height>484</height>
+               <width>21</width>
+               <height>16</height>
               </rect>
              </property>
              <widget class="QScrollBar" name="verticalScrollBar_4">

@@ -1575,6 +1575,7 @@ void MainWindow::on_backFromEditMatch_clicked() {
     ui->stackedWidget->setCurrentWidget(ui->Show_Card);
     m_currentMatch->setChampionship(ui->champCheckBox->isChecked());
     m_currentMatch->setTag(ui->teamCheckBox->isChecked());
+    m_currentMatch->setMatchType(ui->matchTypeComboBox->currentText());
 
     populateMatchList();
 }

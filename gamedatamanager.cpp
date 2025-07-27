@@ -131,11 +131,12 @@ void GameDataManager::saveWrestlers(QList<Wrestler*> &wrestlers) {
     query.exec("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'Contracts'");
 
     for (Wrestler* wrestler : wrestlers) {
-        query.prepare("INSERT INTO Wrestlers (name, gender, popularity, age, potential, powerhouse, brawler, "
+        query.prepare("INSERT INTO Wrestlers (id, name, gender, popularity, age, potential, powerhouse, brawler, "
                       "highFlyer, technician, mma, charisma, stamina, role, health, injury) "
-                      "VALUES (:name, :gender, :popularity, :age, :potential, :powerhouse, :brawler, "
+                      "VALUES (:id, :name, :gender, :popularity, :age, :potential, :powerhouse, :brawler, "
                       ":highFlyer, :technician, :mma, :charisma, :stamina, :role, :health, :injury)");
 
+        query.bindValue(":id", wrestler->getID());  // Preserve ID
         query.bindValue(":name", wrestler->getName());
         query.bindValue(":gender", wrestler->getGender());
         query.bindValue(":popularity", wrestler->getPopularity());
@@ -153,7 +154,9 @@ void GameDataManager::saveWrestlers(QList<Wrestler*> &wrestlers) {
         query.bindValue(":injury", wrestler->getInjury());
         query.exec();
 
-        int wrestlerId = query.lastInsertId().toInt();
+        int wrestlerId = wrestler->getID();
+        if (wrestlerId <= 0)
+            wrestlerId = query.lastInsertId().toInt();  // fallback if new wrestler
 
         // Now insert contract segments for this wrestler
         for (const ContractSegment& segment : wrestler->getContractSegments()) {
