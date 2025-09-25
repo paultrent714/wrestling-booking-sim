@@ -71,6 +71,9 @@ void MainWindow::on_PromotionTab_clicked()
     }
     ui->stackedWidget->setCurrentWidget(ui->Promotion_Page);
 }
+void MainWindow::on_finalizeBooking_clicked(){
+    finalizeBooking();
+}
 void MainWindow::on_RosterTab_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
@@ -86,11 +89,51 @@ void MainWindow::on_CardTab_clicked()
 }
 void MainWindow::on_RosterDisplayTab_clicked()
 {
+    // Shows player roster
     ui->stackedWidget->setCurrentWidget(ui->viewRoster);
     populateWrestlerList(m_playerRoster);
+
+    // ensures the roster the player will be looking at would be own
+    m_currentRoster = &m_playerRoster;
+    m_currentAffiliation = 1;
+
+    updateRosterLabel();
+
     // ensures the edit button is the one that is displayed
     ui->saveNameButton->hide();
     ui->editNameButton->show();
+}
+void MainWindow::on_RivalPromotionTab_clicked()
+{
+    // ensures user cannot edit the names of other promotions' wrestlers
+    ui->saveNameButton->hide();
+    ui->editNameButton->setEnabled(false);
+    ui->editNameButton->clearFocus();
+
+    ui->stackedWidget->setCurrentWidget(ui->viewRoster);
+    populateWrestlerList(m_cpuRoster);
+
+    //ensures the roster the player will be viewing will be cpu's
+    m_currentRoster = &m_cpuRoster;
+    m_currentAffiliation = 2;
+
+    updateRosterLabel();
+}
+void MainWindow::on_FreeAgentTab_clicked()
+{
+    // ensures user cannot edit the names of unsigned wrestlers
+    ui->saveNameButton->hide();
+    ui->editNameButton->setEnabled(false);
+    ui->editNameButton->clearFocus();
+
+    ui->stackedWidget->setCurrentWidget(ui->viewRoster);
+    populateWrestlerList(m_freeAgents);
+
+    //ensures the roster the player will be viewing will be free agents
+    m_currentRoster = &m_freeAgents;
+    m_currentAffiliation = 0;
+
+    updateRosterLabel();
 }
 void MainWindow::on_rosterBackButton_clicked()
 {
@@ -99,7 +142,7 @@ void MainWindow::on_rosterBackButton_clicked()
 void MainWindow::on_backFromWrestler_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->viewRoster);
-    populateWrestlerList(m_playerRoster);
+    populateWrestlerList(*m_currentRoster);
     // ensures the edit button is the one that is displayed
     ui->saveNameButton->hide();
     ui->editNameButton->show();
@@ -175,6 +218,23 @@ void MainWindow::on_nextWeekButton_clicked()
             w->recoverInjury();
         }
     }
+
+    // Process player contracts (by match)
+    for (int i = m_playerRoster.size() - 1; i >= 0; --i) {
+        Wrestler* w = m_playerRoster[i];
+
+        if (w->getTotalMatchesRemaining() <= 0) {  // contract expired
+            m_playerRoster.removeAt(i);
+            w->setAffiliation(0);  // free agent
+            m_freeAgents.append(w);
+        }
+    }
+
+    // process cpu contracts (by weeks)
+
+
+    updateCpuRosterWeekly();
+
     // show navigation buttons that show up on all pages except few
     ui->RosterTab->show();
     ui->DashboardTab->show();
@@ -232,14 +292,15 @@ void MainWindow::on_StartNew_clicked()
 }
 void MainWindow::on_defaultRoster_clicked()
 {
-    dataManager->loadDefaultRoster("data/default_roster.db");
-    m_playerRoster = dataManager->getWrestlers();
+    QList<Wrestler*> allWrestlers = dataManager->loadDefaultRoster();
 
-    if (m_playerRoster.size() <= 5) {
+    if (allWrestlers.size() <= 1) {
         QMessageBox::warning(this, "Incomplete Data",
                              "Too few entries in file to be used");
         return;  // Stop the game loading process
     }
+
+    setRosters(allWrestlers);
 
     newGameSetup();
 }
@@ -262,44 +323,76 @@ void MainWindow::on_randomRoster_clicked()
 {
     srand(static_cast<unsigned int>(time(0)));
 
+
+    // --- Clear existing rosters first ---
+    for (Wrestler* w : m_playerRoster) delete w;
+    for (Wrestler* w : m_cpuRoster) delete w;
+    for (Wrestler* w : m_freeAgents) delete w;
+
+    m_playerRoster.clear();
+    m_cpuRoster.clear();
+    m_freeAgents.clear();
+
+
     m_lastUsedID = 1;
-    for (int i = 0; i < 20; ++i){
-        Wrestler* randomGuy = new Wrestler(m_lastUsedID);
-        randomGuy->displayInfo();
-        m_lastUsedID++;
-        m_playerRoster.append(randomGuy);
+    for (int i = 0; i < 20; ++i) {
+        Wrestler* w = new Wrestler(m_lastUsedID++);
+        w->setAffiliation(1);   // mark wrestler as part of player roster
+        m_playerRoster.append(w);
+    }
+    for (int i = 0; i < 20; ++i) {
+        Wrestler* w = new Wrestler(m_lastUsedID++);
+        w->setAffiliation(2);   // mark wrestler as part of cpu roster
+        m_cpuRoster.append(w);
+    }
+    for (int i = 0; i < 30; ++i) {
+        Wrestler* w = new Wrestler(m_lastUsedID++);
+        w->setAffiliation(0);   //mark wrestler as free agent
+        w->clearContractSegments(); // makes sure the wrestler has no contract
+        m_freeAgents.append(w);
     }
     newGameSetup();
 }
 void MainWindow::on_LoadGame_clicked()
 {
-    // Load wrestlers and store them in m_playerRoster
-    dataManager->loadWrestlers();
-    m_playerRoster = dataManager->getWrestlers();
+    // Load all wrestlers
+    QList<Wrestler*> allWrestlers = dataManager->loadWrestlers();
 
-    if (m_playerRoster.size() <= 5) {
+    if (allWrestlers.size() <= 5) {
         QMessageBox::warning(this, "Incomplete Data",
                              "Too few entries in file to be used");
         return;  // Stop the game loading process
     }
 
+    // Clear existing rosters before refilling
+    m_playerRoster.clear();
+    m_freeAgents.clear();
+    m_cpuRoster.clear();
+
+    setRosters(allWrestlers);
+
+    // Build ID -> pointer map
+    QMap<int, Wrestler*> wrestlerMap;
+    for (Wrestler* w : allWrestlers) wrestlerMap[w->getID()] = w;
+
+
     // Load championships, then store them in m_world, m_tag, and m_women
-    dataManager->loadChampionships();
-    QList<championship> championshipsList = dataManager->getChampionships();
-    // Check if the list is not empty and has the expected number of championships
-    if (championshipsList.size() >= 3) {
-        m_world = championshipsList[0];
-        m_tag = championshipsList[1];
-        m_women = championshipsList[2];
+    QList<championship*> loadedChamps;
+    dataManager->loadChampionships(loadedChamps, wrestlerMap);// Check if the list is not empty and has the expected number of championships
+
+    if (loadedChamps.size() >= 3) {
+        m_world = *loadedChamps[0];
+        m_tag = *loadedChamps[1];
+        m_women = *loadedChamps[2];
     }
     // Load teams and store them in m_teams
-    dataManager->loadTeams(m_teams);
+    dataManager->loadTeams(m_teams,wrestlerMap);
     // Load rivalries
-    dataManager->loadRivalries(m_rivalries);
+    dataManager->loadRivalries(m_rivalries, wrestlerMap);
     // Load game info and store it in m_money, m_fans, m_year, m_currentWeek, etc.
     dataManager->loadGameInfo(m_money, m_fans, m_year, m_currentWeek, m_moneyHistory, m_fanHistory, m_darkMode);
     // Load the current show and store it in m_currentShow
-    dataManager->loadShow(m_currentShow);
+    dataManager->loadShow(m_currentShow, wrestlerMap);
 
     ui->stackedWidget->setCurrentWidget(ui->Dashboard_Page);
     ui->RosterTab->show();
@@ -321,7 +414,7 @@ void MainWindow::on_LoadGame_clicked()
 void MainWindow::on_userSave_clicked()
 {
     // save game data into sqlite using the GameDataManager
-    dataManager->saveWrestlers(m_playerRoster);          // save wrestlers from m_playerRoster
+    dataManager->saveWrestlers(m_playerRoster, m_cpuRoster, m_freeAgents);          // save wrestlers from m_playerRoster
     dataManager->saveChampionships(m_world, m_tag, m_women); // save championships
     dataManager->saveTeams(m_teams);                      // save teams
     dataManager->saveRivalries(m_rivalries);
@@ -331,6 +424,59 @@ void MainWindow::on_userSave_clicked()
 
     // Set the last used ID (assuming it is saved in the database or calculated from the loaded data)
     m_lastUsedID = m_playerRoster.size() + 1;  // or another approach to set the last ID
+}
+void MainWindow::setRosters(QList<Wrestler*> wrestlers){
+    // Sort wrestlers into rosters based on affiliation
+    for (Wrestler* w : wrestlers) {
+        int aff = w->getAffiliation();
+
+        if (aff == 1) {                // Player promotion
+            m_playerRoster.append(w);
+        }
+        else if (aff == 2) {          // cpu pool
+            m_cpuRoster.append(w);
+        }
+        else {                         // free agent pool
+            m_freeAgents.append(w);
+            w->clearContractSegments(); // ensures wrestler has no contract signed
+        }
+    }
+
+}
+
+void MainWindow::newGameSetup(){
+    // Initialize the game data
+    m_money = 1000000; // starting value of 1 mil
+    m_fans = 1000;   // starting value
+    m_year = 2025;
+    m_currentWeek = 1; // starting week
+
+    // adds default championships to list
+    m_world = championship("World Championship", false, false); // Single
+    m_tag = championship("Tag Team Championship", true, false); // Tag
+    m_women = championship("Women's Championship", false, true); // Women's
+
+    // go to dashboard
+    ui->stackedWidget->setCurrentWidget(ui->Dashboard_Page);
+
+    // unhide navigation tabs
+    ui->RosterTab->show();
+    ui->DashboardTab->show();
+    ui->PromotionTab->show();
+    ui->SettingsTab->show();
+
+    // Ensures all the lists of previous values is set to 0
+    m_fanHistory.append(m_fans);
+    if (m_fanHistory.size() > 5){
+        m_fanHistory.removeAt(0);
+    }
+    m_moneyHistory.append(m_money);
+    if (m_moneyHistory.size() > 5){
+        m_moneyHistory.removeAt(0);
+    }
+
+    updateDashboardLabels();
+
 }
 
 void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
@@ -406,44 +552,9 @@ void MainWindow::makeCharts(const QList<int>& values, QWidget* chartWidget) {
     chartView->update();
 }
 
-void MainWindow::newGameSetup(){
-    // Initialize the game data
-    m_money = 1000000; // starting value of 1 mil
-    m_fans = 1000;   // starting value
-    m_year = 2025;
-    m_currentWeek = 1; // starting week
 
-    // adds default championships to list
-    m_world = championship("World Championship", false, false); // Single
-    m_tag = championship("Tag Team Championship", true, false); // Tag
-    m_women = championship("Women's Championship", false, true); // Women's
-
-    // go to dashboard
-    ui->stackedWidget->setCurrentWidget(ui->Dashboard_Page);
-
-    // unhide navigation tabs
-    ui->RosterTab->show();
-    ui->DashboardTab->show();
-    ui->PromotionTab->show();
-    ui->SettingsTab->show();
-
-    // Ensures all the lists of previous values is set to 0
-    m_fanHistory.append(m_fans);
-    if (m_fanHistory.size() > 5){
-        m_fanHistory.removeAt(0);
-    }
-    m_moneyHistory.append(m_money);
-    if (m_moneyHistory.size() > 5){
-        m_moneyHistory.removeAt(0);
-    }
-
-    updateDashboardLabels();
-
-}
-
-// Shows results of a show
-void MainWindow::on_finalizeBooking_clicked()
-{
+// Calculates and shows results of a show
+void MainWindow::finalizeBooking(){
     // Set ratings for each match and update championships if necessary
     for ( match &m : m_currentShow.getMatchesEdit()) {
         m.calcMatchRating(m.getParticipants());
@@ -695,6 +806,7 @@ void MainWindow::populateWrestlerList(QList<Wrestler*> &wrestlers) {
         delete previousContainer;
     }
 
+
     QWidget *container = new QWidget;
     QVBoxLayout *mainLayout = new QVBoxLayout(container);
 
@@ -779,6 +891,17 @@ void MainWindow::populateWrestlerList(QList<Wrestler*> &wrestlers) {
     ui->scrollArea->setWidget(container);
     ui->scrollArea->setWidgetResizable(true);
 }
+void MainWindow::updateRosterLabel(){
+    if (*m_currentRoster == m_playerRoster){
+        ui->rosterLabel->setText("Your Roster");
+    }
+    else if (*m_currentRoster == m_cpuRoster){
+        ui->rosterLabel->setText("Rival's Roster");
+    }
+    else if (*m_currentRoster == m_freeAgents){
+        ui->rosterLabel->setText("Free Agents");
+    }
+}
 void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
 
     if (wrestler == nullptr) {
@@ -800,12 +923,17 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
 
     disconnect(ui->wrestlerNamelineEdit, nullptr, nullptr, nullptr); // disconnect all slots
 
-    // Connect the 'editingFinished' signal to update the name
-    connect(ui->wrestlerNamelineEdit, &QLineEdit::editingFinished, this, [this, wrestler]() {
-        wrestler->setName(ui->wrestlerNamelineEdit->text()); // Save the new name when editing ends
-        ui->wrestlerNamelineEdit->setReadOnly(true);        // Make it read-only after editing
-        ui->editNameButton->setText("Edit Name");       // Change the button so user knows text box is read only again
-    });
+    if (wrestler->getAffiliation() == 1) {
+        connect(ui->wrestlerNamelineEdit, &QLineEdit::editingFinished, this, [this, wrestler]() {
+            wrestler->setName(ui->wrestlerNamelineEdit->text());
+            ui->wrestlerNamelineEdit->setReadOnly(true);
+            ui->editNameButton->setText("Edit Name");
+        });
+        ui->editNameButton->setEnabled(true);
+    } else {
+        ui->editNameButton->setEnabled(false);
+    }
+
 
     ui->ageLabel->setText("Age: " + QString::number(wrestler->getAge()));
 
@@ -897,36 +1025,74 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
                                                "QLabel { color: %1; font-weight: bold; font-size: 58pt; }"
                                                ).arg(color));
 
-    // if wrestler is not on roster
-    if (wrestler->getTotalMatchesRemaining() <= 0) {
-        disconnect(ui->signButton, nullptr, nullptr, nullptr);  // ensure the button is not connected to anything
+    // if wrestler is scouted
+    if (wrestler->getAffiliation() == -1) {
+        // Scouted wrestler path
         ui->signButton->show();
         ui->declineSignButton->show();
 
-        // hides extension related objects
-        ui->extensionWidget->hide();
+        ui->saveNameButton->hide();
 
+        ui->extensionWidget->hide();
+        ui->extensionSalaryLabel->hide();
         ui->salaryLabel->hide();
+
+        ui->signSalaryLabel->show();
+        ui->signSalaryLabel->setText("Sign per Match: $" + QString::number(wrestler->calcSalary()));
+
         ui->matchesRemainingLabel->hide();
 
+        disconnect(ui->signButton, nullptr, nullptr, nullptr);
         connect(ui->signButton, &QPushButton::clicked, this, &MainWindow::signNewRecruit);
         connect(ui->declineSignButton, &QPushButton::clicked, this, &MainWindow::declineSign);
     }
-    else{
+    // if wrestlers is a free agent
+    else if (wrestler->getAffiliation() == 0 || wrestler->getTotalMatchesRemaining() <= 0) {
+        ui->signButton->show();
+        ui->declineSignButton->show();
+
+        ui->extensionWidget->hide();
+        ui->extensionSalaryLabel->hide();
+        ui->salaryLabel->hide();
+
+        ui->signSalaryLabel->show();
+        ui->signSalaryLabel->setText("Sign per Match: $" + QString::number(wrestler->calcSalary()));
+
+        ui->matchesRemainingLabel->hide();
+
+        disconnect(ui->signButton, nullptr, nullptr, nullptr);
+        connect(ui->signButton, &QPushButton::clicked, this, [this, wrestler]() {
+            wrestler->signContract(10);
+            wrestler->setAffiliation(1);
+            m_playerRoster.append(wrestler);
+            m_freeAgents.removeOne(wrestler);
+
+            updateWrestlerDetails(wrestler);
+            populateWrestlerList(*m_currentRoster);
+        });
+        connect(ui->declineSignButton, &QPushButton::clicked, this, &MainWindow::declineSign);
+    } else{
         ui->signButton->hide();
         ui->declineSignButton->hide();
+        ui->signSalaryLabel->hide();
 
         ui->extensionSalaryLabel->show();
         ui->extensionWidget->show();
         ui->salaryLabel->show();
         ui->matchesRemainingLabel->show();
 
-
         ui->extensionSalaryLabel->setText("Projected Salary per Match: $" + QString::number(wrestler->calcSalary()));
 
         ui->extendContractSpinBox->setValue(5); // default 5 matches
         ui->extendContractSpinBox->setMinimum(1);
         ui->extendContractSpinBox->setMaximum(52);
+
+        // hides info for resigning if wrestler is signed to someone other than player
+        if (wrestler->getAffiliation() != 1){
+            ui->extensionWidget->hide();
+            ui->extensionSalaryLabel->hide();
+            ui->signSalaryLabel->hide();
+        }
 
         disconnect(ui->resignButton, nullptr, nullptr, nullptr); // safety
         connect(ui->resignButton, &QPushButton::clicked, this, [this, wrestler]() {
@@ -1043,13 +1209,16 @@ void MainWindow::populateInjuredWrestlersList( QList<Wrestler*> &wrestlers) {
     ui->injuryScrollArea->setWidgetResizable(true);
 }
 
-// For sorting m_playerRoster
+// For sorting list of wrestlers
 void MainWindow::sortWrestlers() {
+    // Ensures a null pointer wont be sorted
+    if (!m_currentRoster) { return;}
+
     QString selectedSort = ui->sortByAttributesCB->currentText();
     bool descending = ui->RosterDescendingSort->isChecked();
 
     // Sorting by what are probably the most relevant attributes
-    std::sort(m_playerRoster.begin(), m_playerRoster.end(), [selectedSort, descending](Wrestler* a, Wrestler* b) {
+    std::sort(m_currentRoster->begin(), m_currentRoster->end(), [selectedSort, descending](Wrestler* a, Wrestler* b) {
         if (selectedSort == "Popularity") {
             return descending ? a->getPopularity() < b->getPopularity() : a->getPopularity() > b->getPopularity();
         } else if (selectedSort == "Name") {
@@ -1072,7 +1241,7 @@ void MainWindow::sortWrestlers() {
         return false;
     });
 
-    populateWrestlerList(m_playerRoster);
+    populateWrestlerList(*m_currentRoster);
 }
 void MainWindow::on_RosterDescendingSort_toggled(bool checked)
 {
@@ -1092,7 +1261,7 @@ void MainWindow::scoutNewRecruit(){
     // either generates a new recruit, or shows recruit user scouted but didn't yet decline/sign
     if (!m_scoutedWrestler) {
         m_scoutedWrestler = new Wrestler();
-        m_scoutedWrestler->setWeeks(0);
+        m_scoutedWrestler->setAffiliation(-1);  // -1 means scouted wrestler (will not be stored in database)
 
         // Sets the age to be younger than random generator in constructor
         std::uniform_int_distribution<> ageDist(18, 28);
@@ -1104,7 +1273,7 @@ void MainWindow::scoutNewRecruit(){
     ui->stackedWidget->setCurrentWidget(ui->wrestlerStats);
 }
 void MainWindow::signNewRecruit(){
-    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
+    if (!m_scoutedWrestler || m_scoutedWrestler->getTotalMatchesRemaining() > 0) { return; }
 
     m_playerRoster.append(m_scoutedWrestler);
 
@@ -1113,19 +1282,106 @@ void MainWindow::signNewRecruit(){
     ContractSegment initialSegment{matches, salaryPerMatch};
     m_scoutedWrestler->addContractSegment(initialSegment);
 
-    QMessageBox::information(this, "Wrestler Signed", m_scoutedWrestler->getName() + " has been signed to your roster!");
+    m_scoutedWrestler->setAffiliation(1); // move them to player roster
+
+    //QMessageBox::information(this, "Wrestler Signed", m_scoutedWrestler->getName() + " has been signed to your roster!");
+
     // updates buttons/contract info
     updateWrestlerDetails(m_scoutedWrestler);
 
     m_scoutedWrestler = nullptr;
 }
 void MainWindow::declineSign(){
-    if (!m_scoutedWrestler || m_scoutedWrestler->getWeeks() > 0) { return; }
+    if (!m_scoutedWrestler || m_scoutedWrestler->getTotalMatchesRemaining() > 0) { return; }
 
     delete m_scoutedWrestler;
     m_scoutedWrestler = nullptr;
 
     ui->stackedWidget->setCurrentWidget(ui->Roster_Page);
+}
+
+// For CPU signing/resigning wrestlers
+int MainWindow::evaluateWrestlerForCpu(Wrestler* w) {
+    int score = 0;
+    score += w->getPopularity();
+    score += w->getCharisma() / 2;
+    score += w->getStamina() / 2;
+
+    if (w->getAge() > 40) score -= 10;
+
+    // Random boost (0–5)
+    std::mt19937& gen = RandomUtils::getGenerator();
+    std::uniform_int_distribution<int> randBoost(0, 5);
+    score += randBoost(gen);
+
+    return score;
+}
+bool MainWindow::shouldCpuResign(Wrestler* w) {
+    return evaluateWrestlerForCpu(w) >= 60;
+}
+void MainWindow::processCpuContracts() {
+
+    std::mt19937& gen = RandomUtils::getGenerator();
+    std::uniform_int_distribution<int> contractLength(10, 50);
+    // CPU contracts last 10–40 weeks
+
+    for (int i = m_cpuRoster.size() - 1; i >= 0; --i) {
+        Wrestler* w = m_cpuRoster[i];
+
+        if (w->getTotalMatchesRemaining() <= 0) { // contract expired
+            if (shouldCpuResign(w)) {
+                w->signContract(contractLength(gen));  // random length
+            } else {
+                m_cpuRoster.removeAt(i);
+                w->setAffiliation(0); // free agent
+                m_freeAgents.append(w);
+            }
+        }
+    }
+}
+void MainWindow::cpuSignFreeAgents(int minRosterSize) {
+    std::mt19937& gen = RandomUtils::getGenerator();
+    std::uniform_real_distribution<> chance(0.0, 1.0);
+
+    std::uniform_int_distribution<int> contractLength(10, 40);
+
+    while (m_cpuRoster.size() < minRosterSize && !m_freeAgents.isEmpty()) {
+        // First, rank all free agents
+        QVector<std::pair<int, Wrestler*>> ranked;
+        for (Wrestler* fa : m_freeAgents) {
+            ranked.push_back({ evaluateWrestlerForCpu(fa), fa });
+        }
+        std::sort(ranked.begin(), ranked.end(),
+                  [](auto& a, auto& b) { return a.first > b.first; });
+
+        Wrestler* pick = nullptr;
+
+        if (chance(gen) < 0.2 && ranked.size() > 1) {
+            // 20% chance: pick someone from the top 3 instead of #1
+            int idx = std::min(2, (int)ranked.size() - 1);
+            std::uniform_int_distribution<int> pickRandom(0, idx);
+            pick = ranked[pickRandom(gen)].second;
+        } else {
+            // Default: pick the best
+            pick = ranked.front().second;
+        }
+
+        if (!pick) break;
+
+        pick->signContract(contractLength(gen));  // Give them a random length cpntract
+        pick->setAffiliation(2);   // CPU
+        m_cpuRoster.append(pick);
+        m_freeAgents.removeOne(pick);
+    }
+}
+
+void MainWindow::updateCpuRosterWeekly() {
+    // Decrement CPU contracts once per week (simulate 1 match/week)
+    for (Wrestler* w : m_cpuRoster) {
+        w->useOneMatch(); // same call used when booking a match
+    }
+    processCpuContracts();
+    cpuSignFreeAgents(20); // keep at least 20 wrestlers
 }
 
 // Functions that show list of matches on show and edit matches
@@ -2498,6 +2754,7 @@ void MainWindow::on_saveButton_clicked()
 {
 
 }
+
 
 
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>790</width>
-    <height>680</height>
+    <height>728</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -54,7 +54,7 @@
        <string notr="true">background-color: rgb(30, 30, 30);</string>
       </property>
       <property name="currentIndex">
-       <number>16</number>
+       <number>10</number>
       </property>
       <widget class="QWidget" name="LandingPage">
        <property name="sizePolicy">
@@ -535,7 +535,7 @@ font: 28pt &quot;Segoe UI&quot;;
           <item row="1" column="3">
            <widget class="QPushButton" name="TeamsTab">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -574,42 +574,6 @@ color: rgb(255, 255, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="FeudsTab">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
-background-color: rgb(0, 59, 0);
-color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Feuds</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="ScoutTalentButton">
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(0, 59, 0);
-font: 20pt &quot;Segoe UI&quot;;
-color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Scout Talent</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <widget class="QPushButton" name="InjuredTab">
             <property name="sizePolicy">
@@ -628,6 +592,90 @@ font: 20pt &quot;Segoe UI&quot;;</string>
             </property>
             <property name="text">
              <string>Injured List</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="FreeAgentTab">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Free Agents</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QPushButton" name="RivalPromotionTab">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Rival Promotion</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="ScoutTalentButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 59, 0);
+font: 20pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Scout Talent</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="FeudsTab">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 20pt &quot;Segoe UI&quot;;
+background-color: rgb(0, 59, 0);
+color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Feuds</string>
             </property>
            </widget>
           </item>
@@ -743,8 +791,8 @@ font: 24pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>16</height>
+             <width>98</width>
+             <height>28</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_3">
@@ -815,7 +863,7 @@ color: rgb(0, 0, 0);</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>28</width>
+                <width>98</width>
                 <height>28</height>
                </rect>
               </property>
@@ -1018,8 +1066,8 @@ font: 24pt &quot;Segoe UI&quot;;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>16</height>
+             <width>98</width>
+             <height>28</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1337,8 +1385,8 @@ QCheckBox:hover::indicator {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>16</height>
+             <width>752</width>
+             <height>496</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar">
@@ -1606,8 +1654,68 @@ color: rgb(255, 255, 255);</string>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="wrestlerNamelineEdit"/>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="editNameButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 59, 0);
+}
+
+QPushButton:disabled {
+    color: rgb(180, 180, 180);
+    background-color: rgb(140, 140, 140);
+}
+</string>
+            </property>
+            <property name="text">
+             <string>Edit Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="saveNameButton">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 59, 0);</string>
+            </property>
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="backFromWrestler">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(170, 0, 0);
+font: 12pt &quot;Segoe UI&quot;;
+color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Back</string>
+            </property>
+           </widget>
           </item>
           <item row="2" column="1">
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1664,50 +1772,6 @@ color: rgb(0, 0, 0);</string>
             </item>
            </layout>
           </item>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="backFromWrestler">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(170, 0, 0);
-font: 12pt &quot;Segoe UI&quot;;
-color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Back</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QPushButton" name="editNameButton">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 59, 0);</string>
-            </property>
-            <property name="text">
-             <string>Edit Name</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="1" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop">
            <widget class="QLabel" name="injuredLabel">
             <property name="sizePolicy">
@@ -1735,16 +1799,8 @@ color: rgb(255, 255, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="2">
-           <widget class="QPushButton" name="saveNameButton">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(0, 59, 0);</string>
-            </property>
-            <property name="text">
-             <string>Save</string>
-            </property>
-           </widget>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="wrestlerNamelineEdit"/>
           </item>
          </layout>
         </item>
@@ -1861,14 +1917,50 @@ font: 18pt &quot;Segoe UI&quot;;</string>
         <item>
          <widget class="QWidget" name="widget_3" native="true">
           <layout class="QGridLayout" name="gridLayout_12">
-           <item row="0" column="4">
-            <widget class="QLabel" name="extensionSalaryLabel">
+           <item row="1" column="3">
+            <widget class="QLabel" name="matchesRemainingLabel">
              <property name="styleSheet">
-              <string notr="true">color:rgb(0, 0, 0);
-font: 16pt &quot;Segoe UI&quot;;</string>
+              <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
              </property>
              <property name="text">
-              <string>Extend for $ per Match</string>
+              <string>Matches Remaining:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+            <widget class="QLabel" name="salaryLabel">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 0, 0);
+font: 18pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>Salary:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" rowspan="4">
+            <widget class="Line" name="line_5">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" rowspan="3" alignment="Qt::AlignmentFlag::AlignHCenter">
+            <widget class="QLabel" name="potentialValueLabel">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(0, 170, 0);
+
+font: 700 58pt &quot;Segoe UI&quot;;</string>
+             </property>
+             <property name="text">
+              <string>A</string>
              </property>
             </widget>
            </item>
@@ -1917,42 +2009,6 @@ font: 16pt &quot;Segoe UI&quot;;</string>
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="0" column="1" rowspan="3" alignment="Qt::AlignmentFlag::AlignHCenter">
-            <widget class="QLabel" name="potentialValueLabel">
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0, 170, 0);
-
-font: 700 58pt &quot;Segoe UI&quot;;</string>
-             </property>
-             <property name="text">
-              <string>A</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2" rowspan="4">
-            <widget class="Line" name="line_5">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3" alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-            <widget class="QLabel" name="salaryLabel">
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);
-font: 18pt &quot;Segoe UI&quot;;</string>
-             </property>
-             <property name="text">
-              <string>Salary:</string>
-             </property>
             </widget>
            </item>
            <item row="1" column="4">
@@ -2034,15 +2090,32 @@ font: 16pt &quot;Segoe UI&quot;;</string>
              </layout>
             </widget>
            </item>
-           <item row="1" column="3">
-            <widget class="QLabel" name="matchesRemainingLabel">
-             <property name="styleSheet">
-              <string notr="true">color: rgb(0, 0, 0);
-font: 18pt &quot;Segoe UI&quot;;</string>
-             </property>
-             <property name="text">
-              <string>Matches Remaining:</string>
-             </property>
+           <item row="0" column="4">
+            <widget class="QWidget" name="projectedSalaryWidget" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_19">
+              <item>
+               <widget class="QLabel" name="extensionSalaryLabel">
+                <property name="styleSheet">
+                 <string notr="true">color:rgb(0, 0, 0);
+font: 16pt &quot;Segoe UI&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Extend for $ per Match</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="signSalaryLabel">
+                <property name="styleSheet">
+                 <string notr="true">color:rgb(0, 0, 0);
+font: 16pt &quot;Segoe UI&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Sign for $ per Match</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
@@ -2261,7 +2334,7 @@ font: 22pt &quot;Segoe UI&quot;;
              <x>0</x>
              <y>0</y>
              <width>752</width>
-             <height>449</height>
+             <height>497</height>
             </rect>
            </property>
            <widget class="QScrollBar" name="verticalScrollBar_2">
@@ -2531,8 +2604,8 @@ font: 18pt &quot;Segoe UI&quot;;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>21</width>
-               <height>16</height>
+               <width>98</width>
+               <height>28</height>
               </rect>
              </property>
              <widget class="QScrollBar" name="verticalScrollBar_4">

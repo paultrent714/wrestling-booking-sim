@@ -25,6 +25,8 @@ public:
     bool isValidChampions (QList<Wrestler*> champions) ;
 
     QList<Wrestler*> getChampions()  { return m_champions; }
+    const QList<Wrestler*>& getChampions() const { return m_champions; }
+
     Wrestler* getChampion() ;      // For singles championships
     QString getTitleName() const { return m_titleName; }
 

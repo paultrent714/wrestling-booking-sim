@@ -52,9 +52,11 @@ public:
     int getRole() const { return m_role; }
     int getHealth() const { return m_health; }
     int getInjury() const { return m_injury; }
-    int getWeeks() const {return m_matchesRemaining; }
+    // outdated getter int getWeeks() const {return m_matchesRemaining; }
     int getTotalMatchesRemaining() const;
     int getCurrentSalary() const; // Salary for the next match
+    int getAffiliation() const { return m_promotionAffiliation; }
+
     QList<ContractSegment> getContractSegments() const { return m_contractSegments; }
 
 
@@ -76,7 +78,9 @@ public:
     void setRole(int r) { m_role = r; }
     void setHealth( int h) { m_health = h; }
     void setInjury(int i) {m_injury = i; }
-    void setWeeks(int w) {m_matchesRemaining = w;}
+    //void setWeeks(int w) {m_matchesRemaining = w;}
+    void setAffiliation(int value) { m_promotionAffiliation = value; }
+
 
     void addContractSegment(const ContractSegment& segment) {
         m_contractSegments.append(segment);
@@ -127,6 +131,8 @@ private:
     int m_health;   // Affects odds/ duration of injury
     int m_injury;   // Duration of wrestler's injury
     int m_matchesRemaining;   // Duration of contract remaining
+    int m_promotionAffiliation; // 0 = Free Agent, 1 = Player, 2 = CPU
+
 
     QString generateRandomName(std::mt19937& gen);
     QStringList loadNamesFromFile(const QString& filename);

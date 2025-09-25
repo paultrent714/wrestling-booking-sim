@@ -79,11 +79,13 @@ Fiona
 Frankie
 Gail
 Gia
-Gionna
 Gigi
+Gina
+Gionna
 Grace
 Hannah
 Harley
+Hassie
 Hayley
 Heather
 Hikaru
@@ -113,11 +115,13 @@ Jordynne
 Judy
 Julia
 Julie
+Kacy
 Kairi
 Kaitlyn
 Karen
 Karmen
 Kate
+Kathie
 Katie
 Kayden
 Kayleigh
@@ -145,6 +149,7 @@ London
 Lucy
 Luna
 Lyra
+Mabel
 Maggie
 Mandy
 Margot
@@ -167,6 +172,8 @@ Mina
 MJ
 Moana
 Monica
+Morgan
+Missy
 Nadia
 Naomi
 Natalie
@@ -210,8 +217,10 @@ Selena
 Serena
 Shauna
 Shayna
+Sherri
 Sienna
 Sierra
+Simone
 Sky
 Sonya
 Stacy
@@ -232,8 +241,10 @@ Toni
 Torrie
 Trinity
 Trish
+Trixie
 Ty
 Tyra
+Vanessa
 Velma
 Velvet
 Venus

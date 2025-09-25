@@ -8,6 +8,7 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QDir>
+#include <qcoreapplication.h>
 
 #include "wrestler.h"
 #include "championship.h"
@@ -27,7 +28,10 @@ public:
     void closeDatabase(); // Close the database connection
 
     // Save data
-    void saveWrestlers( QList<Wrestler*>& wrestlers);
+    void saveWrestlers( const QList<Wrestler*>& player,
+                        const QList<Wrestler*>& cpu,
+                        const QList<Wrestler*>& freeAgents);
+
     void saveChampionships( championship& world,  championship& tag,  championship& women);
     void saveTeams( QList<team>& teams);
     void saveRivalries( QList<rivalry*>& rivalries);
@@ -37,19 +41,25 @@ public:
     void saveShow( show& currentShow);
     void saveMatches(show &currentShow);
     // Load data
-    void loadWrestlers();
-    void loadChampionships();
-    void loadTeams(QList<team> &teams);
-    void loadRivalries(QList<rivalry*>& rivalries);
+    QList<Wrestler*> loadWrestlers();
+    void loadChampionships(QList<championship*>& championshipList,
+                           const QMap<int, Wrestler*>& wrestlerMap);
+    void loadTeams(QList<team> &teams,
+                   const QMap<int, Wrestler*>& wrestlerMap);
+    void loadRivalries(QList<rivalry*>& rivalries,
+                       const QMap<int, Wrestler*>& wrestlerMap);
     void loadGameInfo(int& money, int& fans, int& year, int& currentWeek,
                       QList<int> &moneyHistory, QList<int> &fanHistory,
                       bool &darkMode);
-    void loadShow(show &currentShow);
+    void loadShow(show &currentShow,
+                  const QMap<int, Wrestler*>& wrestlerMap);
 
     void clearDatabase();
 
+    QList<Wrestler*> loadDefaultRoster();
+
     void loadDefaultRoster( const QString& defaultDbPath);   // retrieves default roster
-    void loadDefaultWrestlers(QSqlDatabase db = QSqlDatabase::database());
+    void loadDefaultWrestlers(QSqlDatabase& db );
 
     QList<Wrestler*> getWrestlers() { return m_wrestlers;}
     QList<championship> getChampionships() const { return m_championships; }

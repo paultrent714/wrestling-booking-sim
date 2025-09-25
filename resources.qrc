@@ -12,9 +12,6 @@
         <file>icons/white_edit.png</file>
         <file>icons/white_gear.png</file>
     </qresource>
-    <qresource prefix="/saveFiles">
-        <file>saveFiles/game_data.db</file>
-    </qresource>
     <qresource prefix="/data">
         <file>data/last_name.txt</file>
         <file>data/first_name_male.txt</file>

@@ -95,34 +95,35 @@ private slots:
     void on_rosterBackButton_clicked();
     void on_backFromWrestler_clicked();
     void on_ScoutTalentButton_clicked();
-
     void on_FeudsTab_clicked();
-
     void on_createFeudButton_clicked();
-
     void on_startFeudButton_clicked();
-
     void on_rivalryBackButton_clicked();
-
     void on_saveButton_clicked();
-
     void on_saveNameButton_clicked();
+
+    void on_RivalPromotionTab_clicked();
+
+    void on_FreeAgentTab_clicked();
 
 private:
     Ui::MainWindow *ui;
 
     void loadMaterialFont();
 
-                                   // Load data from a text file
-    void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
-    void newGameSetup();                                // sets all values to what they would be for creating a new save file
+    void newGameSetup();                            // sets all values to what they would be for creating a new save file
+    void setRosters(QList<Wrestler*>);                              // sorts wrestlers into their respective promotion
 
+    void makeCharts(const QList<int>& values, QWidget* chartWidget);            // function to display a line graph
+
+    void finalizeBooking();                         // Calculates results of matches
     void populateResultsList();                     // Displays matches, the winners, and the ratings
 
     void updateDashboardLabels();                   // update dashboard labels in the GUI
 
 
     void populateWrestlerList( QList<Wrestler*> &wrestlers);        // Adds wrestlers and important info to scoll widget
+    void updateRosterLabel();       // updates text in the label at the top of the widget that marks which promotion the wrestlers are signed to
     void updateWrestlerDetails( Wrestler* wrestler);               // Shows all info to player about a wrestler
     void populateInjuredWrestlersList( QList<Wrestler*> &wrestlers);    // Shows wrestlers who are injured and for how long
 
@@ -159,6 +160,12 @@ private:
     void signNewRecruit();      // signs scouted wrestler
     void declineSign();         // deletes new recruit wrestler object
 
+    int evaluateWrestlerForCpu(Wrestler* w);    // calculates whether cpu should sign a wrestler
+    bool shouldCpuResign(Wrestler* w);          // decides whether the cpu's wrestler score is worth resiging
+    void processCpuContracts();                 // decrements contract length and resigns wrestler if needed (currently 20 week extensions)
+    void cpuSignFreeAgents(int minRosterSize);  // if cpu roster is too small, signs the best (or sometimes one of the best) free agents
+    void updateCpuRosterWeekly();               // calls functions to process cpu contracts and sign free agents
+
     void populateRivalryList(); // displays current rivalries
     void saveNewRivalry();      // saves rivalry created by user
     void populateRivalryComboBoxes();   // updates combo boxes for creating a new rivalry with available wrestlers
@@ -171,7 +178,13 @@ private:
     GameDataManager* dataManager;
 
     QList<Wrestler*> m_playerRoster;
+    QList<Wrestler*> m_cpuRoster;
+    QList<Wrestler*> m_freeAgents;
     int m_lastUsedID;           // Last created wrestler ID
+
+    QList<Wrestler*>* m_currentRoster = nullptr;    // whether player is seeing free agents, player roster, cpu roster
+    int m_currentAffiliation = 0; // 0 = Free Agent, 1 = Player, 2 = CPU
+
 
     Wrestler* m_scoutedWrestler = nullptr;
 

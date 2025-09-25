@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     a.setFont(defaultFont);
 
     qRegisterMetaType<Wrestler*>("Wrestler*");
-
+    qRegisterMetaType<team*>("team*");
 
     MainWindow w;
     w.show();
