@@ -105,9 +105,9 @@ void Wrestler::setName(const QString& n) {
 
 QString Wrestler::generateRandomName(std::mt19937& gen) {
     // Choose first name file based on m_gender
-    QString firstNameFile = (m_gender == 0) ? "data/first_name_male.txt" : "data/first_name_female.txt";
+    QString firstNameFile = (m_gender == 0) ? ":/data/first_name_male.txt" : ":/data/first_name_female.txt";
     QStringList firstNames = loadNamesFromFile(firstNameFile);
-    QStringList lastNames = loadNamesFromFile("data/last_name.txt");
+    QStringList lastNames = loadNamesFromFile(":/data/last_name.txt");
 
     if (firstNames.isEmpty() ) {
         return "Nameless"; // Fallback if files are empty

@@ -45,7 +45,9 @@ void GameDataManager::initializeDatabase() {
                "role INTEGER, "
                "health INTEGER, "
                "injury INTEGER, "
-               "promotionAffiliation INTEGER DEFAULT 0);");
+               "promotionAffiliation INTEGER DEFAULT 0, "
+               "facePath TEXT"
+               ");");
 
     // ContractSegments Table (for wrestler contracts)
     query.exec("CREATE TABLE IF NOT EXISTS Contracts ("
@@ -181,14 +183,14 @@ void GameDataManager::saveWrestlers(const QList<Wrestler*>& player,
 
         query.prepare(
             "INSERT INTO Wrestlers (id, name, gender, popularity, age, potential, powerhouse, brawler, "
-            "highFlyer, technician, mma, charisma, stamina, role, health, injury, promotionAffiliation) "
+            "highFlyer, technician, mma, charisma, stamina, role, health, injury, promotionAffiliation, facePath) "
             "VALUES (:id, :name, :gender, :popularity, :age, :potential, :powerhouse, :brawler, "
-            ":highFlyer, :technician, :mma, :charisma, :stamina, :role, :health, :injury, :promotionAffiliation)"
+            ":highFlyer, :technician, :mma, :charisma, :stamina, :role, :health, :injury, :promotionAffiliation, :facePath)"
             );
 
         query.bindValue(":id", wrestler->getID() > 0 ? wrestler->getID() : QVariant(QVariant::Int));
         query.bindValue(":name", wrestler->getName());
-        query.bindValue(":gender", wrestler->getGender());
+        query.bindValue(":gender", wrestler->isFemale());
         query.bindValue(":popularity", wrestler->getPopularity());
         query.bindValue(":age", wrestler->getAge());
         query.bindValue(":potential", wrestler->getPotential());
@@ -203,6 +205,7 @@ void GameDataManager::saveWrestlers(const QList<Wrestler*>& player,
         query.bindValue(":health", wrestler->getHealth());
         query.bindValue(":injury", wrestler->getInjury());
         query.bindValue(":promotionAffiliation", wrestler->getAffiliation());
+        query.bindValue(":facePath", wrestler->getFacePath());
 
         if (!query.exec()) {
             qDebug() << "Failed to insert wrestler:" << query.lastError().text();
@@ -527,6 +530,8 @@ QList<Wrestler*> GameDataManager::loadWrestlers() {
         w->setHealth(q.value("health").toInt());
         w->setInjury(q.value("injury").toBool());
         w->setAffiliation(q.value("promotionAffiliation").toInt());
+        w->setFacePath(q.value("facePath").toString());
+
 
         // Ensures the contract segments for a wrestler object are empty
         w->clearContractSegments();
@@ -808,6 +813,7 @@ QList<Wrestler*> GameDataManager::loadDefaultRoster()
             wrestler->setHealth(query.value("health").toInt());
             wrestler->setInjury(query.value("injury").toInt());
             wrestler->setAffiliation(query.value("promotionAffiliation").toInt());
+            wrestler->setFacePath(query.value("facePath").toString());
 
             wrestler->clearContractSegments();
 
@@ -840,6 +846,100 @@ QList<Wrestler*> GameDataManager::loadDefaultRoster()
     return wrestlers;
 }
 
+// Load default roster only for distribution/production/etc
+
+/*
+QList<Wrestler*> GameDataManager::loadDefaultRoster()
+{
+    QList<Wrestler*> wrestlers;
+
+    // Path inside the .qrc (example: resources.qrc -> <file>data/default_roster.db</file>)
+    QString resourcePath = ":/data/default_roster.db";
+
+    // Copy to a temporary location so SQLite can open it
+    QString tempPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)
+                       + "/default_roster_temp.db";
+
+    // If it doesn't already exist, copy from the embedded resource
+    if (!QFile::exists(tempPath)) {
+        if (!QFile::copy(resourcePath, tempPath)) {
+            qWarning() << "Failed to copy default roster DB from resource!";
+            return wrestlers;
+        }
+        QFile::setPermissions(tempPath, QFile::ReadOwner | QFile::WriteOwner);
+    }
+
+    // Use a unique connection name
+    QString connName = "defaultRosterConn";
+
+    {
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", connName);
+        db.setDatabaseName(tempPath);
+
+        if (!db.open()) {
+            qWarning() << "Failed to open default roster DB:" << db.lastError().text();
+            QSqlDatabase::removeDatabase(connName);
+            return wrestlers;
+        }
+
+        QSqlQuery query(db);
+        if (!query.exec("SELECT * FROM Wrestlers")) {
+            qWarning() << "Failed to load default wrestlers:" << query.lastError().text();
+            db.close();
+            QSqlDatabase::removeDatabase(connName);
+            return wrestlers;
+        }
+
+        while (query.next()) {
+            Wrestler* wrestler = new Wrestler(query.value("id").toInt());
+            wrestler->setName(query.value("name").toString());
+            wrestler->setGender(query.value("gender").toBool());
+            wrestler->setPopularity(query.value("popularity").toInt());
+            wrestler->setAge(query.value("age").toInt());
+            wrestler->setPotential(query.value("potential").toInt());
+            wrestler->setPowerhouse(query.value("powerhouse").toInt());
+            wrestler->setBrawler(query.value("brawler").toInt());
+            wrestler->setHighFlyer(query.value("highFlyer").toInt());
+            wrestler->setTechnician(query.value("technician").toInt());
+            wrestler->setMMA(query.value("mma").toInt());
+            wrestler->setCharisma(query.value("charisma").toInt());
+            wrestler->setStamina(query.value("stamina").toInt());
+            wrestler->setRole(query.value("role").toInt());
+            wrestler->setHealth(query.value("health").toInt());
+            wrestler->setInjury(query.value("injury").toInt());
+            wrestler->setAffiliation(query.value("promotionAffiliation").toInt());
+            wrestler->setFacePath(query.value("facePath").toString());
+
+            wrestler->clearContractSegments();
+
+            // Load contracts
+            QSqlQuery contractQuery(db);
+            contractQuery.prepare("SELECT matchesRemaining, salaryPerMatch FROM Contracts WHERE wrestler_id = :id");
+            contractQuery.bindValue(":id", wrestler->getID());
+
+            if (contractQuery.exec()) {
+                while (contractQuery.next()) {
+                    ContractSegment seg;
+                    seg.matchesRemaining = contractQuery.value("matchesRemaining").toInt();
+                    seg.salaryPerMatch = contractQuery.value("salaryPerMatch").toInt();
+                    wrestler->addContractSegment(seg);
+                }
+            } else {
+                qWarning() << "Failed to load contracts for wrestler" << wrestler->getID()
+                << ":" << contractQuery.lastError().text();
+            }
+
+            wrestlers.append(wrestler);
+        }
+
+        db.close();
+    }
+
+    QSqlDatabase::removeDatabase(connName);
+    qDebug() << "Default roster loaded:" << wrestlers.size() << "wrestlers";
+    return wrestlers;
+}
+*/
 
 void GameDataManager::clearDatabase() {
     QSqlQuery query;

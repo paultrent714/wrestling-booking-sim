@@ -33,7 +33,7 @@ bool championship::isValidChampions(QList<Wrestler*> champions)  {
         return champions.size() == 2;  // Tag titles require exactly 2 wrestlers
     }
     if (m_isWomensTitle) {
-        return champions.size() == 1 && champions[0]->getGender() == 1;  // Women's title must be held by a woman
+        return champions.size() == 1 && champions[0]->isFemale() == 1;  // Women's title must be held by a woman
     }
     return champions.size() == 1;  // Default: title needs exactly 1 champion
 }

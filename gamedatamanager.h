@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QDir>
 #include <qcoreapplication.h>
+#include <QStandardPaths>
 
 #include "wrestler.h"
 #include "championship.h"

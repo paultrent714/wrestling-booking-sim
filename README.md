@@ -7,7 +7,7 @@ Gameplay involves booking and deciding the winners of different types of matches
 
 This game is intended to be the foundation of more complex management games of other sports such as football.
 
-Each wrestler 12 main attributes. They include age, role (hero, neutral, or villain), popularity value (affects odds to win a match when player chooses "random winner"), charisma, health (low health headingincreases liklihood and severity of injury), stamina (affects how quickly health decreases from a match). There are 5 main attributes related to in-ring styles that affect the quality of the matches: Powerhouse, Brawler, High Flyer, Technician, and MMA. The final attribute is a potential rating which is shown only to the player as an A to F letter grade. Potential is the maximum value the in ring style attributes can all sum up to.
+Each wrestler 12 main attributes. They include age, role (hero, neutral, or villain), popularity value (affects odds to win a match when player chooses "random winner"), charisma, health (low health increases likelihood and severity of injury), stamina (affects how quickly health decreases from a match). There are 5 main attributes related to in-ring styles that affect the quality of the matches: Powerhouse, Brawler, High Flyer, Technician, and MMA. The final attribute is a potential rating which is shown only to the player as an A to F letter grade. Potential is the maximum value the in ring style attributes can all sum up to.
 
 Each wrestler in a player's roster will have a contract for a set number of matches with a salary based entirely on the wrestler's popularity at the time of signing. As a wrestler's popularity changes, the player can choose to sign an extension that will give the wrestler a different salary when the current contract expires.
 
@@ -25,28 +25,45 @@ This was created mainly in C++ and Qt. SQLite is used for saving/loading player'
 - Roster list shows each wrestler's name along with relevant stats
 - Roster can be sorted by common attributes
 - Wrestler attribute growth with diminishing returns
-- Health/injury system allows for no wrestler to be mathmatically garunteed to be injured or healthy after a match
+- Health/injury system allows for no wrestler to be mathematically guaranteed  to be injured or healthy after a match
 - Includes graphs which show fan and money growth over time
 - Free Agency
 
 
 ### Partial Features (Working, but needs improvement)
 - A lot of game balancing in the formulas for wrestler improvement, match rating, fan change, finance, etc 
-- User can select a "Random Winner" that uses a weighted probability based on the popularity of the participants, but the prescence of champions and of teams in the match will later be included
-- "Scout Talent" to choose to sign new randomly generated wrestler to promotion as a rookie. Currently, these randomly generated wrestlers do not yet have attributes that fit a rookie
-- Player can only see current salary of a wrestler, not the salary of an already signed extension or when the extension's salary starts
-- Loading save file doesn't assign wrestlers to teams, feuds, matches
-- Team name and participants can be edited, but there is not yet any affect to match rating or "random winner" odds to a team being in a match 
-- Feuds can be created, but there is not yet any affect to match rating
-- A dark mode toggle hasn't yet been added to SQLite database so user can't yet save/load dark mode settings
-- Wrestlers will go to Free Agency when their contracts with their employer expire
-- A second promotion managed by CPU that will evaluate sigings to keep a minimum roster size
-- Over 250,000 possible combinations of randomly generated names currently each have equal probabilities of occuring, but more common names will at some point be adjusted to have higher probabilities (low priority)
+- User can select a "Random Winner" 
+    - Currently uses weighted probability based on the popularity of the participants
+    - Planned: include effects of champions and of teams in the match 
+- "Scout Talent" 
+    - Choose to sign new randomly generated wrestler to promotion as a rookie
+    - Rookie attributes not yet properly balanced
+- Salary Display
+    - Player can only see current salary of a wrestler, 
+    - Planned: will also show the salary of an already signed extension and when the extension's salary starts
+- Teams
+    - Team name and participants can be edited
+    - There is not yet any affect to match rating or "random winner" odds to a team being in a match 
+- Feuds 
+    - Can only be created by user
+    - Feud length and cooldown length need to be balanced
+    - Not yet any affect to match rating
+- Wrestlers go to Free Agency when their contracts with their employer expire
+    - Planned: Free agent wrestlers stats can change over time
+- CPU Promotions
+    - CPU promotion will evaluate signings to keep a minimum roster size
+    - CPU will compete with player's promotion and gain fans and money
+    - Planned: championships, teams, match card for CPU
+    - Planned: CPU wrestlers stats can change over time
+- Random Name Generation 
+    - Over 250,000 possible combinations of randomly generated names currently each have equal probabilities of occurring, 
+    - Planned: more common names will at some point be adjusted to have higher probabilities (low priority)
+- Wrestler Faces
+    - Currently selects a random PNG from a set of default faces, which were created with a [modified version](https://github.com/paultrent714/facesjs.git) of [facesjs](https://zengm.com/facesjs/ ), ZenGM's opensource JavaScript face generator
+    - Planned: player can use the modified version to create their own faces and save them as the wrestler's face, or use existing images as face
 
 
 ### Planned Features (Yet to be implemented)
-- Faces associated with a wrestler will created using edited version of ZenGM's open source JavaScript based face generator https://zengm.com/facesjs/ 
-- CPU promotions that compete with player for fans and money
 - Interviews and other aspects of the show that use Charisma
 - More match types 
 - Multiple teams in a match

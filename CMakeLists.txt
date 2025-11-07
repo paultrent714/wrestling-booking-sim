@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets SQL Charts)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SQL Charts)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets SQL Charts WebEngineWidgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SQL Charts WebEngineWidgets)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -50,6 +50,7 @@ target_link_libraries(ToasterWrestling PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
     Qt${QT_VERSION_MAJOR}::Charts
+    Qt${QT_VERSION_MAJOR}::WebEngineWidgets
 )
 
 if(${QT_VERSION} VERSION_LESS 6.1.0)
@@ -71,15 +72,21 @@ install(TARGETS ToasterWrestling
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-# Only copy saveFiles if they are writable (like game_data.db)
-set(DB_DIR ${CMAKE_BINARY_DIR}/saveFiles)
+# --- Copy asset folders for release / standalone builds ---
+set(ASSET_FOLDERS data fonts faces icons saveFiles)
 
-if(NOT EXISTS ${DB_DIR})
-    file(MAKE_DIRECTORY ${DB_DIR})
-endif()
+foreach(folder IN LISTS ASSET_FOLDERS)
+    set(SRC "${CMAKE_SOURCE_DIR}/${folder}")
+    set(DST "${CMAKE_BINARY_DIR}/${folder}")
 
-file(REMOVE_RECURSE ${DB_DIR}/*)
-file(COPY ${CMAKE_SOURCE_DIR}/saveFiles/ DESTINATION ${DB_DIR})
+    if(EXISTS ${DST})
+        file(REMOVE_RECURSE ${DST})
+    endif()
+
+    if(EXISTS ${SRC})
+        file(COPY ${SRC} DESTINATION ${CMAKE_BINARY_DIR})
+    endif()
+endforeach()
 
 # Debug info
 message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")

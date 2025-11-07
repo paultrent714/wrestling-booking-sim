@@ -37,7 +37,7 @@ public:
     // Getters
     QString getName() const {return m_name; }
     int getID() const { return m_id; }
-    bool getGender() const { return m_gender; }
+    bool isFemale() const { return m_gender; }
     int getPopularity() const { return m_popularity; }
     int getAge() const { return m_age; }
     int getPotential() const { return m_potential; }
@@ -56,6 +56,7 @@ public:
     int getTotalMatchesRemaining() const;
     int getCurrentSalary() const; // Salary for the next match
     int getAffiliation() const { return m_promotionAffiliation; }
+    QString getFacePath() const { return m_facePath; }
 
     QList<ContractSegment> getContractSegments() const { return m_contractSegments; }
 
@@ -80,7 +81,7 @@ public:
     void setInjury(int i) {m_injury = i; }
     //void setWeeks(int w) {m_matchesRemaining = w;}
     void setAffiliation(int value) { m_promotionAffiliation = value; }
-
+    void setFacePath(const QString& path) { m_facePath = path; }
 
     void addContractSegment(const ContractSegment& segment) {
         m_contractSegments.append(segment);
@@ -133,6 +134,7 @@ private:
     int m_matchesRemaining;   // Duration of contract remaining
     int m_promotionAffiliation; // 0 = Free Agent, 1 = Player, 2 = CPU
 
+    QString m_facePath; // path to wrestler's face image
 
     QString generateRandomName(std::mt19937& gen);
     QStringList loadNamesFromFile(const QString& filename);

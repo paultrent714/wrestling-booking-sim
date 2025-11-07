@@ -24,6 +24,10 @@
 #include <QComboBox>
 #include <QSpacerItem>
 
+#include <QWebEngineView>   // For faces.js
+#include <QWebEnginePage>
+
+
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
 #include <QtCharts/QLineSeries>
@@ -65,7 +69,7 @@ private slots:
     void on_LoadGame_clicked();
     void on_userSave_clicked();
     void on_finalizeBooking_clicked();      // goes to next week, performs weekly calculations
-    void on_pushButton_clicked();           // skips 26 weeks.!!!!!!!!!! FOR DEBUGGING!!! DO NOT KEEP THIS IN FINAL PROJECT!!!!!!!!!!!!
+
     void on_defaultRoster_clicked();        // loads default roster
     void on_customRoster_clicked();         // user selects custom roster
     void on_randomRoster_clicked();         // user selects random roster
@@ -99,7 +103,6 @@ private slots:
     void on_createFeudButton_clicked();
     void on_startFeudButton_clicked();
     void on_rivalryBackButton_clicked();
-    void on_saveButton_clicked();
     void on_saveNameButton_clicked();
 
     void on_RivalPromotionTab_clicked();
@@ -125,6 +128,10 @@ private:
     void populateWrestlerList( QList<Wrestler*> &wrestlers);        // Adds wrestlers and important info to scoll widget
     void updateRosterLabel();       // updates text in the label at the top of the widget that marks which promotion the wrestlers are signed to
     void updateWrestlerDetails( Wrestler* wrestler);               // Shows all info to player about a wrestler
+    QStringList loadFaceFiles(bool isFemale);          // creates list of face paths from one of faces subdirectories
+    //QString randomFace(const QStringList &faces, bool isFemale);
+    QString randomFace(const QStringList &faces);
+
     void populateInjuredWrestlersList( QList<Wrestler*> &wrestlers);    // Shows wrestlers who are injured and for how long
 
     void populateMatchList( );                          // Shows matches that have been added to show
@@ -173,6 +180,10 @@ private:
     bool isDuplicateRivalry(Wrestler* a, Wrestler* b);      // checks whether the rivalry already exists
 
 
+    void resizeEvent(QResizeEvent *event);
+    void updateWrestlerImage();
+    bool eventFilter(QObject *obj, QEvent *event);
+
 
 
     GameDataManager* dataManager;
@@ -187,6 +198,8 @@ private:
 
 
     Wrestler* m_scoutedWrestler = nullptr;
+    Wrestler* m_currentWrestler = nullptr;
+    QPixmap m_currentFace;
 
     championship m_world;
     championship m_tag;

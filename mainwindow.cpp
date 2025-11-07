@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("PWGM");
 
+    ui->wrestlerImage->installEventFilter(this);    // for changing size of wrestler img
+
 
     dataManager = new GameDataManager();
     dataManager->openDatabase();
@@ -252,13 +254,6 @@ void MainWindow::on_homeButton_clicked()
 }
 
 // Skips 26 weeks; used for debugging
-void MainWindow::on_pushButton_clicked()
-{
-    for(int i = 0; i < 26; i++){
-        on_finalizeBooking_clicked();
-    }
-
-}
 
 // Load the Material Symbols font
 void MainWindow::loadMaterialFont()
@@ -269,7 +264,7 @@ void MainWindow::loadMaterialFont()
     qApp->setFont(defaultFont); // Apply globally
 
     // Load Material Symbols font
-    QString fontPath = "fonts/MaterialSymbolsRounded_36pt-Regular.ttf";
+    QString fontPath = ":/fonts/MaterialSymbolsRounded_36pt-Regular.ttf";
     int fontId = QFontDatabase::addApplicationFont(fontPath);
 
     if (fontId == -1) {
@@ -319,12 +314,10 @@ void MainWindow::on_customRoster_clicked()
     }
     newGameSetup();
 }
-void MainWindow::on_randomRoster_clicked()
-{
+void MainWindow::on_randomRoster_clicked() {
     srand(static_cast<unsigned int>(time(0)));
 
-
-    // --- Clear existing rosters first ---
+    // Clear existing rosters
     for (Wrestler* w : m_playerRoster) delete w;
     for (Wrestler* w : m_cpuRoster) delete w;
     for (Wrestler* w : m_freeAgents) delete w;
@@ -333,24 +326,50 @@ void MainWindow::on_randomRoster_clicked()
     m_cpuRoster.clear();
     m_freeAgents.clear();
 
-
     m_lastUsedID = 1;
+
+    // --- Preload default faces once ---
+    QStringList menFaces = loadFaceFiles(false);
+    QStringList womenFaces = loadFaceFiles(true);
+
+    auto getRandomFace = [&](bool isFemale) {
+        return isFemale ? randomFace(womenFaces) : randomFace(menFaces);
+    };
+
+    // --- Player roster ---
     for (int i = 0; i < 20; ++i) {
         Wrestler* w = new Wrestler(m_lastUsedID++);
-        w->setAffiliation(1);   // mark wrestler as part of player roster
+        w->setAffiliation(1);
+
+        bool isFemale = w->isFemale();
+        w->setFacePath(getRandomFace(isFemale));
+
         m_playerRoster.append(w);
     }
+
+    // --- CPU roster ---
     for (int i = 0; i < 20; ++i) {
         Wrestler* w = new Wrestler(m_lastUsedID++);
-        w->setAffiliation(2);   // mark wrestler as part of cpu roster
+        w->setAffiliation(2);
+
+        bool isFemale = w->isFemale();
+        w->setFacePath(getRandomFace(isFemale));
+
         m_cpuRoster.append(w);
     }
+
+    // --- Free agents ---
     for (int i = 0; i < 30; ++i) {
         Wrestler* w = new Wrestler(m_lastUsedID++);
-        w->setAffiliation(0);   //mark wrestler as free agent
-        w->clearContractSegments(); // makes sure the wrestler has no contract
+        w->setAffiliation(0);
+        w->clearContractSegments();
+
+        bool isFemale = w->isFemale();
+        w->setFacePath(getRandomFace(isFemale));
+
         m_freeAgents.append(w);
     }
+
     newGameSetup();
 }
 void MainWindow::on_LoadGame_clicked()
@@ -610,7 +629,7 @@ void MainWindow::populateResultsList() {
     ui->weekLabel->setText("Week " + QString::number(m_currentWeek));
 
     // Path to championship title image (ensure this path is correct)
-    QPixmap titlePixmap("icons/myBasicTitle.png"); // Championship title image
+    QPixmap titlePixmap(":/icons/myBasicTitle.png"); // Championship title image
 
     if (titlePixmap.isNull()) {
         qWarning() << "Championship title image not found!";
@@ -754,7 +773,7 @@ void MainWindow::populateResultsList() {
                     QHBoxLayout *injuredLayout = new QHBoxLayout;
 
                     QLabel *iconLabel = new QLabel;
-                    iconLabel->setPixmap(QPixmap("icons/healing_red.png").scaled(20, 20, Qt::KeepAspectRatio));
+                    iconLabel->setPixmap(QPixmap(":/icons/healing_red.png").scaled(20, 20, Qt::KeepAspectRatio));
 
                     QLabel *textLabel = new QLabel(
                         QString("%1 (Out %2 weeks)").arg(w->getName()).arg(w->getInjury())
@@ -792,14 +811,14 @@ void MainWindow::populateResultsList() {
     ui->PromotionTab->hide();
     ui->SettingsTab->hide();
 }
-
-// For displaying and editing wrestlers on roster
 void MainWindow::updateDashboardLabels(){
     ui->fansDisplay->setText("Fans: " + QString::number(m_fans));
     ui->moneyDisplay->setText("Money: $" + QString::number(m_money));
     ui->WeekDisplay->setText("Week: " + QString::number(m_currentWeek));
     ui->yearDisplay->setText("Year: " + QString::number(m_year));
 }
+
+// For displaying and editing wrestlers on roster
 void MainWindow::populateWrestlerList(QList<Wrestler*> &wrestlers) {
     QWidget* previousContainer = ui->scrollArea->widget();
     if (previousContainer) {
@@ -832,7 +851,7 @@ void MainWindow::populateWrestlerList(QList<Wrestler*> &wrestlers) {
         grid->addWidget(popularityValue, row, 0);
 
         // Gender symbol
-        QString genderSymbol = wrestler->getGender() ? QStringLiteral(u"\u2640") : QStringLiteral(u"\u2642");
+        QString genderSymbol = wrestler->isFemale() ? QStringLiteral(u"\u2640") : QStringLiteral(u"\u2642");
         QFont genderFont;
         genderFont.setPointSize(20);
         genderFont.setBold(true);     // Force bold and increase size so symbols are more visible
@@ -909,6 +928,24 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
         return;
     }
 
+    Wrestler* m_currentWrestler = nullptr;
+
+
+    // Load wrestler face
+    QString facePath = wrestler->getFacePath();
+    if (!facePath.isEmpty()) {
+        QPixmap pix(facePath);   // Load QPixmap from resource
+        if (!pix.isNull()) {
+            m_currentFace = pix; // store it for resizing
+            updateWrestlerImage(); // scale and display
+        } else {
+            qDebug() << "Failed to load face:" << facePath;
+            ui->wrestlerImage->clear();
+        }
+    } else {
+        ui->wrestlerImage->clear();
+    }
+
     ui->wrestlerNamelineEdit->setText(wrestler->getName());
     ui->wrestlerNamelineEdit->setReadOnly(true);    // name cannot be edited until user chooses to
 
@@ -961,7 +998,7 @@ void MainWindow::updateWrestlerDetails( Wrestler* wrestler) {
     ui->roleLabel->setText("Role: " + roleText);
 
     // Set genderLabel based on wrestler.gender (0 = M, 1 = F)
-    QString genderText = wrestler->getGender() ? "F" : "M";
+    QString genderText = wrestler->isFemale() ? "F" : "M";
     ui->genderLabel->setText("Gender: " + genderText);
 
     if (wrestler->getInjury() <= 0) {
@@ -1111,13 +1148,82 @@ void MainWindow::on_editNameButton_clicked()
     ui->editNameButton->hide();
     ui->saveNameButton->show();
 }
-
 void MainWindow::on_saveNameButton_clicked()
 {
     ui->wrestlerNamelineEdit->setReadOnly(true);
     ui->saveNameButton->hide();
     ui->editNameButton->show();
 }
+
+// Version for me
+/*
+QStringList MainWindow::loadFaceFiles(bool isFemale) {
+    QString folder = isFemale ? "faces/women" : "faces/men";
+    QDir dir(folder);
+    return dir.entryList(QStringList() << "*.png" << "*.jpg" << "*.svg", QDir::Files);
+}
+QString MainWindow::randomFace(const QStringList &faces, bool isFemale) {
+    if (faces.isEmpty()) return QString();
+
+    std::mt19937 &gen = RandomUtils::getGenerator();
+    std::uniform_int_distribution<> dis(0, faces.size() - 1);
+    int index = dis(gen);
+
+    QString folder = isFemale ? "faces/women" : "faces/men";
+    return QDir(folder).filePath(faces[index]);
+}
+
+*/
+
+// Painfully simple version for distribution/publishing/other people trying it out
+QStringList MainWindow::loadFaceFiles(bool isFemale) {
+    if (isFemale) {
+        return {
+            ":/faces/women/facesjs-w1.png",
+            ":/faces/women/facesjs-w2.png",
+            ":/faces/women/facesjs-w3.png",
+            ":/faces/women/facesjs-w4.png",
+            ":/faces/women/facesjs-w5.png",
+            ":/faces/women/facesjs-w6.png",
+            ":/faces/women/facesjs-w7.png",
+            ":/faces/women/facesjs-w8.png",
+            ":/faces/women/facesjs-w9.png",
+            ":/faces/women/facesjs-w10.png",
+            ":/faces/women/facesjs-w11.png",
+        };
+    } else {
+        return {
+            ":/faces/men/facesjs-m1.png",
+            ":/faces/men/facesjs-m2.png",
+            ":/faces/men/facesjs-m3.png",
+            ":/faces/men/facesjs-m4.png",
+            ":/faces/men/facesjs-m5.png",
+            ":/faces/men/facesjs-m6.png",
+            ":/faces/men/facesjs-m7.png",
+            ":/faces/men/facesjs-m8.png",
+            ":/faces/men/facesjs-m9.png",
+            ":/faces/men/facesjs-m10.png",
+            ":/faces/men/facesjs-m11.png",
+            ":/faces/men/facesjs-m12.png",
+            ":/faces/men/facesjs-m13.png",
+            ":/faces/men/facesjs-m14.png",
+            ":/faces/men/facesjs-m15.png",
+            ":/faces/men/facesjs-m16.png",
+            ":/faces/men/facesjs-m17.png",
+        };
+    }
+}
+
+QString MainWindow::randomFace(const QStringList &faces) {
+    if (faces.isEmpty()) return QString();
+
+    std::mt19937 &gen = RandomUtils::getGenerator();
+    std::uniform_int_distribution<> dis(0, faces.size() - 1);
+    int index = dis(gen);
+
+    return faces[index];
+}
+
 
 void MainWindow::populateInjuredWrestlersList( QList<Wrestler*> &wrestlers) {
     QWidget* previousContainer = ui->injuryScrollArea->widget();
@@ -1236,7 +1342,7 @@ void MainWindow::sortWrestlers() {
         } else if (selectedSort == "Charisma") {
             return descending ? a->getCharisma() < b->getCharisma() : a->getCharisma() > b->getCharisma();
         } else if (selectedSort == "Gender") {
-            return descending ? a->getGender() < b->getGender() : a->getGender() > b->getGender();
+            return descending ? a->isFemale() < b->isFemale() : a->isFemale() > b->isFemale();
         }
         return false;
     });
@@ -1267,6 +1373,13 @@ void MainWindow::scoutNewRecruit(){
         std::uniform_int_distribution<> ageDist(18, 28);
         int randomAge = ageDist(RandomUtils::getGenerator());
         m_scoutedWrestler->setAge(randomAge);
+
+        // Assign random face
+        bool isFemale = m_scoutedWrestler->isFemale(); // Assuming you have this method
+        QStringList faces = loadFaceFiles(isFemale);
+        QString facePath = randomFace(faces);
+        m_scoutedWrestler->setFacePath(facePath); // Assuming you have this setter
+
     }
 
     updateWrestlerDetails(m_scoutedWrestler);
@@ -1732,7 +1845,7 @@ void MainWindow::updateMatchWrestlerSelection() {
             for (Wrestler* wrestler : m_playerRoster) {
                 if (wrestler->getName() == currentSelection && wrestler->getInjury() <= 0) {
                     if (isChampion(wrestler)) {
-                        comboBox->addItem(QIcon("icons/myBasicTitle.png"), wrestler->getName());
+                        comboBox->addItem(QIcon(":/icons/myBasicTitle.png"), wrestler->getName());
                         titleMatch = true;
                     } else {
                         comboBox->addItem(wrestler->getName());
@@ -1957,7 +2070,7 @@ void MainWindow::setUpChampionSelection() {
         ui->worldChampComboBox->addItem(wrestler->getName(), data);
         ui->tagChampComboBox1->addItem(wrestler->getName(), data);
         ui->tagChampComboBox2->addItem(wrestler->getName(), data);
-        if (wrestler->getGender() == 1) {
+        if (wrestler->isFemale() == 1) {
             ui->womenChampComboBox->addItem(wrestler->getName(), data);
         }
     }
@@ -2746,15 +2859,32 @@ void MainWindow::clearData(){
     ui->stackedWidget->setCurrentWidget(ui->LandingPage);
 }
 
-
-
-
-
-void MainWindow::on_saveButton_clicked()
-{
-
+// Functions for displaying wrestler face
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    QMainWindow::resizeEvent(event); // always call base class first
+    updateWrestlerImage();           // rescale pixmap to new label size
 }
+void MainWindow::updateWrestlerImage()
+{
+    if (m_currentFace.isNull()) {
+        ui->wrestlerImage->clear();
+        return;
+    }
 
+    ui->wrestlerImage->setPixmap(
+        m_currentFace.scaled(ui->wrestlerImage->size(),
+                              Qt::KeepAspectRatio,
+                              Qt::SmoothTransformation)
+        );
+    ui->wrestlerImage->setAlignment(Qt::AlignCenter);
+}
+bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
+    if (obj == ui->wrestlerImage && event->type() == QEvent::Resize) {
+        updateWrestlerImage();
+        return true; // handled
+    }
+    return QMainWindow::eventFilter(obj, event);
+}
 
 
 

@@ -147,7 +147,7 @@ void match::applyTitleChange(championship* championship)
 
     // Check if it's a women's championship
     else if (championship->isWomensTitle()) {
-        if (m_winner->getGender() == 1) {  // Ensure the winner is a woman (1 represents female)
+        if (m_winner->isFemale() == 1) {  // Ensure the winner is a woman (1 represents female)
             QList<Wrestler*> newChampion = {m_winner};
             championship->setChampions(newChampion);  // Set the new champion (as a list of one)
         }
